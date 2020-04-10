@@ -1,0 +1,101 @@
+ext {
+    android = [
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.3",
+            minSdkVersion    : 19,
+            targetSdkVersion : 29,
+    ]
+
+    dependencies = [
+            // ------------- Android -------------
+            appcompat           : 'androidx.appcompat:appcompat:1.1.0',
+            ktxcore             : 'androidx.core:core-ktx:1.2.0',
+            constraintlayout    : 'androidx.constraintlayout:constraintlayout:1.1.3',
+            junit               : "junit:junit:4.12",
+
+            // ------------- 网络请求 -------------
+            okhttp              : 'com.squareup.okhttp3:okhttp:3.8.1',
+            okhttplogging       : 'com.squareup.okhttp3:logging-interceptor:3.8.1',
+            retrofit            : 'com.squareup.retrofit2:retrofit:2.1.0',
+            retrofitconverter   : 'com.squareup.retrofit2:converter-gson:2.1.0',
+            retrofitadapter     : 'com.squareup.retrofit2:adapter-rxjava:2.1.0',
+
+            // ------------- 图片加载 -------------
+            glide               : 'com.github.bumptech.glide:glide:3.7.0',
+            glidetransformations: 'jp.wasabeef:glide-transformations:2.0.0',
+            photoView           : 'com.github.chrisbanes:PhotoView:1.3.1',
+
+            // ------------- 分包方案 -------------
+            multidex            : 'com.android.support:multidex:1.0.2',
+
+            // ------------- 极光推送 -------------
+            jpush               : 'cn.jiguang.sdk:jpush:3.2.0',
+            jcore               : 'cn.jiguang.sdk:jcore:2.0.0',
+
+            // ------------- RxAndroid -------------
+            rxAndroid           : 'io.reactivex:rxandroid:1.2.1',
+            rxJava              : 'io.reactivex:rxjava:1.2.2',
+
+            // ------------- json解析 -------------
+            fastJson            : 'com.alibaba:fastjson:1.1.67.android',
+            gson                : 'com.google.code.gson:gson:2.8.5',
+
+            // ------------- websocket框架 -------------
+            websocket           : 'org.java-websocket:Java-WebSocket:1.3.0',
+
+            // ------------- 数据库框架 -------------
+            greendao            : 'org.greenrobot:greendao:3.2.2',
+
+            // ------------- ButterKnife -------------
+            butterknife         : 'com.jakewharton:butterknife:8.8.1',
+            butterknifeCompiler : 'com.jakewharton:butterknife-compiler:8.8.1',
+
+            // ------------- 视频缓存框架-------------
+            videocache          : 'com.danikula:videocache:2.6.4',
+
+            // ------------- 视频播放控件-------------
+            videoview           : 'com.linsea:universalvideoview:1.1.0@aar',
+
+            // ------------- zxing二维码-------------
+            zxing               : 'com.google.zxing:core:3.3.0',
+
+            // ------------- dagger2 框架-------------
+            dagger2             : 'com.google.dagger:dagger:2.5',
+            dagger2compiler     : 'com.google.dagger:dagger-compiler:2.5',
+            dagger2jsr          : 'javax.annotation:jsr250-api:1.0',
+
+            // ------------- webview native通信框架-------------
+            jsbridge            : 'com.github.lzyzsd:jsbridge:1.0.4',
+
+            // ------------- eventbus事件框架-------------
+            eventbus            : 'org.greenrobot:eventbus:3.1.1',
+
+            // ------------- 内存检测工具-------------
+            leakCanary          : 'com.squareup.leakcanary:leakcanary-android:1.5',
+            releaseleakCanary   : 'com.squareup.leakcanary:leakcanary-android-no-op:1.5',
+
+            // ------------- 版本更新框架-------------
+            xUpdate             : 'com.github.xuexiangjys:XUpdate:1.1.0',
+            okhttputils         : 'com.zhy:okhttputils:2.6.2',
+
+            // ------------- 网页内容解析框架-------------
+            jsoup               : 'org.jsoup:jsoup:1.11.3',
+
+            // ------------- ARouter框架-------------
+            arouterapi          : 'com.alibaba:arouter-api:1.5.0',
+            aroutercompiler     : 'com.alibaba:arouter-compiler:1.2.2',
+
+            // ------------- RxTools框架-------------
+            //基础工具库
+            Rxtools             : 'com.github.tamsiree.RxTool:RxKit:2.5.9',
+            //UI库
+            RxUI                : 'com.github.tamsiree.RxTool:RxUI:2.5.9',
+            //相机库
+            RxCamera            : 'com.github.tamsiree.RxTool:RxCamera:2.5.9',
+            //功能库（Zxing扫描与生成二维码条形码）
+            RxFeature           : 'com.github.tamsiree.RxTool:RxFeature:2.5.9',
+
+            // ------------- FlycoTabLayout 框架-------------
+            flycoTabLayout      : 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar',
+    ]
+}

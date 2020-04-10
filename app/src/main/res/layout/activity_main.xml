@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout">
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tl:tl_iconHeight="@dimen/dp_23"
+        tl:tl_iconMargin="@dimen/dp_0"
+        tl:tl_iconWidth="@dimen/dp_23"
+        tl:tl_indicator_color="@color/colorPrimary"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_indicator_height="0dp"
+        tl:tl_textSelectColor="@color/colorPrimary"
+        tl:tl_textUnselectColor="@color/myblack"
+        tl:tl_textsize="@dimen/textsize_6" />
+</androidx.constraintlayout.widget.ConstraintLayout>
