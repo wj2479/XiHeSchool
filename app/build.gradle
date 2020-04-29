@@ -15,11 +15,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        //支持矢量库
+        vectorDrawables.useSupportLibrary = true
+
         // 每一个module都需要加这个
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
+        }
+
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
         }
     }
 
@@ -38,6 +46,11 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.ktxcore
     implementation rootProject.ext.dependencies.constraintlayout
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation rootProject.ext.dependencies.junit
 
     //多功能TabLayout
@@ -45,5 +58,18 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    api project(path: ':moudle_home')
+
+    if (isNeedBbsModule.toBoolean()) {
+        api project(path: ':moudle_bbs')
+    }
+    if (isNeedSchoolModule.toBoolean()) {
+        api project(path: ':module_school')
+    }
+    if (isNeedMeModule.toBoolean()) {
+        api project(path: ':module_me')
+    }
+    if (isNeedTeachModule.toBoolean()) {
+        api project(path: ':module_teach')
+    }
+
 }

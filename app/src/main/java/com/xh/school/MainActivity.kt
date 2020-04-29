@@ -2,7 +2,9 @@ package com.xh.school
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.flyco.tablayout.listener.CustomTabEntity
+import com.flyco.tablayout.listener.OnTabSelectListener
 import com.xh.module.base.BaseActivity
 import com.xh.module.base.utils.FragmentUtils
 import com.xh.school.adapter.TabFragmentPagerAdapter
@@ -15,14 +17,16 @@ class MainActivity : BaseActivity() {
     private val mTabEntities = ArrayList<CustomTabEntity>()
 
     private val mIconUnselectIds = intArrayOf(
-        R.drawable.ic_list,
-        R.drawable.ic_list,
-        R.drawable.ic_list
+        R.drawable.ic_school_class,
+        R.drawable.ic_teach,
+        R.drawable.ic_bbs,
+        R.drawable.ic_me
     )
     private val mIconSelectIds = intArrayOf(
-        R.drawable.ic_list_select,
-        R.drawable.ic_list_select,
-        R.drawable.ic_list_select
+        R.drawable.ic_school_class_select,
+        R.drawable.ic_teach_selected,
+        R.drawable.ic_bbs_selected,
+        R.drawable.ic_me_selected
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         initTabLayout()
+        initPager()
     }
 
     fun initTabLayout() {
@@ -37,16 +42,49 @@ class MainActivity : BaseActivity() {
         var tabTitle = resources.getStringArray(R.array.tab_titles)
         //将fragment装进列表中
         var fragmentList = ArrayList<Fragment>()
-        fragmentList.add(FragmentUtils.getHomeFragment())
-        fragmentList.add(FragmentUtils.getHomeFragment())
-        fragmentList.add(FragmentUtils.getHomeFragment())
+        fragmentList.add(FragmentUtils.getSchoolFragment())
+        fragmentList.add(FragmentUtils.getTeachFragment())
+        fragmentList.add(FragmentUtils.getBbsFragment())
+        fragmentList.add(FragmentUtils.getMeFragment())
         //viewpager加载adapter
         vp.adapter = TabFragmentPagerAdapter(supportFragmentManager, fragmentList, tabTitle)
         for (i in tabTitle.indices) {
             mTabEntities.add(TabIconBean(tabTitle[i], mIconSelectIds[i], mIconUnselectIds[i]))
         }
         tabLayout.setTabData(mTabEntities)
+    }
 
-        tabLayout.showDot(1);
+    private fun initPager() {
+
+        tabLayout.setOnTabSelectListener(object : OnTabSelectListener {
+            override fun onTabSelect(position: Int) {
+                vp.currentItem = position
+            }
+
+            override fun onTabReselect(position: Int) {
+            }
+        })
+
+        vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                tabLayout.currentTab = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+        })
+        //默认选中第一个
+        vp.currentItem = 0
+        vp.offscreenPageLimit = 5
+        vp.setNoScroll(true)
     }
 }

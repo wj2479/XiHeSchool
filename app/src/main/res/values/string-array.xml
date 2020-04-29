@@ -2,8 +2,9 @@
 <resources>
     <!--底部按钮-->
     <string-array name="tab_titles">
-        <item>工程</item>
-        <item>通知</item>
+        <item>校园</item>
+        <item>教学</item>
+        <item>论坛</item>
         <item>个人</item>
     </string-array>
     

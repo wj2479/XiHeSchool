@@ -3,7 +3,8 @@
     package="com.xh.module">
 
     <application>
-        <activity android:name=".base.BaseActivity"></activity>
+        <activity android:name=".base.BackActivity"></activity>
+        <activity android:name=".base.BaseActivity" />
     </application>
 
 </manifest>

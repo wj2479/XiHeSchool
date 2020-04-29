@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryDark">#2196F3</color>
+    <color name="colorPrimary">#4DC06B</color>
+    <color name="colorPrimaryDark">#2AC552</color>
     <color name="colorAccent">#03DAC5</color>
-
 
     <color name="themecolor">#4DC06B</color>
     <!--白跟白-->
@@ -15,6 +14,9 @@
     <color name="text_color_green">#4DC06B</color>
     <color name="text_color_orange">#FFB32F</color>
     <color name="text_color_red">#F44336</color>
+
+    <color name="text_color_main">#333333</color>
+    <color name="text_color_sup">#A8A8A8</color>
 
     <color name="hui">#808080</color>
     <color name="icon_color">#dbdbdb</color>
