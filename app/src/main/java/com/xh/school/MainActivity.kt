@@ -5,10 +5,11 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
+import com.jaeger.library.StatusBarUtil
 import com.xh.module.base.BaseActivity
+import com.xh.module.base.adapter.TabFragmentPagerAdapter
 import com.xh.module.base.utils.FragmentUtils
-import com.xh.school.adapter.TabFragmentPagerAdapter
-import com.xh.school.entity.TabIconBean
+import com.xh.module.base.view.TabIconBean
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
@@ -55,7 +56,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initPager() {
-
         tabLayout.setOnTabSelectListener(object : OnTabSelectListener {
             override fun onTabSelect(position: Int) {
                 vp.currentItem = position
@@ -86,5 +86,9 @@ class MainActivity : BaseActivity() {
         vp.currentItem = 0
         vp.offscreenPageLimit = 5
         vp.setNoScroll(true)
+    }
+
+    override fun setStatusBar() {
+        StatusBarUtil.setTranslucentForImageViewInFragment(this, null)
     }
 }

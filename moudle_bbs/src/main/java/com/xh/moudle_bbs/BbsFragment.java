@@ -1,9 +1,6 @@
 package com.xh.moudle_bbs;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 
@@ -25,12 +22,9 @@ public class BbsFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bbs, container, false);
+    protected int initLayout() {
+        return R.layout.fragment_bbs;
     }
 
     @Override

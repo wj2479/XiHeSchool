@@ -5,6 +5,7 @@ if (!isNeedTeachModule.toBoolean()) {
 }
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 29
@@ -38,11 +39,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    // 每一个使用arouter的module都需要添加
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    annotationProcessor "com.alibaba:arouter-compiler:1.2.2"
 
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    // 每一个使用arouter的module都需要添加
+    annotationProcessor rootProject.ext.dependencies.aroutercompiler
+
+    api rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

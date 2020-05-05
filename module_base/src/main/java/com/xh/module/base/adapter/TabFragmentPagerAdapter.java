@@ -1,4 +1,4 @@
-package com.xh.school.adapter;
+package com.xh.module.base.adapter;
 
 
 import androidx.fragment.app.Fragment;

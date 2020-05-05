@@ -2,30 +2,32 @@ package com.xh.school.ui.login;
 
 import androidx.annotation.Nullable;
 
+import com.xh.module.base.entity.LoginInfo;
+
 /**
  * Authentication result : success (user details) or error message.
  */
 class LoginResult {
     @Nullable
-    private LoggedInUserView success;
+    private LoginInfo success;
     @Nullable
-    private Integer error;
+    private String error;
 
-    LoginResult(@Nullable Integer error) {
+    LoginResult(@Nullable String error) {
         this.error = error;
     }
 
-    LoginResult(@Nullable LoggedInUserView success) {
+    LoginResult(@Nullable LoginInfo success) {
         this.success = success;
     }
 
     @Nullable
-    LoggedInUserView getSuccess() {
+    LoginInfo getSuccess() {
         return success;
     }
 
     @Nullable
-    Integer getError() {
+    String getError() {
         return error;
     }
 }

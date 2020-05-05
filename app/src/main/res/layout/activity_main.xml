@@ -24,12 +24,12 @@
         app:layout_constraintTop_toBottomOf="@+id/vp"
         app:layout_constraintBottom_toBottomOf="parent"
         tl:tl_iconHeight="@dimen/dp_23"
-        tl:tl_iconMargin="@dimen/dp_0"
+        tl:tl_iconMargin="0dp"
         tl:tl_iconWidth="@dimen/dp_23"
         tl:tl_indicator_color="@color/colorPrimary"
         tl:tl_indicator_gravity="BOTTOM"
         tl:tl_indicator_height="0dp"
         tl:tl_textSelectColor="@color/colorPrimary"
         tl:tl_textUnselectColor="@color/text_color_main"
-        tl:tl_textsize="@dimen/textsize_6" />
+        tl:tl_textsize="@dimen/sp_12" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,20 +6,33 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.gson.Gson;
+import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.retrofit.ApiManager;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
+import com.xh.module.base.utils.LogUtil;
 import com.xh.school.R;
-import com.xh.school.data.LoginRepository;
-import com.xh.school.data.Result;
-import com.xh.school.data.model.LoggedInUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    protected Gson gson = new Gson();
+
+    LoginViewModel() {
+
     }
 
     LiveData<LoginFormState> getLoginFormState() {
@@ -31,15 +44,38 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
-
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
+        JSONObject params = new JSONObject();
+        try {
+            params.put("identifier", username);
+            params.put("certificate", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.toString());
+
+        ApiManager.getInstance().getSchoolServer().login(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<LoginInfo>>() {
+                               @Override
+                               public void accept(SimpleResponse<LoginInfo> simpleResponse) throws Exception {
+                                   LogUtil.e(LoginViewModel.this.getClass(), gson.toJson(simpleResponse));
+                                   if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                                       loginResult.setValue(new LoginResult(simpleResponse.getData()));
+                                   } else {
+                                       loginResult.setValue(new LoginResult(simpleResponse.getMsg()));
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   LogUtil.e(LoginViewModel.this.getClass(), throwable.toString());
+
+                                   loginResult.setValue(new LoginResult("登录失败,请稍候再试"));
+                               }
+                           }
+                );
     }
 
     public void loginDataChanged(String username, String password) {

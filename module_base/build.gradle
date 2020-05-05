@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion 29
@@ -18,7 +19,17 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+    }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -33,26 +44,52 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation rootProject.ext.dependencies.appcompat
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    api rootProject.ext.dependencies.appcompat
+    api rootProject.ext.dependencies.legacysupport
     testImplementation rootProject.ext.dependencies.junit
+    api rootProject.ext.dependencies.constraintlayout
 
-    api 'com.alibaba:arouter-api:1.5.0'
-    annotationProcessor "com.alibaba:arouter-compiler:1.2.2"
+    api rootProject.ext.dependencies.arouterapi
+    annotationProcessor rootProject.ext.dependencies.aroutercompiler
 
     //多功能TabLayout
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    api rootProject.ext.dependencies.flycoTabLayout
 
     //基础工具库
-    api 'com.github.tamsiree.RxTool:RxKit:2.6.2'
-    //UI库
-    api 'com.github.tamsiree.RxTool:RxUI:2.6.2'
+    api rootProject.ext.dependencies.Rxtools
+
     // jsbridge
-    api 'com.github.lzyzsd:jsbridge:1.0.4'
+    api rootProject.ext.dependencies.jsbridge
     // 圆形图片
-    api 'de.hdodenhof:circleimageview:3.1.0'
+    api rootProject.ext.dependencies.circleimageview
     // eventbus
-    api 'org.greenrobot:eventbus:3.2.0'
+    api rootProject.ext.dependencies.eventbus
+    //加载网络图片
+    api rootProject.ext.dependencies.glide
+    annotationProcessor  rootProject.ext.dependencies.glidecompiler
+
+    // 网络相关
+    api rootProject.ext.dependencies.okhttp
+    api rootProject.ext.dependencies.okhttplogging
+    api rootProject.ext.dependencies.fastJson
+    api rootProject.ext.dependencies.gson
+    api rootProject.ext.dependencies.rxJava
+    api rootProject.ext.dependencies.rxAndroid
+    api rootProject.ext.dependencies.retrofit
+    api rootProject.ext.dependencies.retrofitconverter
+    api rootProject.ext.dependencies.retrofitadapter
+
+    //沉浸式状态栏
+    api rootProject.ext.dependencies.statusbarutil
+
+    // banner
+    api rootProject.ext.dependencies.banner
+
+    api rootProject.ext.dependencies.bgaqrcode
+    api rootProject.ext.dependencies.rxpermissions
+
+    api rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

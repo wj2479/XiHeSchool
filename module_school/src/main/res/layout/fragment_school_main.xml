@@ -1,13 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SchoolMainFragment">
 
-    <com.github.lzyzsd.jsbridge.BridgeWebView
-        android:id="@+id/webview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.lzyzsd.jsbridge.BridgeWebView>
+    <include
+        android:id="@+id/headview"
+        layout="@layout/fragment_main_header"></include>
 
-</FrameLayout>
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_160"
+        app:layout_constraintTop_toBottomOf="@id/headview" />
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/navLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_72"
+        android:layout_gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/banner"
+        tl:tl_divider_color="@color/themecolor"
+        tl:tl_divider_padding="@dimen/dp_18"
+        tl:tl_divider_width="0.5dp"
+        tl:tl_iconHeight="@dimen/dp_36"
+        tl:tl_iconMargin="@dimen/dp_1"
+        tl:tl_iconWidth="@dimen/dp_36"
+        tl:tl_indicator_color="@color/colorPrimary"
+        tl:tl_indicator_gravity="BOTTOM"
+        tl:tl_indicator_height="0dp"
+        tl:tl_textSelectColor="@color/text_color_main"
+        tl:tl_textUnselectColor="@color/text_color_main"
+        tl:tl_textsize="@dimen/sp_12" />
+
+    <View
+        android:id="@+id/spaceView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_12"
+        android:background="@color/color_f0"
+        app:layout_constraintTop_toBottomOf="@id/navLayout"></View>
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/spaceView"
+        app:tl_indicator_margin_left="@dimen/dp_4"
+        app:tl_indicator_margin_right="@dimen/dp_4"
+        tl:tl_iconVisible="false"
+        tl:tl_indicator_color="@color/themecolor"
+        tl:tl_textSelectColor="@color/themecolor"
+        tl:tl_textUnselectColor="@color/text_color_main"
+        tl:tl_textsize="@dimen/sp_16"
+        tl:tl_underline_color="@color/color_f0"
+        tl:tl_underline_height="@dimen/dp_1" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contentLayout">
+
+    </androidx.viewpager.widget.ViewPager>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

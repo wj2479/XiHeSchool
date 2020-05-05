@@ -1,4 +1,4 @@
-package com.xh.school.entity;
+package com.xh.module.base.view;
 
 import com.flyco.tablayout.listener.CustomTabEntity;
 

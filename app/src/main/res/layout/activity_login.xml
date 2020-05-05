@@ -55,7 +55,7 @@
             android:inputType="phone"
             android:maxLength="20"
             android:paddingLeft="@dimen/dp_10"
-            android:text="test" />
+            android:text="17506331024" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
             android:background="@drawable/btn_submit_selector"
             android:text="登 录"
             android:textColor="@color/white"
-            android:textSize="@dimen/textsize_8" />
+            android:textSize="@dimen/sp_16" />
 
     </LinearLayout>
 

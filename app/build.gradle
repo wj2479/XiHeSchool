@@ -30,6 +30,21 @@ android {
             targetCompatibility JavaVersion.VERSION_1_8
         }
     }
+    signingConfigs {
+        debug {
+            storeFile file('..\\keystore\\my.jks')
+            storePassword 'wangjie'
+            keyAlias = 'wangjie'
+            keyPassword 'wangjie'
+        }
+    }
+
+    //打包后应用名称
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "XiheSchool_${defaultConfig.versionName}_${buildType.name}.apk"
+        }
+    }
 
     buildTypes {
         release {
@@ -46,15 +61,11 @@ dependencies {
     implementation rootProject.ext.dependencies.appcompat
     implementation rootProject.ext.dependencies.ktxcore
     implementation rootProject.ext.dependencies.constraintlayout
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     testImplementation rootProject.ext.dependencies.junit
-
-    //多功能TabLayout
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

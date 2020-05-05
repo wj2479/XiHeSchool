@@ -13,19 +13,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.jaeger.library.StatusBarUtil;
+import com.xh.module.base.BaseActivity;
+import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.school.ForgetPwdActivity;
 import com.xh.school.MainActivity;
 import com.xh.school.R;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
 
@@ -35,8 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // 设置状态栏颜色
-        StatusBarUtil.setColor(this, ContextCompat.getColor(this, R.color.themecolor));
+
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -60,10 +58,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
                 }
                 if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                    LoginInfo loginInfo = loginResult.getSuccess();
+                    SharedPreferencesUtil.saveLogin(LoginActivity.this, loginInfo);
                     goMainActivity();
                 }
             }
@@ -112,13 +110,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-
-    }
 
     /**
      * 进入到主界面

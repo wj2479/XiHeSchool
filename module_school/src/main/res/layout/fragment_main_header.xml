@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/fake_statusbar_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusbar_view_height"
+        android:background="@color/themecolor" />
+
+    <RelativeLayout
+        android:id="@+id/toolbar_me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_4">
+
+        <ImageView
+            android:id="@+id/schoolIv"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"></ImageView>
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="日照市XXX小学"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"></TextView>
+
+        <ImageView
+            android:id="@+id/scanIv"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dp_4"
+            android:src="@drawable/ic_scan"></ImageView>
+
+    </RelativeLayout>
+
+</LinearLayout>

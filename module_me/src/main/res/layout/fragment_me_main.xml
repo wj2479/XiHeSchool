@@ -44,7 +44,7 @@
                     android:maxLines="1"
                     android:text="小李"
                     android:textColor="@color/text_color_main"
-                    android:textSize="@dimen/textsize_9"
+                    android:textSize="@dimen/sp_18"
                     android:textStyle="bold" />
 
                 <TextView
@@ -57,7 +57,7 @@
                     android:maxLines="1"
                     android:text="日照市XXX小学"
                     android:textColor="@color/text_color_main"
-                    android:textSize="@dimen/textsize_7" />
+                    android:textSize="@dimen/sp_14" />
 
             </LinearLayout>
 
@@ -192,7 +192,7 @@
                     android:drawableLeft="@drawable/ic_telephone"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
-                    android:text="修改密码"
+                    android:text="咨询电话"
                     android:textColor="#333333"
                     android:textSize="15dp" />
 
@@ -223,7 +223,7 @@
                     android:drawableLeft="@drawable/ic_help"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
-                    android:text="意见反馈"
+                    android:text="帮助与反馈"
                     android:textColor="#333333"
                     android:textSize="15dp" />
 
@@ -282,7 +282,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_setting"
+                    android:drawableLeft="@drawable/ic_message"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
                     android:text="消息设置"

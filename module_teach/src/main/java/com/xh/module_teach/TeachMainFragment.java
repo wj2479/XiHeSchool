@@ -1,11 +1,13 @@
 package com.xh.module_teach;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.annotation.SuppressLint;
+import android.os.Build;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+
+import androidx.annotation.ColorInt;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
@@ -25,12 +27,9 @@ public class TeachMainFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_teach_main, container, false);
+    protected int initLayout() {
+        return R.layout.fragment_teach_main;
     }
 
     @Override
@@ -46,5 +45,27 @@ public class TeachMainFragment extends BaseFragment {
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         webView.loadUrl("http://39.99.168.20:7100/#/pages/teaching/home");
+
+//        setStatusTextColor(true, getActivity().getWindow(), ContextCompat.getColor(getContext(), R.color.Black));
+    }
+
+    /**
+     * 设置状态栏字体颜色
+     *
+     * @param isDark
+     */
+    @SuppressLint("ResourceAsColor")
+    public void setStatusTextColor(boolean isDark, Window window, @ColorInt int color) {
+        if (isDark) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //黑色字体
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                window.setStatusBarColor(color);
+            }
+        } else {
+            //白色字体
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
     }
 }

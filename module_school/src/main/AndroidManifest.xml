@@ -1,2 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xh.module_school" />
+    package="com.xh.module_school">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <application>
+        <activity
+            android:name=".ScanActivity"
+            android:label="扫描二维码"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+    </application>
+
+</manifest>

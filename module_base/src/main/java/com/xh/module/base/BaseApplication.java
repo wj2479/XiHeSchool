@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.xh.module.BuildConfig;
 import com.xh.module.base.utils.UIUtils;
 
 /**
@@ -23,6 +25,8 @@ public class BaseApplication extends Application {
         instance = this;
         initRouter(this);
 
+        // 腾讯bugly初始化
+        CrashReport.initCrashReport(getApplicationContext(), "01076d5ac1", BuildConfig.DEBUG);
     }
 
     public static Context getInstance() {
