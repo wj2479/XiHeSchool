@@ -1,40 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeachMainFragment"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:padding="@dimen/dp_4">
-
-            <ImageView
-                android:layout_width="@dimen/dp_24"
-                android:layout_height="@dimen/dp_24"
-                android:layout_marginLeft="@dimen/dp_4"
-                android:src="@drawable/ic_search"></ImageView>
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dp_4"
-                android:layout_weight="1"
-                android:hint="搜索课程"></EditText>
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+    android:orientation="vertical"
+    tools:context=".TeachMainFragment">
 
     <View
         android:id="@+id/fake_statusbar_view"
@@ -42,8 +13,60 @@
         android:layout_height="@dimen/statusbar_view_height"
         android:background="@color/white" />
 
-    <com.github.lzyzsd.jsbridge.BridgeWebView
-        android:id="@+id/webview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.lzyzsd.jsbridge.BridgeWebView>
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_4">
+
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_32"
+            android:background="@drawable/corners_cc_bg"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/dp_8"
+            android:ellipsize="end"
+            android:hint="请输入视频、课程、图片"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="@dimen/dp_8"
+            android:singleLine="true"
+            android:textColorHint="@color/c0"
+            android:textSize="@dimen/sp_12"></EditText>
+    </LinearLayout>
+
+    <com.youth.banner.Banner
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_180"
+        android:layout_marginTop="@dimen/dp_8" />
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="bottom"
+        tl:tl_iconVisible="false"
+        tl:tl_indicator_color="@color/themecolor"
+        tl:tl_indicator_height="0dp"
+        tl:tl_indicator_margin_left="@dimen/dp_4"
+        tl:tl_indicator_margin_right="@dimen/dp_4"
+        tl:tl_tab_space_equal="false"
+        tl:tl_textBold="SELECT"
+        tl:tl_textSelectColor="@color/themecolor"
+        tl:tl_textUnselectColor="@color/text_color_main"
+        tl:tl_textsize="@dimen/sp_16"
+        tl:tl_underline_color="@color/color_f0"
+        tl:tl_underline_height="@dimen/dp_1" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
 </LinearLayout>

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.ButterKnife;
@@ -19,9 +20,10 @@ import butterknife.Unbinder;
  */
 public abstract class BaseFragment extends Fragment {
 
-
     private Unbinder unbinder;
     protected RxPermissions rxPermissions;
+
+    protected Gson gson = new Gson();
 
     protected abstract int initLayout();
 

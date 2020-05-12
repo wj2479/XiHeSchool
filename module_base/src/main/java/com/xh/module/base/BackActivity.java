@@ -26,4 +26,8 @@ public class BackActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void setStatusBar() {
+    }
 }

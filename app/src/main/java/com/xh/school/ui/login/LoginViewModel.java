@@ -8,20 +8,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
 import com.xh.module.base.entity.LoginInfo;
-import com.xh.module.base.retrofit.ApiManager;
+import com.xh.module.base.repository.impl.LoginRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.utils.LogUtil;
 import com.xh.school.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 
 
 public class LoginViewModel extends ViewModel {
@@ -44,38 +36,26 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void login(String username, String password) {
-        JSONObject params = new JSONObject();
-        try {
-            params.put("identifier", username);
-            params.put("certificate", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.toString());
+        LoginRepository.getInstance().login(username, password, new IRxJavaCallBack<SimpleResponse<LoginInfo>>() {
+            @Override
+            public void onSuccess(SimpleResponse<LoginInfo> simpleResponse) {
+                LogUtil.e(LoginViewModel.this.getClass(), gson.toJson(simpleResponse));
+                if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                    loginResult.setValue(new LoginResult(simpleResponse.getData()));
+                } else {
+                    loginResult.setValue(new LoginResult(simpleResponse.getMsg()));
+                }
+            }
 
-        ApiManager.getInstance().getSchoolServer().login(requestBody)
-                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<SimpleResponse<LoginInfo>>() {
-                               @Override
-                               public void accept(SimpleResponse<LoginInfo> simpleResponse) throws Exception {
-                                   LogUtil.e(LoginViewModel.this.getClass(), gson.toJson(simpleResponse));
-                                   if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
-                                       loginResult.setValue(new LoginResult(simpleResponse.getData()));
-                                   } else {
-                                       loginResult.setValue(new LoginResult(simpleResponse.getMsg()));
-                                   }
-                               }
-                           }, new Consumer<Throwable>() {
-                               @Override
-                               public void accept(Throwable throwable) throws Exception {
-                                   LogUtil.e(LoginViewModel.this.getClass(), throwable.toString());
+            @Override
+            public void onError(Throwable throwable) {
+                LogUtil.e(LoginViewModel.this.getClass(), throwable.toString());
 
-                                   loginResult.setValue(new LoginResult("登录失败,请稍候再试"));
-                               }
-                           }
-                );
+                loginResult.setValue(new LoginResult("登录失败,请稍候再试"));
+            }
+        });
+
     }
 
     public void loginDataChanged(String username, String password) {

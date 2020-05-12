@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".BbsFragment">
+    android:orientation="vertical">
 
     <View
         android:id="@+id/fake_statusbar_view"
@@ -12,9 +11,66 @@
         android:layout_height="@dimen/statusbar_view_height"
         android:background="@color/white" />
 
-    <com.github.lzyzsd.jsbridge.BridgeWebView
-        android:id="@+id/webview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.lzyzsd.jsbridge.BridgeWebView>
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_16"
+        android:paddingTop="@dimen/dp_4"
+        android:paddingRight="@dimen/dp_16"
+        android:paddingBottom="@dimen/dp_4">
 
+        <EditText
+            android:id="@+id/searchEt"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_32"
+            android:layout_weight="1"
+            android:background="@drawable/corners_cc_bg"
+            android:drawableLeft="@drawable/ic_search"
+            android:drawablePadding="@dimen/dp_8"
+            android:ellipsize="end"
+            android:hint="请输入标题、作者、文章"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="@dimen/dp_8"
+            android:singleLine="true"
+            android:textColorHint="@color/c0"
+            android:textSize="@dimen/sp_12"></EditText>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布"
+            android:gravity="center"
+            android:padding="@dimen/dp_8"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:drawableLeft="@drawable/ic_publish"
+            android:background="@drawable/corners_theme_bg"
+             android:textColor="@color/white"></TextView>
+    </LinearLayout>
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="center"
+        tl:tl_iconVisible="false"
+        tl:tl_indicator_color="@color/themecolor"
+        tl:tl_indicator_margin_left="@dimen/dp_4"
+        tl:tl_indicator_margin_right="@dimen/dp_4"
+        tl:tl_tab_space_equal="false"
+        tl:tl_textBold="SELECT"
+        tl:tl_textSelectColor="@color/themecolor"
+        tl:tl_textUnselectColor="@color/text_color_main"
+        tl:tl_textsize="@dimen/sp_18"
+        tl:tl_underline_color="@color/color_f0"
+        tl:tl_underline_height="@dimen/dp_1" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></androidx.viewpager.widget.ViewPager>
 </LinearLayout>

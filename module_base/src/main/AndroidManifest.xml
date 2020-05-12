@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xh.module">
+
+    <application>
+        <service android:name=".base.service.UpdateApkService"></service>
+        <activity android:name=".base.BackActivity" android:theme="@style/AppTheme"></activity>
+    </application>
 </manifest>

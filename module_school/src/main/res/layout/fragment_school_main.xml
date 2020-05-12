@@ -23,7 +23,7 @@
         android:layout_height="@dimen/dp_72"
         android:layout_gravity="bottom"
         app:layout_constraintTop_toBottomOf="@+id/banner"
-        tl:tl_divider_color="@color/themecolor"
+        tl:tl_divider_color="@color/c0"
         tl:tl_divider_padding="@dimen/dp_18"
         tl:tl_divider_width="0.5dp"
         tl:tl_iconHeight="@dimen/dp_36"

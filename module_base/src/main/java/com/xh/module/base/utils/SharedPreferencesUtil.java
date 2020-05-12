@@ -31,6 +31,11 @@ public class SharedPreferencesUtil {
         return sp.getString(key, "");
     }
 
+    public static void remove(Context con, String key) {
+        SharedPreferences sp = con.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
+        sp.edit().remove(key).commit();
+    }
+
     public static void addStringSet(Context con, String key, String value) {
         SharedPreferences sp = con.getSharedPreferences(FILENAME, Context.MODE_PRIVATE);
         Set<String> set = getStringSet(con, key);

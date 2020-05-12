@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="日照市XXX小学"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold"></TextView>

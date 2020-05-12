@@ -68,6 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
+        android:background="@color/white"
         android:paddingLeft="@dimen/dp_16"
         android:paddingRight="@dimen/dp_16">
 
@@ -132,202 +133,174 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <LinearLayout
-                android:id="@+id/ll_phone"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_consult"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="在线咨询"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:id="@+id/phoneTv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="center_vertical|right"
-                    android:hint=""
-                    android:textColor="#333333" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_waw" />
-
-            <LinearLayout
-                android:id="@+id/ll_name_vertify"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_telephone"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="咨询电话"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="right" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_waw" />
-
-            <LinearLayout
-                android:id="@+id/ll_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_help"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="帮助与反馈"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="right" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_waw" />
-
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_24">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_account"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="账号设置"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/versionTv"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="center_vertical|right"
-                    android:textColor="#333333" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_account"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="支付"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_waw" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/ll_name_vertify"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp_24"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_telephone"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="咨询电话"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_waw" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_help"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="帮助与反馈"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_waw" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_setting"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="设置"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_waw" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_account"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="检查更新"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/line_waw" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_account"
+                        android:drawableRight="@drawable/ic_arrow_right"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:text="关  于"
+                        android:textColor="#333333"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_waw" />
-
-            <LinearLayout
-                android:id="@+id/ll_notify_setting"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_message"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="消息设置"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="right" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:background="@color/line_waw" />
-
-            <LinearLayout
-                android:id="@+id/ll_setting"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="@dimen/dp_8">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_setting"
-                    android:drawablePadding="10dp"
-                    android:gravity="center_vertical"
-                    android:text="设置"
-                    android:textColor="#333333"
-                    android:textSize="15dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_arrow_right"
-                    android:gravity="right" />
-            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>

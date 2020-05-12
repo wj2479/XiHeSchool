@@ -1,5 +1,6 @@
 package com.xh.module_me;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -11,8 +12,10 @@ import com.xh.module.base.BaseFragment;
 import com.xh.module.base.entity.LoginInfo;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
+import com.xh.module_me.activity.SettingMainActivity;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 /**
@@ -44,5 +47,10 @@ public class MeMainFragment extends BaseFragment {
     @Override
     protected void initView(View rootView) {
         nameTv.setText(loginInfo.getNickName());
+    }
+
+    @OnClick(R2.id.ll_setting)
+    void onSettingClick() {
+        startActivity(new Intent(getContext(), SettingMainActivity.class));
     }
 }

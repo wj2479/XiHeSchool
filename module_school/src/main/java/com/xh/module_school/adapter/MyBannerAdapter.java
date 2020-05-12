@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.xh.module_school.ImageText;
+import com.xh.module.base.entity.ImageText;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;

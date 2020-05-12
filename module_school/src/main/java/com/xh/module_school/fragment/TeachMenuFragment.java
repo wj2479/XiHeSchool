@@ -9,18 +9,22 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.jaeger.library.StatusBarUtil;
 import com.xh.module.base.BaseFragment;
 import com.xh.module.base.utils.RouteUtils;
-import com.xh.module_school.ImageText;
+import com.xh.module.base.entity.ImageText;
 import com.xh.module_school.R;
+import com.xh.module_school.R2;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * 教师菜单主界面
  */
 @Route(path = RouteUtils.School_Fragment_Teacher_Menu)
 public class TeachMenuFragment extends BaseFragment {
+    @BindView(R2.id.menuGv)
     GridView menuGv;
 
     public TeachMenuFragment() {
@@ -34,7 +38,6 @@ public class TeachMenuFragment extends BaseFragment {
 
     @Override
     protected void initView(View rootView) {
-        menuGv = rootView.findViewById(R.id.menuGv);
         initGridView();
 
         StatusBarUtil.setDarkMode(getActivity());

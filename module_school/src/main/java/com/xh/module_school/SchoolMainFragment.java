@@ -3,8 +3,11 @@ package com.xh.module_school;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,12 +20,26 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.xh.module.base.BaseFragment;
+import com.xh.module.base.Constant;
 import com.xh.module.base.adapter.TabFragmentPagerAdapter;
+import com.xh.module.base.entity.ImageText;
+import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.entity.Role;
+import com.xh.module.base.entity.School;
+import com.xh.module.base.entity.SchoolInformation;
+import com.xh.module.base.repository.DataRepository;
+import com.xh.module.base.repository.impl.SchoolRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.utils.FragmentUtils;
 import com.xh.module.base.utils.RouteUtils;
+import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.module.base.view.TabIconBean;
+import com.xh.module_school.activity.NewMessageActivity;
+import com.xh.module_school.activity.SchoolInfoListActivity;
+import com.xh.module_school.activity.SchoolMasterMailActivity;
 import com.xh.module_school.adapter.MyBannerAdapter;
 import com.youth.banner.Banner;
 import com.youth.banner.config.IndicatorConfig;
@@ -31,10 +48,12 @@ import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
+import butterknife.BindView;
 import io.reactivex.functions.Consumer;
-
 
 /**
  * 学校主页
@@ -42,13 +61,20 @@ import io.reactivex.functions.Consumer;
 @Route(path = RouteUtils.School_Fragment_Main)
 public class SchoolMainFragment extends BaseFragment implements View.OnClickListener {
 
+    LoginInfo loginInfo;
+
     private static final int REQUEST_CODE_QRCODE = 666;
 
-    BridgeWebView webView;
-
-    CommonTabLayout navLayout, contentLayout;
+    @BindView(R2.id.navLayout)
+    CommonTabLayout navLayout;
+    @BindView(R2.id.contentLayout)
+    CommonTabLayout contentLayout;
+    @BindView(R2.id.vp)
     ViewPager vp;
+    @BindView(R2.id.banner)
     Banner banner;
+    @BindView(R2.id.titleTv)
+    TextView titleTv;
 
     private ArrayList<CustomTabEntity> mNavTabEntities = new ArrayList();
     private ArrayList<CustomTabEntity> mContentTabEntities = new ArrayList();
@@ -58,16 +84,18 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        loginInfo = SharedPreferencesUtil.loadLogin(getContext());
+    }
+
+    @Override
     protected int initLayout() {
         return R.layout.fragment_school_main;
     }
 
     @Override
     protected void initView(View rootView) {
-        banner = rootView.findViewById(R.id.banner);
-        navLayout = rootView.findViewById(R.id.navLayout);
-        contentLayout = rootView.findViewById(R.id.contentLayout);
-        vp = rootView.findViewById(R.id.vp);
 
         rootView.findViewById(R.id.scanIv).setOnClickListener(this);
 
@@ -121,7 +149,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initPager() {
-
         contentLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -152,7 +179,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-
     private void initNavLayout() {
         mNavTabEntities.add(new TabIconBean("资讯", R.drawable.ic_infomation, R.drawable.ic_infomation));
         mNavTabEntities.add(new TabIconBean("校长信箱", R.drawable.ic_mail, R.drawable.ic_mail));
@@ -160,19 +186,79 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         navLayout.setTabData(mNavTabEntities);
 
         navLayout.showDot(1);
+        navLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(getContext(), SchoolInfoListActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(getContext(), NewMessageActivity.class));
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(getContext(), SchoolInfoListActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(getContext(), NewMessageActivity.class));
+                        break;
+                }
+            }
+        });
     }
 
-
+    /**
+     * 初始化内容标签
+     */
     private void initContentLayout() {
-        String[] titles = {"班主任", "教师", "家长"};
+        List<Role> roles = loginInfo.getRoles();
+        List<Fragment> fragmentList = new ArrayList();
+        List<String> titleList = new ArrayList<>();
+
+        for (Role role : roles) {
+            String title = Constant.roleTypeMap.get(role.getType());
+            if (!TextUtils.isEmpty(title) && !titleList.contains(title)) {
+                titleList.add(title);
+            }
+
+            // 如果学校ID不为空
+            if (role.getSchool_id() != null) {
+                getSchoolById(role.getSchool_id());
+                getSchoolInfomationById(role.getSchool_id());
+            }
+            // 如果班级ID不为空
+
+        }
+        String[] titles = new String[titleList.size()];
+        Collections.sort(titleList);
+        titleList.toArray(titles);
+
         for (String title : titles) {
             mContentTabEntities.add(new TabIconBean(title, 0, 0));
-        }
 
-        List<Fragment> fragmentList = new ArrayList();
-        fragmentList.add(FragmentUtils.getSchoolClassTeacherMenuFragment());
-        fragmentList.add(FragmentUtils.getSchoolTeacherMenuFragment());
-        fragmentList.add(FragmentUtils.getSchoolFamilyMenuFragment());
+            Fragment fragment = null;
+            if (title.equals(Constant.roleTypeMap.get(Constant.ROLE_TYPE_FAMILY))) {
+                fragment = FragmentUtils.getSchoolMenuFragment();
+            } else if (title.equals(Constant.roleTypeMap.get(Constant.ROLE_TYPE_SCHOOL))) {
+                fragment = FragmentUtils.getSchoolFamilyMenuFragment();
+            }
+
+            if (fragment != null) {
+                fragmentList.add(fragment);
+            }
+        }
 
         //viewpager加载adapter
         vp.setAdapter(new TabFragmentPagerAdapter(getChildFragmentManager(), fragmentList, titles));
@@ -190,6 +276,66 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     public void onStop() {
         super.onStop();
         banner.stop();
+    }
+
+    ReentrantLock lock1 = new ReentrantLock();
+    ReentrantLock lock2 = new ReentrantLock();
+
+    /**
+     * 获取学校的基本信息
+     *
+     * @param schoolId
+     */
+    private void getSchoolById(Long schoolId) {
+        if (!lock1.isLocked()) {
+            lock1.lock();
+            SchoolRepository.getInstance().getSchoolInfoById(schoolId, new IRxJavaCallBack<SimpleResponse<School>>() {
+                @Override
+                public void onSuccess(SimpleResponse<School> response) {
+                    if (response.getCode() == ResponseCode.RESULT_OK) {
+                        Log.e("TAG", "获取学校信息:" + gson.toJson(response.getData()));
+                        DataRepository.school = response.getData();
+                        titleTv.setText(response.getData().getName());
+                    }
+                    lock1.unlock();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    Log.e("TAG", "获取学校信息异常:" + throwable.toString());
+                    lock1.unlock();
+                }
+            });
+
+        }
+    }
+
+    /**
+     * 获取学校的资讯
+     */
+    private void getSchoolInfomationById(Long schoolId) {
+        if (!lock2.isLocked()) {
+            lock2.lock();
+            SchoolRepository.getInstance().getSchoolInfomationById(2327374242342374L, new IRxJavaCallBack<SimpleResponse<List<SchoolInformation>>>() {
+                @Override
+                public void onSuccess(SimpleResponse<List<SchoolInformation>> response) {
+                    if (response.getCode() == ResponseCode.RESULT_OK) {
+                        Log.e("TAG", "获取学校资讯:" + gson.toJson(response.getData()));
+                    }
+                    lock2.unlock();
+                }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    Log.e("TAG", "获取学校资讯异常:" + throwable.toString());
+                    lock2.unlock();
+                }
+            });
+        }
+    }
+
+    private void getClasById(String clasId) {
+
     }
 
     @Override
@@ -225,4 +371,10 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        lock1.unlock();
+        lock2.unlock();
+    }
 }

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/action_undo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_undo" />
+
+        <ImageButton
+            android:id="@+id/action_redo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_redo" />
+
+        <ImageButton
+            android:id="@+id/action_bold"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_bold" />
+
+        <ImageButton
+            android:id="@+id/action_insert_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_tupian" />
+
+        <ImageButton
+            android:id="@+id/action_align_left"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_align_left" />
+
+        <ImageButton
+            android:id="@+id/action_align_center"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_align_center" />
+
+        <ImageButton
+            android:id="@+id/action_align_right"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_align_right" />
+
+        <ImageButton
+            android:id="@+id/action_italic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_italic" />
+
+        <ImageButton
+            android:id="@+id/action_delete_line"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_delete_line" />
+
+        <ImageButton
+            android:id="@+id/action_underline"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_under_line" />
+
+        <ImageButton
+            android:id="@+id/action_heading1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h1" />
+
+        <ImageButton
+            android:id="@+id/action_heading2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h2" />
+
+        <ImageButton
+            android:id="@+id/action_heading3"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h3" />
+
+        <ImageButton
+            android:id="@+id/action_heading4"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h4" />
+
+        <ImageButton
+            android:id="@+id/action_heading5"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h5" />
+
+        <ImageButton
+            android:id="@+id/action_heading6"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_h6" />
+
+        <ImageButton
+            android:id="@+id/action_txt_color"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_font_color"
+            android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/action_insert_link"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:onClick="onClick"
+            android:src="@drawable/ic_lianjie" />
+
+    </LinearLayout>
+</HorizontalScrollView>

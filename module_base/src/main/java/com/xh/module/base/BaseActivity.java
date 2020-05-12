@@ -1,12 +1,14 @@
 package com.xh.module.base;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.jaeger.library.StatusBarUtil;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.tamsiree.rxkit.RxActivityTool;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -21,6 +23,10 @@ public class BaseActivity extends AppCompatActivity {
     protected RxPermissions rxPermissions;
 
     protected Gson gson = new Gson();
+
+    QMUITipDialog tipDialog;
+
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,5 +51,131 @@ public class BaseActivity extends AppCompatActivity {
 
     @Subscribe
     public void onEvent(String event) {
+        if (event.equals(Constant.EVENT_FINISH_ALL_ACTIVITY)) {
+            finish();
+        }
     }
+
+    /**
+     * 显示信息提示对话框，不消失
+     *
+     * @param info
+     */
+    protected void showInfoDialog(String info) {
+        tipDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_INFO)
+                .setTipWord(info)
+                .create();
+        tipDialog.show();
+    }
+
+    /**
+     * 显示信息提示对话框，并消失
+     *
+     * @param info
+     */
+    protected void showInfoDialogAndDismiss(String info) {
+        showInfoDialog(info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+            }
+        }, 1500);
+    }
+
+    /**
+     * 显示成功提示对话框，不消失
+     *
+     * @param info
+     */
+    protected void showSuccessDialog(String info) {
+        tipDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_SUCCESS)
+                .setTipWord(info)
+                .create();
+        tipDialog.show();
+    }
+
+    /**
+     * 显示成功提示对话框，并消失
+     *
+     * @param info
+     */
+    protected void showSuccessDialogAndDismiss(String info) {
+        showSuccessDialog(info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+            }
+        }, 1500);
+    }
+
+    /**
+     * 显示失败提示对话框，不消失
+     *
+     * @param info
+     */
+    protected void showFailDialog(String info) {
+        tipDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_FAIL)
+                .setTipWord(info)
+                .create();
+        tipDialog.show();
+    }
+
+    /**
+     * 显示失败提示对话框，并消失
+     *
+     * @param info
+     */
+    protected void showFailDialogAndDismiss(String info) {
+        showFailDialog(info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+            }
+        }, 1500);
+    }
+
+    /**
+     * 显示加载提示对话框，不消失
+     *
+     * @param info
+     */
+    protected void showLoadingDialog(String info) {
+        tipDialog = new QMUITipDialog.Builder(this)
+                .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord(info)
+                .create();
+        tipDialog.show();
+    }
+
+    /**
+     * 显示加载提示对话框，并消失
+     *
+     * @param info
+     */
+    protected void showLoadingDialogAndDismiss(String info) {
+        showLoadingDialog(info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+            }
+        }, 1500);
+    }
+
+    /**
+     * 提示对话框消失
+     */
+    protected void dismissDialog() {
+        if (tipDialog != null) {
+            tipDialog.dismiss();
+            tipDialog = null;
+        }
+    }
+
 }

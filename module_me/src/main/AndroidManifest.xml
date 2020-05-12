@@ -1,2 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xh.module_me" />
+    package="com.xh.module_me">
+
+    <application android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.UpdatePwdActivity"
+            android:label="修改密码"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.NotifySettingActivity"
+            android:label="消息设置"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SettingMainActivity"
+            android:label="设置"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AccountSettingActivity"
+            android:label="账号设置"
+            android:screenOrientation="portrait" />
+    </application>
+
+</manifest>

@@ -1,11 +1,14 @@
 package com.xh.school
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jaeger.library.StatusBarUtil
+import com.qmuiteam.qmui.util.QMUIStatusBarHelper
+import com.tbruyelle.rxpermissions2.RxPermissions
 import com.xh.module.base.BaseActivity
 import com.xh.module.base.adapter.TabFragmentPagerAdapter
 import com.xh.module.base.utils.FragmentUtils
@@ -33,7 +36,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        requestPermissions()
         initTabLayout()
         initPager()
     }
@@ -58,6 +61,20 @@ class MainActivity : BaseActivity() {
     private fun initPager() {
         tabLayout.setOnTabSelectListener(object : OnTabSelectListener {
             override fun onTabSelect(position: Int) {
+
+                // 改变状态栏的颜色和字体颜色
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    when (position) {
+                        0, 3 -> {
+                            QMUIStatusBarHelper.setStatusBarDarkMode(this@MainActivity)
+                        }
+                        1, 2 -> {
+                            //实现状态栏图标和文字颜色为暗色
+                            QMUIStatusBarHelper.setStatusBarLightMode(this@MainActivity)
+                        }
+                    }
+                }
+
                 vp.currentItem = position
             }
 
@@ -65,23 +82,6 @@ class MainActivity : BaseActivity() {
             }
         })
 
-        vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-                tabLayout.currentTab = position
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-            }
-        })
         //默认选中第一个
         vp.currentItem = 0
         vp.offscreenPageLimit = 5
@@ -90,5 +90,23 @@ class MainActivity : BaseActivity() {
 
     override fun setStatusBar() {
         StatusBarUtil.setTranslucentForImageViewInFragment(this, null)
+    }
+
+
+    /**
+     * 检查权限
+     */
+    private fun requestPermissions() {
+        var rxPermission = RxPermissions(this)
+
+        rxPermission.request(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE
+        ).subscribe({ bool ->
+            if (bool) {
+
+            }
+        })
     }
 }

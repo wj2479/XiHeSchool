@@ -1,5 +1,7 @@
 package com.xh.module.base.retrofit;
 
+import com.xh.module.base.Constant;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -13,14 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @Author wj
  * @Time 2017/7/12 14:29
  */
-
 public class ApiManager {
-
-    /**
-     * 服务器Api接口
-     */
-    public static final String ROBOT_SERVER_URL_NEW1 = "http://192.168.0.254:8082/robot/action/";//测试服务器
-    public static final String SERVER_URL = "http://49.235.232.232:7777/";//正式服务器
 
     private static ApiManager manager;
     private OkHttpClient mClient;
@@ -37,7 +32,6 @@ public class ApiManager {
     private ApiManager() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLogger());
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         JsonInterceptor jsonInterceptor = new JsonInterceptor();
 
         mClient = new OkHttpClient.Builder()
@@ -53,7 +47,7 @@ public class ApiManager {
         if (schoolServer == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(mClient)
-                    .baseUrl(SERVER_URL)
+                    .baseUrl(Constant.SERVER_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();

@@ -1,34 +1,35 @@
 package com.xh.school.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.tamsiree.rxkit.view.RxToast;
 import com.xh.module.base.BaseActivity;
+import com.xh.module.base.Constant;
 import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.utils.LogUtil;
+import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.school.ForgetPwdActivity;
 import com.xh.school.MainActivity;
 import com.xh.school.R;
 
-
+/**
+ * 登录界面
+ */
+@Route(path = RouteUtils.Activity_Login)
 public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
-
-    private ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,74 +43,62 @@ public class LoginActivity extends BaseActivity {
         final EditText passwordEditText = findViewById(R.id.et_password);
         final Button loginButton = findViewById(R.id.bt_login);
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setCancelable(true);
-        //这里是设置进度条的风格,HORIZONTAL是水平进度条,SPINNER是圆形进度条
-        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        //这里设置的是是否显示进度,设为false才是显示的哦！
-        pDialog.setIndeterminate(true);
+        //获取保存的用户名
+        String savedUserName = SharedPreferencesUtil.get(LoginActivity.this, Constant.SAVE_LOGIN_USERNAME);
+        usernameEditText.setText(savedUserName);
+        usernameEditText.setSelection(savedUserName.length());
 
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
 //                pDialog.dismiss();
+
+                dismissDialog();
                 if (loginResult == null) {
                     return;
                 }
 
                 if (loginResult.getError() != null) {
+                    RxToast.normal("登录失败");
+                    return;
                 }
                 if (loginResult.getSuccess() != null) {
                     LoginInfo loginInfo = loginResult.getSuccess();
+
+                    LogUtil.e("TAG", "登陆成功:" + gson.toJson(loginInfo));
                     SharedPreferencesUtil.saveLogin(LoginActivity.this, loginInfo);
+                    // 保存登录的用户名
+                    SharedPreferencesUtil.save(LoginActivity.this, Constant.SAVE_LOGIN_USERNAME, usernameEditText.getText().toString());
+                    SharedPreferencesUtil.save(LoginActivity.this, Constant.SAVE_LOGIN_PASSWORD, passwordEditText.getText().toString());
                     goMainActivity();
                 }
-            }
-        });
-
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
             }
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pDialog.setMessage("正在登录...");
-                pDialog.show();
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+//                pDialog.setMessage("正在登录...");
+//                pDialog.show();
+
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+
+                if (TextUtils.isEmpty(username)) {
+                    showInfoDialogAndDismiss("用户名不能为空");
+                    return;
+                }
+                if (TextUtils.isEmpty(password)) {
+                    showInfoDialogAndDismiss("密码不能为空");
+                    return;
+                }
+
+                showLoadingDialog("正在登录");
+
+                loginViewModel.login(username, password);
             }
         });
-
     }
-
 
     /**
      * 进入到主界面
@@ -123,9 +112,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (pDialog != null && pDialog.isShowing()) {
-            pDialog.dismiss();
-        }
     }
 
     /**

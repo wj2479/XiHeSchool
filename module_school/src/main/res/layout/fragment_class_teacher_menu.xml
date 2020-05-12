@@ -12,7 +12,6 @@
         android:layout_marginTop="@dimen/dp_8"
         android:cacheColorHint="@android:color/transparent"
         android:horizontalSpacing="@dimen/dp_8"
-        android:listSelector="@android:color/transparent"
         android:numColumns="3"
         android:scrollbars="none"
         android:verticalSpacing="@dimen/dp_8"></GridView>

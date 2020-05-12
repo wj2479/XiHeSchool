@@ -3,12 +3,38 @@
     package="com.xh.module_school">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application>
         <activity
-            android:name=".ScanActivity"
+            android:name=".activity.AddSchoolInfomationActivity"
+            android:label="新建学校资讯"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.CourseTableActivity"
+            android:label="课程表"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewMessageActivity"
+            android:label="新消息"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SchoolMasterMailActivity"
+            android:label="校长信箱"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".activity.SchoolInfoListActivity"
+            android:label="学校资讯"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckMainActivity"
+            android:label="考勤"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScanActivity"
             android:label="扫描二维码"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/NoActionBarTheme" />
     </application>
 
 </manifest>

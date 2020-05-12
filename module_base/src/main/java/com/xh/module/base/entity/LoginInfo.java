@@ -1,6 +1,7 @@
 package com.xh.module.base.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class LoginInfo implements Serializable {
 
@@ -47,6 +48,7 @@ public class LoginInfo implements Serializable {
     private int updateTime;
     private String pushToken;
     private String realName;
+    private List<Role> roles;
 
     public int getUid() {
         return uid;
@@ -198,5 +200,13 @@ public class LoginInfo implements Serializable {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

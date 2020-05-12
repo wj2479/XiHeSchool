@@ -3,18 +3,30 @@ package com.xh.school;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+import com.xh.module.base.Constant;
+import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.repository.impl.LoginRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
+import com.xh.module.base.utils.LogUtil;
+import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.school.ui.login.LoginActivity;
 
 /**
  * 程序启动引导界面
  */
 public class StartActivity extends AppCompatActivity {
+
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +59,46 @@ public class StartActivity extends AppCompatActivity {
              */
             @Override
             public void onFinish() {
-                getHome();
+                // 获取保存的用户名  密码
+                String savedUserName = SharedPreferencesUtil.get(StartActivity.this, Constant.SAVE_LOGIN_USERNAME);
+                String savedPassWord = SharedPreferencesUtil.get(StartActivity.this, Constant.SAVE_LOGIN_PASSWORD);
+
+                if (!TextUtils.isEmpty(savedUserName) && !TextUtils.isEmpty(savedPassWord)) {
+                    LoginRepository.getInstance().login(savedUserName, savedPassWord, new IRxJavaCallBack<SimpleResponse<LoginInfo>>() {
+                        @Override
+                        public void onSuccess(SimpleResponse<LoginInfo> simpleResponse) {
+                            if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                                LoginInfo loginInfo = simpleResponse.getData();
+                                LogUtil.e("TAG", "自动登陆成功:" + gson.toJson(loginInfo));
+                                SharedPreferencesUtil.saveLogin(StartActivity.this, loginInfo);
+                                getMain();
+                            } else {
+                                getLogin();
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable throwable) {
+                            getLogin();
+                        }
+                    });
+                } else {
+                    getLogin();
+                }
             }
 
         };
         countDownTimer.start();
     }
 
-
-    public void getHome() {
+    public void getLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void getMain() {
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
