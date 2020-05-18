@@ -43,14 +43,22 @@ public class FamilyMenuFragment extends BaseFragment {
     private void initGridView() {
         List<ImageText> imageTextList = new ArrayList<>();
 
-        ImageText it1 = new ImageText("餐厅", R.drawable.ic_account);
-        ImageText it2 = new ImageText("作业", R.drawable.ic_consult);
-        ImageText it3 = new ImageText("笔记", R.drawable.ic_help);
-        ImageText it4 = new ImageText("行为评价", R.drawable.ic_help);
+        ImageText it1 = new ImageText("家委会", R.drawable.ic_family_org);
+        ImageText it2 = new ImageText("学校餐厅", R.drawable.ic_dinging_room);
+        ImageText it3 = new ImageText("学生课程表", R.drawable.ic_course_table);
+        ImageText it4 = new ImageText("行为评价", R.drawable.ic_action_manager);
+        ImageText it5 = new ImageText("亲友管理", R.drawable.ic_action_manager);
+        ImageText it6 = new ImageText("请假管理", R.drawable.ic_action_manager);
+        ImageText it7 = new ImageText("考勤记录", R.drawable.ic_action_manager);
+        ImageText it8 = new ImageText("商城", R.drawable.ic_action_manager);
         imageTextList.add(it1);
         imageTextList.add(it2);
         imageTextList.add(it3);
         imageTextList.add(it4);
+        imageTextList.add(it5);
+        imageTextList.add(it6);
+        imageTextList.add(it7);
+        imageTextList.add(it8);
 
         ImageTextAdapter adapter = new ImageTextAdapter(getContext(), imageTextList);
         menuGv.setAdapter(adapter);

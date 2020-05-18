@@ -62,7 +62,7 @@ public class FragmentUtils {
      * @return
      */
     public static Fragment getSchoolClassTeacherMenuFragment() {
-        Fragment fragment = (Fragment) ARouter.getInstance().build(RouteUtils.School_Fragment_Class_Teacher_Menu).navigation();
+        Fragment fragment = (Fragment) ARouter.getInstance().build(RouteUtils.School_Fragment_Class_Master_Menu).navigation();
         return fragment;
     }
 
@@ -126,4 +126,15 @@ public class FragmentUtils {
         Fragment fragment = (Fragment) ARouter.getInstance().build(RouteUtils.Bbs_Fragment_Recommend_Home).navigation();
         return fragment;
     }
+
+    /**
+     * 获取指定Path的Fragment
+     *
+     * @return
+     */
+    public static Fragment getFragment(String path) {
+        Fragment fragment = (Fragment) ARouter.getInstance().build(path).navigation();
+        return fragment;
+    }
+
 }

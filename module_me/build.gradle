@@ -46,13 +46,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    // 每一个使用arouter的module都需要添加
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // 每一个使用arouter的module都需要添加
     annotationProcessor rootProject.ext.dependencies.aroutercompiler
-
-    api rootProject.ext.dependencies.butterknife
     annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
 
     testImplementation 'junit:junit:4.12'

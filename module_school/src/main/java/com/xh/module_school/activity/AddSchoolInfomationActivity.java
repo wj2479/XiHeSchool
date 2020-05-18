@@ -1,24 +1,41 @@
 package com.xh.module_school.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.luck.picture.lib.PictureSelector;
+import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.xh.module.base.BackActivity;
+import com.xh.module.base.Constant;
+import com.xh.module.base.entity.SchoolInformation;
+import com.xh.module.base.repository.DataRepository;
+import com.xh.module.base.repository.impl.SchoolRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.view.GlideEngine;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.richeditor.RichEditor;
 
 /**
@@ -28,6 +45,21 @@ public class AddSchoolInfomationActivity extends BackActivity {
 
     @BindView(R2.id.editor)
     RichEditor mEditor;
+    @BindView(R2.id.controlbar)
+    View controlbar;
+    @BindView(R2.id.titleEt)
+    EditText titleEt;
+    @BindView(R2.id.homeIv)
+    ImageView homeIv;
+    @BindView(R2.id.tipsTv)
+    TextView tipsTv;
+
+    /**
+     * 首页展示图片地址
+     */
+    String homeIvPath = null;
+
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +72,32 @@ public class AddSchoolInfomationActivity extends BackActivity {
         mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
             @Override
             public void onTextChange(String text) {
+                Log.e("TAG", "HTML:" + text);
+            }
+        });
+
+        mEditor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    controlbar.setVisibility(View.VISIBLE);
+                } else {
+                    controlbar.setVisibility(View.GONE);
+                }
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_add_school_info, menu);
+        getMenuInflater().inflate(R.menu.menu_publish, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.publish) {
-
+            addSchoolInfomation();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -93,14 +137,43 @@ public class AddSchoolInfomationActivity extends BackActivity {
         } else if (view.getId() == R.id.action_insert_image) {
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
-                    .maxSelectNum(3)
+                    .selectionMode(PictureConfig.SINGLE)
                     .loadImageEngine(GlideEngine.createGlideEngine())
+                    .enableCrop(true)
+                    .withAspectRatio(16, 9)
+                    .freeStyleCropEnabled(true)
                     .forResult(new OnResultCallbackListener<LocalMedia>() {
                         @Override
                         public void onResult(List<LocalMedia> result) {
                             // onResult Callback
+                            List<File> files = new ArrayList<>();
+                            for (int i = 0; i < result.size(); i++) {
+                                LocalMedia media = result.get(i);
+                                File file = new File(media.getCutPath());
+                                if (file.exists())
+                                    files.add(file);
+                            }
 
-                            Log.e("TAG", "选择图片" + result.size());
+                            SchoolRepository.getInstance().uploadSchoolInfomationImgs(files, new IRxJavaCallBack<SimpleResponse<List<String>>>() {
+                                @Override
+                                public void onSuccess(SimpleResponse<List<String>> response) {
+
+                                    if (response.getCode() == ResponseCode.RESULT_OK) {
+                                        List<String> pathList = response.getData();
+                                        for (int i = 0; i < pathList.size(); i++) {
+                                            String path = pathList.get(i);
+                                            Log.e("TAG", "上传图片结果:" + Constant.SERVER_URL + path);
+
+                                            mEditor.insertImage(Constant.SERVER_URL + path, "\" style=\" width:100%");
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable throwable) {
+
+                                }
+                            });
                         }
 
                         @Override
@@ -112,4 +185,123 @@ public class AddSchoolInfomationActivity extends BackActivity {
 
         }
     }
+
+
+    /**
+     * 添加校园资讯
+     */
+    private void addSchoolInfomation() {
+        String title = titleEt.getText().toString().trim();
+        if (TextUtils.isEmpty(title)) {
+            showInfoDialogAndDismiss("标题不能为空");
+            titleEt.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(homeIvPath)) {
+            showInfoDialogAndDismiss("首页图片不能为空");
+            return;
+        }
+
+        String content = mEditor.getHtml();
+        if (TextUtils.isEmpty(content)) {
+            showInfoDialogAndDismiss("内容不能为空");
+            mEditor.requestFocus();
+            return;
+        }
+
+        showLoadingDialog("正在添加资讯");
+
+        SchoolInformation information = new SchoolInformation();
+        information.setContent(mEditor.getHtml());
+        information.setCreateUid(DataRepository.userInfo.getUid());
+        information.setTitle(title);
+        information.setIndexImage(homeIvPath);
+        information.setSchoolId(DataRepository.school.getId());
+
+        SchoolRepository.getInstance().addSchoolInfomation(information, new IRxJavaCallBack<SimpleResponse>() {
+            @Override
+            public void onSuccess(SimpleResponse simpleResponse) {
+                dismissDialog();
+                if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                    showSuccessDialog("发布成功");
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            dismissDialog();
+                            finish();
+                        }
+                    }, 1200);
+                } else {
+                    showFailDialogAndDismiss("发布失败");
+                }
+                Log.e("TAG", "上传资讯结果:" + gson.toJson(simpleResponse));
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                dismissDialog();
+
+                showFailDialogAndDismiss("发布失败");
+
+                Log.e("TAG", "上传资讯异常:" + throwable.toString());
+            }
+        });
+
+    }
+
+    /**
+     *
+     */
+    @OnClick(R2.id.homeLayout)
+    void onHomePageClick() {
+        PictureSelector.create(this)
+                .openGallery(PictureMimeType.ofImage())
+                .selectionMode(PictureConfig.SINGLE)
+                .loadImageEngine(GlideEngine.createGlideEngine())
+                .enableCrop(true)
+                .withAspectRatio(5, 2)
+                .freeStyleCropEnabled(false)
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(List<LocalMedia> result) {
+                        // onResult Callback
+                        final LocalMedia media = result.get(0);
+
+                        List<File> files = new ArrayList<>();
+                        files.add(new File(media.getCutPath()));
+                        showLoadingDialog("正在上传图片");
+                        SchoolRepository.getInstance().uploadSchoolInfomationImgs(files, new IRxJavaCallBack<SimpleResponse<List<String>>>() {
+                            @Override
+                            public void onSuccess(SimpleResponse<List<String>> response) {
+                                dismissDialog();
+                                if (response.getCode() == ResponseCode.RESULT_OK) {
+                                    showSuccessDialogAndDismiss("图片上传成功");
+                                    List<String> pathList = response.getData();
+                                    for (int i = 0; i < pathList.size(); i++) {
+                                        String path = pathList.get(i);
+                                        Log.e("TAG", "上传图片结果:" + Constant.SERVER_URL + path);
+                                        homeIvPath = Constant.SERVER_URL + path;
+                                        Glide.with(AddSchoolInfomationActivity.this).load(media.getCutPath()).into(homeIv);
+                                    }
+                                    tipsTv.setVisibility(View.INVISIBLE);
+                                }
+                            }
+
+                            @Override
+                            public void onError(Throwable throwable) {
+                                dismissDialog();
+                                showFailDialogAndDismiss("图片上传失败");
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // onCancel Callback
+                    }
+                });
+
+    }
+
 }

@@ -46,7 +46,7 @@ ext {
             websocket                : 'org.java-websocket:Java-WebSocket:1.3.0',
 
             // ------------- 数据库框架 -------------
-            greendao                 : 'org.greenrobot:greendao:3.2.2',
+            greendao                 : 'org.greenrobot:greendao:3.3.0',
 
             // ------------- ButterKnife -------------
             butterknife              : 'com.jakewharton:butterknife:10.2.1',
@@ -120,12 +120,16 @@ ext {
 
             //-------------富文本框架-------------
             richeditor               : 'jp.wasabeef:richeditor-android:1.2.2',
+            richtext                 : 'com.zzhoujay.richtext:richtext:3.0.8',
 
             //-------------强大的RecyclerAdapter框架-------------
             recyclerViewAdapterHelper: 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2',
 
             //-------------qmui框架-------------
             qmui                     : 'com.qmuiteam:qmui:2.0.0-alpha08',
+
+            //-------------智能下拉刷新框架-------------
+            smartRefreshLayout :'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
 
     ]
 }

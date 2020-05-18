@@ -12,8 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.xh.module.base.Constant;
-import com.xh.module.base.entity.LoginInfo;
-import com.xh.module.base.repository.impl.LoginRepository;
+import com.xh.module.base.entity.UserBase;
+import com.xh.module.base.repository.DataRepository;
+import com.xh.module.base.repository.impl.UserRepository;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
@@ -64,13 +65,14 @@ public class StartActivity extends AppCompatActivity {
                 String savedPassWord = SharedPreferencesUtil.get(StartActivity.this, Constant.SAVE_LOGIN_PASSWORD);
 
                 if (!TextUtils.isEmpty(savedUserName) && !TextUtils.isEmpty(savedPassWord)) {
-                    LoginRepository.getInstance().login(savedUserName, savedPassWord, new IRxJavaCallBack<SimpleResponse<LoginInfo>>() {
+                    UserRepository.getInstance().login(savedUserName, savedPassWord, new IRxJavaCallBack<SimpleResponse<UserBase>>() {
                         @Override
-                        public void onSuccess(SimpleResponse<LoginInfo> simpleResponse) {
+                        public void onSuccess(SimpleResponse<UserBase> simpleResponse) {
                             if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
-                                LoginInfo loginInfo = simpleResponse.getData();
+                                UserBase loginInfo = simpleResponse.getData();
                                 LogUtil.e("TAG", "自动登陆成功:" + gson.toJson(loginInfo));
                                 SharedPreferencesUtil.saveLogin(StartActivity.this, loginInfo);
+                                DataRepository.userInfo = loginInfo;
                                 getMain();
                             } else {
                                 getLogin();
@@ -79,6 +81,7 @@ public class StartActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable throwable) {
+                            LogUtil.e("TAG", "自动登陆异常:" + throwable.toString());
                             getLogin();
                         }
                     });

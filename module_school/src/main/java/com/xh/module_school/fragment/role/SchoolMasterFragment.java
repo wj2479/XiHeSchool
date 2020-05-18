@@ -1,15 +1,15 @@
-package com.xh.module_school.fragment;
+package com.xh.module_school.fragment.role;
 
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.jaeger.library.StatusBarUtil;
 import com.xh.module.base.BaseFragment;
-import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.entity.ImageText;
+import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
 import com.xh.module_school.adapter.ImageTextAdapter;
@@ -20,35 +20,36 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 教师菜单主界面
+ * 校长角色主界面
  */
-@Route(path = RouteUtils.School_Fragment_Teacher_Menu)
-public class TeachMenuFragment extends BaseFragment {
+@Route(path = RouteUtils.School_Fragment_School_Master_Menu)
+public class SchoolMasterFragment extends BaseFragment {
     @BindView(R2.id.menuGv)
     GridView menuGv;
+    @BindView(R2.id.roleTv)
+    TextView roleTv;
 
-    public TeachMenuFragment() {
+    public SchoolMasterFragment() {
         // Required empty public constructor
     }
 
     @Override
     protected int initLayout() {
-        return R.layout.fragment_teach_menu;
+        return R.layout.fragment_role_menu;
     }
 
     @Override
     protected void initView(View rootView) {
+        roleTv.setText("我是校长");
         initGridView();
-
-        StatusBarUtil.setDarkMode(getActivity());
     }
 
     private void initGridView() {
         List<ImageText> imageTextList = new ArrayList<>();
 
-        ImageText it1 = new ImageText("餐厅", R.drawable.ic_account);
-        ImageText it2 = new ImageText("作业", R.drawable.ic_consult);
-        ImageText it3 = new ImageText("笔记", R.drawable.ic_help);
+        ImageText it1 = new ImageText("学校餐厅", R.drawable.ic_dinging_room);
+        ImageText it2 = new ImageText("校园安全", R.drawable.ic_aq);
+        ImageText it3 = new ImageText("笔记", R.drawable.ic_course_table);
         imageTextList.add(it1);
         imageTextList.add(it2);
         imageTextList.add(it3);
@@ -63,5 +64,4 @@ public class TeachMenuFragment extends BaseFragment {
             }
         });
     }
-
 }

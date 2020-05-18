@@ -3,7 +3,7 @@ package com.xh.module.base.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.entity.UserBase;
 
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -61,7 +61,7 @@ public class SharedPreferencesUtil {
      *
      * @param ctx
      */
-    public static void saveLogin(Context ctx, LoginInfo userInfo) {
+    public static void saveLogin(Context ctx, UserBase userInfo) {
         try {
             File file = new File(ctx.getFilesDir(), LOGIN);
             if (file.exists()) {
@@ -81,20 +81,20 @@ public class SharedPreferencesUtil {
      * @param ctx
      * @return
      */
-    public static LoginInfo loadLogin(Context ctx) {
-        LoginInfo data = null;
+    public static UserBase loadLogin(Context ctx) {
+        UserBase data = null;
         try {
             File file = new File(ctx.getFilesDir(), LOGIN);
             if (file.exists()) {
                 ObjectInputStream ois = new ObjectInputStream(ctx.openFileInput(LOGIN));
-                data = (LoginInfo) ois.readObject();
+                data = (UserBase) ois.readObject();
                 ois.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (data == null) {
-            data = new LoginInfo();
+            data = new UserBase();
         }
         return data;
     }

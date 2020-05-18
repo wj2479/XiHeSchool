@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_4"
+    tools:context=".activity.AddSchoolInfomationActivity">
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_4"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="信件标题"
+            android:singleLine="true"
+            android:textColorHint="@color/c0"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"></EditText>
+    </LinearLayout>
+
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintBottom_toTopOf="@id/optionLayout"
+        app:layout_constraintTop_toBottomOf="@id/titleLayout" />
+
+    <LinearLayout
+        android:id="@+id/optionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editor">
+
+        <CheckBox
+            android:id="@+id/anonymousCb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="匿名发送"
+            android:textColor="@color/text_color_main"></CheckBox>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/controlbar"
+        layout="@layout/richediter_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editor"></include>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

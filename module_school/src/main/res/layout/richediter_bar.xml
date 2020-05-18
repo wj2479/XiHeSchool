@@ -170,7 +170,8 @@
             android:background="@null"
             android:contentDescription="@null"
             android:onClick="onClick"
-            android:src="@drawable/ic_lianjie" />
+            android:src="@drawable/ic_lianjie"
+            android:visibility="gone" />
 
     </LinearLayout>
 </HorizontalScrollView>

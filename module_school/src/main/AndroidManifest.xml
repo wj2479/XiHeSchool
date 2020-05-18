@@ -6,9 +6,30 @@
 
     <application>
         <activity
+            android:name=".activity.SchoolMailDetailsActivity"
+            android:label="信件详情"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.QrcodeResultActivity"
+            android:label="扫描结果"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PublishSchoolMailActivity"
+            android:label="发送校长信件"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.MySchoolMailListActivity"
+            android:label="我的校长信件"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SchoolInfomationDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.AddSchoolInfomationActivity"
             android:label="新建学校资讯"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.CourseTableActivity"
             android:label="课程表"

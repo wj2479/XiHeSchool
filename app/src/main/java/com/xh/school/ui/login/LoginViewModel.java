@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.gson.Gson;
-import com.xh.module.base.entity.LoginInfo;
-import com.xh.module.base.repository.impl.LoginRepository;
+import com.xh.module.base.entity.UserBase;
+import com.xh.module.base.repository.impl.UserRepository;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
@@ -37,9 +37,9 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
 
-        LoginRepository.getInstance().login(username, password, new IRxJavaCallBack<SimpleResponse<LoginInfo>>() {
+        UserRepository.getInstance().login(username, password, new IRxJavaCallBack<SimpleResponse<UserBase>>() {
             @Override
-            public void onSuccess(SimpleResponse<LoginInfo> simpleResponse) {
+            public void onSuccess(SimpleResponse<UserBase> simpleResponse) {
                 LogUtil.e(LoginViewModel.this.getClass(), gson.toJson(simpleResponse));
                 if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
                     loginResult.setValue(new LoginResult(simpleResponse.getData()));

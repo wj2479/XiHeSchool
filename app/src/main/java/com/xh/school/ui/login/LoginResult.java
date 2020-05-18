@@ -2,14 +2,14 @@ package com.xh.school.ui.login;
 
 import androidx.annotation.Nullable;
 
-import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.entity.UserBase;
 
 /**
  * Authentication result : success (user details) or error message.
  */
 class LoginResult {
     @Nullable
-    private LoginInfo success;
+    private UserBase success;
     @Nullable
     private String error;
 
@@ -17,12 +17,12 @@ class LoginResult {
         this.error = error;
     }
 
-    LoginResult(@Nullable LoginInfo success) {
+    LoginResult(@Nullable UserBase success) {
         this.success = success;
     }
 
     @Nullable
-    LoginInfo getSuccess() {
+    UserBase getSuccess() {
         return success;
     }
 

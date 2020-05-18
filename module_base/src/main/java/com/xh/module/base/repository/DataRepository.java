@@ -1,8 +1,8 @@
 package com.xh.module.base.repository;
 
 import com.xh.module.base.entity.Clas;
-import com.xh.module.base.entity.LoginInfo;
 import com.xh.module.base.entity.School;
+import com.xh.module.base.entity.UserBase;
 
 /**
  * 记录APP的一些数据
@@ -12,7 +12,7 @@ public class DataRepository {
     /**
      * 用户登录信息
      */
-    public static LoginInfo loginInfo;
+    public static UserBase userInfo;
     /**
      * 学校信息
      */

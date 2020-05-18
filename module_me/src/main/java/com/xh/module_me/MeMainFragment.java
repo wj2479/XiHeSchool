@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xh.module.base.BaseFragment;
-import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.module_me.activity.SettingMainActivity;
@@ -27,7 +27,7 @@ public class MeMainFragment extends BaseFragment {
     @BindView(R2.id.tv_name)
     TextView nameTv;
 
-    LoginInfo loginInfo;
+    UserBase loginInfo;
 
     public MeMainFragment() {
         // Required empty public constructor

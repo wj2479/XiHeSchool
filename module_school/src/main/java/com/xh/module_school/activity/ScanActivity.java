@@ -25,7 +25,7 @@ import cn.bingoogolapple.qrcode.zxing.ZXingView;
 /**
  * 扫描条码/二维码   人脸识别的Activity
  */
-@Route(path = RouteUtils.Activity_Scan)
+@Route(path = RouteUtils.School_Activity_Scan)
 public class ScanActivity extends BackActivity implements QRCodeView.Delegate {
     private static final String TAG = ScanActivity.class.getSimpleName();
 
@@ -173,9 +173,10 @@ public class ScanActivity extends BackActivity implements QRCodeView.Delegate {
         // 快门声
         AudioController.newInstance(this).playRaw(R.raw.shutter);
 
-        Intent intent = new Intent();
-        intent.putExtra("result", result);
-        setResult(RESULT_OK, intent);
+        Intent intent = new Intent(this, QrcodeResultActivity.class);
+        intent.putExtra(QrcodeResultActivity.RESULT, result);
+//        setResult(RESULT_OK, intent);
+        startActivity(intent);
         finish();
     }
 

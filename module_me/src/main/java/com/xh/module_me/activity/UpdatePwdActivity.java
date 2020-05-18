@@ -16,7 +16,7 @@ import butterknife.OnClick;
 /**
  * 修改密码
  */
-@Route(path = RouteUtils.Activity_Update_Password)
+@Route(path = RouteUtils.Me_Activity_Update_Password)
 public class UpdatePwdActivity extends BackActivity {
 
     @BindView(R2.id.edt_oldPwd)

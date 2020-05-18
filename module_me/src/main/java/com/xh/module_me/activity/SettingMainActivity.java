@@ -49,7 +49,7 @@ public class SettingMainActivity extends BackActivity {
         RxActivityTool.finishActivity();
         SharedPreferencesUtil.removeLogin(this);
         SharedPreferencesUtil.remove(this, Constant.SAVE_LOGIN_PASSWORD);
-        ARouter.getInstance().build(RouteUtils.Activity_Login).navigation();
+        ARouter.getInstance().build(RouteUtils.APP_Activity_Login).navigation();
     }
 
 }

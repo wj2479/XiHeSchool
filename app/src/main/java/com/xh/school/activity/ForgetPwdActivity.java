@@ -1,8 +1,9 @@
-package com.xh.school;
+package com.xh.school.activity;
 
 import android.os.Bundle;
 
 import com.xh.module.base.BackActivity;
+import com.xh.school.R;
 
 /**
  * 忘记密码找回

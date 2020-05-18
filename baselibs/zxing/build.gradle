@@ -1,0 +1,16 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+    }
+}
+
+dependencies {
+    implementation 'com.google.zxing:core:3.3.3'
+    api project(path: ':baselibs:qrcodecore')
+
+}

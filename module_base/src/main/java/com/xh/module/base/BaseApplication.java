@@ -8,6 +8,7 @@ import com.tamsiree.rxkit.RxTool;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xh.module.BuildConfig;
 import com.xh.module.base.utils.UIUtils;
+import com.zzhoujay.richtext.RichText;
 
 /**
  * 程序的主入口
@@ -27,6 +28,8 @@ public class BaseApplication extends Application {
         initRouter(this);
 
         RxTool.init(this);
+
+        RichText.initCacheDir(this);
         // 腾讯bugly初始化
         CrashReport.initCrashReport(getApplicationContext(), "01076d5ac1", BuildConfig.DEBUG);
     }

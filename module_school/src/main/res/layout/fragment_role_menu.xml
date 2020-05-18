@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragment.role.ClassTeacherMenuFragment">
+
+    <TextView
+        android:id="@+id/roleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_8"
+        android:text="我是班主任"
+        android:textColor="@color/themecolor"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold"></TextView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/dp_4"
+        android:background="@color/c0"></View>
+
+    <com.xh.module.base.view.MyGridView
+        android:id="@+id/menuGv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_8"
+        android:cacheColorHint="@android:color/transparent"
+        android:horizontalSpacing="@dimen/dp_8"
+        android:numColumns="3"
+        android:scrollbars="none"
+        android:verticalSpacing="@dimen/dp_8"></com.xh.module.base.view.MyGridView>
+
+</LinearLayout>

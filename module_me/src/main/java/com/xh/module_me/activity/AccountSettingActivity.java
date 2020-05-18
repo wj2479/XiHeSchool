@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.xh.module.base.BackActivity;
-import com.xh.module.base.entity.LoginInfo;
+import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.module_me.R;
 import com.xh.module_me.R2;
@@ -25,7 +25,7 @@ public class AccountSettingActivity extends BackActivity {
     @BindView(R2.id.phoneTv)
     TextView phoneTv;
 
-    LoginInfo loginInfo;
+    UserBase loginInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

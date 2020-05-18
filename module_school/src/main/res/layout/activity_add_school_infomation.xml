@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_4"
+    tools:context=".activity.AddSchoolInfomationActivity">
+
+    <LinearLayout
+        android:id="@+id/titleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_4"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="资讯标题"
+            android:singleLine="true"
+            android:textColorHint="@color/c0"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"></EditText>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/homeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/dp_4"
+        android:background="@drawable/corners_cc_bg"
+        app:layout_constraintDimensionRatio="5:2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleLayout">
+
+        <ImageView
+            android:id="@+id/homeIv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ImageView>
+
+        <TextView
+            android:id="@+id/tipsTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@drawable/ic_add"
+            android:drawablePadding="@dimen/dp_8"
+            android:gravity="center"
+            android:text="添加首页图片"
+            android:textColor="@color/c0"></TextView>
+    </RelativeLayout>
+
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintBottom_toTopOf="@id/controlbar"
+        app:layout_constraintTop_toBottomOf="@id/homeLayout" />
+
+    <include
+        android:id="@+id/controlbar"
+        layout="@layout/richediter_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editor"></include>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

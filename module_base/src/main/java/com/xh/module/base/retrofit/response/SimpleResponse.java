@@ -16,7 +16,6 @@ public class SimpleResponse<T> {
      * 数据
      */
     private T data;
-
     /**
      * 加密使用的Token
      */
@@ -59,7 +58,8 @@ public class SimpleResponse<T> {
         return "SimpleResponse{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
-                ", data='" + data + '\'' +
+                ", data=" + data +
+                ", token='" + token + '\'' +
                 '}';
     }
 }

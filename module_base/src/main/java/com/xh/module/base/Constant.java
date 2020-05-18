@@ -36,6 +36,27 @@ public class Constant {
     public static final int ROLE_TYPE_SCHOOL = 1;
 
     /**
+     * 校长身份
+     */
+    public static final int ROLE_CODE_SCHOOL_MASTER = 4;
+
+    /**
+     * 班主任身份
+     */
+    public static final int ROLE_CODE_CLASS_MASTER = 1;
+
+    /**
+     * 教师身份
+     */
+    public static final int ROLE_CODE_TEACHER = 2;
+
+    /**
+     * 家长身份
+     */
+    public static final int ROLE_CODE_PARENT = 3;
+
+
+    /**
      * 用户角色类型对照表
      */
     public static Map<Integer, String> roleTypeMap = new HashMap<>();
