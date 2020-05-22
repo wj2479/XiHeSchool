@@ -138,7 +138,7 @@ public class TeachMainFragment extends BaseFragment {
         }
 
         List<Fragment> fragmentList = new ArrayList();
-        fragmentList.add(FragmentUtils.getTeachVideoLiveHomeFragment());
+//        fragmentList.add(FragmentUtils.getTeachVideoLiveHomeFragment());
         fragmentList.add(FragmentUtils.getTeachVideoRecordHomeFragment());
 
         //viewpager加载adapter

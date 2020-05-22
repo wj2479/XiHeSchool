@@ -22,13 +22,13 @@ class MainActivity : BaseActivity() {
 
     private val mIconUnselectIds = intArrayOf(
         R.drawable.ic_school_class,
-        R.drawable.ic_teach,
+//        R.drawable.ic_teach,
         R.drawable.ic_bbs,
         R.drawable.ic_me
     )
     private val mIconSelectIds = intArrayOf(
         R.drawable.ic_school_class_select,
-        R.drawable.ic_teach_selected,
+//        R.drawable.ic_teach_selected,
         R.drawable.ic_bbs_selected,
         R.drawable.ic_me_selected
     )
@@ -47,7 +47,7 @@ class MainActivity : BaseActivity() {
         //将fragment装进列表中
         var fragmentList = ArrayList<Fragment>()
         fragmentList.add(FragmentUtils.getSchoolFragment())
-        fragmentList.add(FragmentUtils.getTeachFragment())
+//        fragmentList.add(FragmentUtils.getTeachFragment())
         fragmentList.add(FragmentUtils.getBbsFragment())
         fragmentList.add(FragmentUtils.getMeFragment())
         //viewpager加载adapter
@@ -65,10 +65,10 @@ class MainActivity : BaseActivity() {
                 // 改变状态栏的颜色和字体颜色
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     when (position) {
-                        0, 3 -> {
+                        0, 2 -> {
                             QMUIStatusBarHelper.setStatusBarDarkMode(this@MainActivity)
                         }
-                        1, 2 -> {
+                        1 -> {
                             //实现状态栏图标和文字颜色为暗色
                             QMUIStatusBarHelper.setStatusBarLightMode(this@MainActivity)
                         }

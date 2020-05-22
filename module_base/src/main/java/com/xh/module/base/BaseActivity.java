@@ -14,6 +14,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * 所有Activity的基类
@@ -26,7 +27,7 @@ public class BaseActivity extends AppCompatActivity {
 
     QMUITipDialog tipDialog;
 
-    Handler mHandler = new Handler();
+    protected Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class BaseActivity extends AppCompatActivity {
         StatusBarUtil.setTranslucent(this);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(String event) {
         if (event.equals(Constant.EVENT_FINISH_ALL_ACTIVITY)) {
             finish();
@@ -176,6 +177,14 @@ public class BaseActivity extends AppCompatActivity {
             tipDialog.dismiss();
             tipDialog = null;
         }
+    }
+
+    /**
+     * 提示对话框消失
+     */
+    protected void dismissDialogAndFinish() {
+        dismissDialog();
+        finish();
     }
 
 }

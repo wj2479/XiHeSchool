@@ -11,7 +11,7 @@
         <LinearLayout
             android:id="@+id/ll_user"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_120"
+            android:layout_height="@dimen/dp_140"
             android:background="@drawable/shape_gradient_theme"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -42,7 +42,7 @@
                     android:ellipsize="end"
                     android:maxEms="10"
                     android:maxLines="1"
-                    android:text="小李"
+                    android:text=""
                     android:textColor="@color/text_color_main"
                     android:textSize="@dimen/sp_18"
                     android:textStyle="bold" />
@@ -55,7 +55,7 @@
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="日照市XXX小学"
+                    android:text=""
                     android:textColor="@color/text_color_main"
                     android:textSize="@dimen/sp_14" />
 
@@ -175,8 +175,6 @@
                         android:background="@color/line_waw" />
                 </LinearLayout>
 
-
-
                 <LinearLayout
                     android:id="@+id/ll_name_vertify"
                     android:layout_width="match_parent"
@@ -217,7 +215,7 @@
                         android:drawableRight="@drawable/ic_arrow_right"
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"
-                        android:text="帮助与反馈"
+                        android:text="意见反馈"
                         android:textColor="#333333"
                         android:textSize="15dp" />
 
@@ -227,7 +225,6 @@
                         android:background="@color/line_waw" />
 
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/ll_setting"
@@ -256,6 +253,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_version"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/dp_8"
@@ -279,8 +277,8 @@
                         android:background="@color/line_waw" />
                 </LinearLayout>
 
-
                 <LinearLayout
+                    android:id="@+id/ll_about"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:orientation="vertical">

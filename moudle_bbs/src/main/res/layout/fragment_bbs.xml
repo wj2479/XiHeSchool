@@ -16,58 +16,76 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="@dimen/dp_16"
+        android:paddingLeft="@dimen/dp_12"
         android:paddingTop="@dimen/dp_4"
-        android:paddingRight="@dimen/dp_16"
+        android:paddingRight="@dimen/dp_12"
         android:paddingBottom="@dimen/dp_4">
 
-        <EditText
-            android:id="@+id/searchEt"
-            android:layout_width="0dp"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iconIv"
+            android:layout_width="@dimen/dp_32"
             android:layout_height="@dimen/dp_32"
-            android:layout_weight="1"
-            android:background="@drawable/corners_cc_bg"
-            android:drawableLeft="@drawable/ic_search"
-            android:drawablePadding="@dimen/dp_8"
-            android:ellipsize="end"
-            android:hint="请输入标题、作者、文章"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:padding="@dimen/dp_8"
-            android:singleLine="true"
-            android:textColorHint="@color/c0"
-            android:textSize="@dimen/sp_12"></EditText>
+            android:layout_margin="@dimen/dp_4"
+            android:src="@mipmap/tuzi"></de.hdodenhof.circleimageview.CircleImageView>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.flyco.tablayout.CommonTabLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_40"
+                android:layout_gravity="center"
+                tl:tl_iconVisible="false"
+                tl:tl_indicator_color="@color/themecolor"
+                tl:tl_indicator_margin_left="@dimen/dp_4"
+                tl:tl_indicator_margin_right="@dimen/dp_4"
+                tl:tl_tab_space_equal="false"
+                tl:tl_textBold="SELECT"
+                tl:tl_textSelectColor="@color/themecolor"
+                tl:tl_textUnselectColor="@color/text_color_main"
+                tl:tl_textsize="@dimen/sp_18"
+                tl:tl_underline_color="@color/color_f0"
+                tl:tl_underline_height="@dimen/dp_1" />
+
+            <EditText
+                android:id="@+id/searchEt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_32"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:background="@drawable/corners_cc_bg"
+                android:drawableLeft="@drawable/ic_search"
+                android:drawablePadding="@dimen/dp_8"
+                android:ellipsize="end"
+                android:hint="标题、作者、关键字"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:padding="@dimen/dp_8"
+                android:singleLine="true"
+                android:textColorHint="@color/c0"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone"></EditText>
+
+        </FrameLayout>
 
         <TextView
+            android:id="@+id/sendArticle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发布"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:background="@drawable/corners_theme_bg"
+            android:drawableLeft="@drawable/ic_publish"
             android:gravity="center"
             android:padding="@dimen/dp_8"
-            android:textSize="@dimen/sp_14"
-            android:layout_marginLeft="@dimen/dp_8"
-            android:drawableLeft="@drawable/ic_publish"
-            android:background="@drawable/corners_theme_bg"
-             android:textColor="@color/white"></TextView>
+            android:text="发帖"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14"></TextView>
     </LinearLayout>
 
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/contentLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_48"
-        android:layout_gravity="center"
-        tl:tl_iconVisible="false"
-        tl:tl_indicator_color="@color/themecolor"
-        tl:tl_indicator_margin_left="@dimen/dp_4"
-        tl:tl_indicator_margin_right="@dimen/dp_4"
-        tl:tl_tab_space_equal="false"
-        tl:tl_textBold="SELECT"
-        tl:tl_textSelectColor="@color/themecolor"
-        tl:tl_textUnselectColor="@color/text_color_main"
-        tl:tl_textsize="@dimen/sp_18"
-        tl:tl_underline_color="@color/color_f0"
-        tl:tl_underline_height="@dimen/dp_1" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"

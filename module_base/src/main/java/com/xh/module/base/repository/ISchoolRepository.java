@@ -82,5 +82,4 @@ public interface ISchoolRepository {
      */
     void getSchoolMailBoxReplys(long mailboxId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailboxReply>>> callback);
 
-
 }

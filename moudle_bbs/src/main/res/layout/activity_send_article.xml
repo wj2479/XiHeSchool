@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.SendArticleActivity">
+
+    <EditText
+        android:id="@+id/inputEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_24"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="说点什么吧"
+        android:minHeight="@dimen/dp_100"
+        android:textColor="@color/text_color_main"
+        android:textColorHint="@color/c0"
+        android:textSize="@dimen/sp_14"></EditText>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_24"></androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

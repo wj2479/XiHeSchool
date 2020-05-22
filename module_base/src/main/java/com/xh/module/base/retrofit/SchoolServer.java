@@ -5,6 +5,8 @@ import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
 import com.xh.module.base.entity.UserBase;
+import com.xh.module.base.entity.bbs.BbsArticle;
+import com.xh.module.base.entity.bbs.BbsUser;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -115,4 +118,77 @@ public interface SchoolServer {
      */
     @GET("mailboxreply_")
     Observable<SimpleResponse<List<SchoolmasterMailboxReply>>> getSchoolMailBoxReplys(@Query("mailboxId") long mailboxId, @Query("page") int page, @Query("pagesize") int pageSize);
+
+    /**
+     * 获取论坛用户信息
+     *
+     * @param uid
+     * @return
+     */
+    @GET("bbsUser")
+    Observable<SimpleResponse<BbsUser>> getBbsUserInfo(@Query("uid") long uid);
+
+    /**
+     * 获取论坛用户信息
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("bbsUser")
+    Observable<SimpleResponse> addBbsUser(@Body RequestBody requestBody);
+
+    /**
+     * 更新论坛用户信息
+     *
+     * @param requestBody
+     * @return
+     */
+    @PUT("bbsUser")
+    Observable<SimpleResponse<BbsUser>> updateBbsUserInfo(@Body RequestBody requestBody);
+
+    /**
+     * 发布文章
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("bbsArticle")
+    Observable<SimpleResponse> publishArticle(@Body RequestBody requestBody);
+
+    /**
+     * 删除帖子
+     *
+     * @param requestBody
+     * @return
+     */
+    @HTTP(method = "DELETE", path = "bbsArticle", hasBody = true)
+    Observable<SimpleResponse> deleteArticle(@Body RequestBody requestBody);
+
+    /**
+     * 获取文章列表
+     *
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @GET("bbsArticle_")
+    Observable<SimpleResponse<List<BbsArticle>>> getBbsArticles(@Query("page") int page, @Query("pagesize") int pageSize);
+
+    /**
+     * 根据用户获取文章列表
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("bbsArticle_")
+    Observable<SimpleResponse<List<BbsArticle>>> getBbsArticlesByUserId(@Body RequestBody requestBody);
+
+    /**
+     * 上传论坛图片
+     *
+     * @param requestBody 图片文件
+     * @return
+     */
+    @POST("bbsUpload")
+    Observable<SimpleResponse<List<String>>> uploadBbsImage(@Body RequestBody requestBody);
 }

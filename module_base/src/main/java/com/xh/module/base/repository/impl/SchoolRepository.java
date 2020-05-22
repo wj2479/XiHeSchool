@@ -30,6 +30,9 @@ public class SchoolRepository implements ISchoolRepository {
 
     Gson gson = new Gson();
 
+    private SchoolRepository() {
+    }
+
     public static SchoolRepository getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SchoolRepository();
@@ -102,6 +105,7 @@ public class SchoolRepository implements ISchoolRepository {
             //这里上传的是多图
             builder.addFormDataPart("file[]", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
         }
+
         RequestBody requestBody = builder.build();
 
         ApiManager.getInstance().getSchoolServer().uploadInfoImage(requestBody)

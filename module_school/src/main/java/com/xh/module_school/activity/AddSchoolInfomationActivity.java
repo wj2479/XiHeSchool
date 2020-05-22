@@ -137,6 +137,7 @@ public class AddSchoolInfomationActivity extends BackActivity {
         } else if (view.getId() == R.id.action_insert_image) {
             PictureSelector.create(this)
                     .openGallery(PictureMimeType.ofImage())
+                    .isWeChatStyle(true)// 是否开启微信图片选择风格
                     .selectionMode(PictureConfig.SINGLE)
                     .loadImageEngine(GlideEngine.createGlideEngine())
                     .enableCrop(true)
@@ -256,6 +257,7 @@ public class AddSchoolInfomationActivity extends BackActivity {
     void onHomePageClick() {
         PictureSelector.create(this)
                 .openGallery(PictureMimeType.ofImage())
+                .isWeChatStyle(true)// 是否开启微信图片选择风格
                 .selectionMode(PictureConfig.SINGLE)
                 .loadImageEngine(GlideEngine.createGlideEngine())
                 .enableCrop(true)

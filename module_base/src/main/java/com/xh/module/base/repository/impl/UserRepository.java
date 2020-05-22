@@ -16,11 +16,14 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
- * 登录相关的请求
+ * 用户相关的请求
  */
 public class UserRepository implements IUserRepository {
 
     private static UserRepository INSTANCE = null;
+
+    private UserRepository() {
+    }
 
     public static UserRepository getInstance() {
         if (INSTANCE == null) {

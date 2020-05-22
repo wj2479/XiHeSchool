@@ -6,9 +6,13 @@
 
     <application>
         <activity
+            android:name=".activity.ClassInfoActivity"
+            android:label="班级信息"
+            android:screenOrientation="portrait"></activity>
+        <activity
             android:name=".activity.SchoolMailDetailsActivity"
             android:label="信件详情"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.QrcodeResultActivity"
             android:label="扫描结果"
@@ -49,7 +53,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CheckMainActivity"
-            android:label="考勤"
+            android:label="班级安全"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ScanActivity"

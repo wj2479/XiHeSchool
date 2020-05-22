@@ -17,15 +17,15 @@ public class Clas{
 
 	private Long headmasterId;//班主任ID
 
-	private Integer createTime;//创建时间
+	private Long createTime;//创建时间
 
-	private Integer updateTime;//更新时间
+	private Long updateTime;//更新时间
 
 	public Clas() {
 		super();
 	}
 
-	public Clas(Long id,String name,Long schoolId,String gradeName,Long headmasterId,Integer createTime,Integer updateTime) {
+	public Clas(Long id,String name,Long schoolId,String gradeName,Long headmasterId,Long createTime,Long updateTime) {
 		this.id=id;
 		this.name=name;
 		this.schoolId=schoolId;
@@ -75,19 +75,19 @@ public class Clas{
 		return headmasterId;
 	}
 
-	public void setCreateTime(Integer createTime){
+	public void setCreateTime(Long createTime){
 		this.createTime=createTime;
 	}
 
-	public Integer getCreateTime(){
+	public Long getCreateTime(){
 		return createTime;
 	}
 
-	public void setUpdateTime(Integer updateTime){
+	public void setUpdateTime(Long updateTime){
 		this.updateTime=updateTime;
 	}
 
-	public Integer getUpdateTime(){
+	public Long getUpdateTime(){
 		return updateTime;
 	}
 

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.BbsUserInfoActivity">
+
+    <LinearLayout
+        android:id="@+id/photoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginTop="@dimen/dp_8"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="头像"
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_16"></TextView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/photoIv"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:src="@mipmap/tuzi"></de.hdodenhof.circleimageview.CircleImageView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_waw" />
+
+    <LinearLayout
+        android:id="@+id/nickNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="社区昵称"
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_16"></TextView>
+
+        <TextView
+            android:id="@+id/nickNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:gravity="center_vertical"
+            android:hint="未设置"
+            android:textColor="@color/gray"></TextView>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/line_waw" />
+
+</LinearLayout>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".activity.AboutActivity">
+
+
+    <ImageView
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginTop="@dimen/dp_48"
+        android:src="@drawable/ic_launcher"></ImageView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:gravity="center"
+        android:text="西禾学堂智慧教育平台"
+        android:textColor="@color/text_color_main"
+        android:textSize="@dimen/sp_18"></TextView>
+
+    <com.qmuiteam.qmui.widget.textview.QMUILinkTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_18"
+        android:gravity="center"
+        android:text="咨询电话: 0633-3695889"
+        android:textColor="@color/text_color_main"
+        android:textSize="@dimen/sp_14"
+        app:qmui_linkTextColor="@color/themecolor"></com.qmuiteam.qmui.widget.textview.QMUILinkTextView>
+
+    <com.qmuiteam.qmui.widget.textview.QMUILinkTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:gravity="center"
+        android:text="官方网站: http://www.xihexuetang.com"
+        android:textColor="@color/text_color_main"
+        android:textSize="@dimen/sp_14"
+        app:qmui_linkTextColor="@color/themecolor"></com.qmuiteam.qmui.widget.textview.QMUILinkTextView>
+
+    <com.qmuiteam.qmui.widget.textview.QMUILinkTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:gravity="center"
+        android:text="客服邮箱: service@xihexuetang.com"
+        android:textColor="@color/text_color_main"
+        android:textSize="@dimen/sp_14"
+        app:qmui_linkTextColor="@color/themecolor"></com.qmuiteam.qmui.widget.textview.QMUILinkTextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_48"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="版本号:"
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_14"></TextView>
+
+        <TextView
+            android:id="@+id/versionTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_14"></TextView>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="山东西禾网络科技有限公司 版权所有"
+        android:textColor="@color/text_color_main"
+        android:textSize="@dimen/sp_14"></TextView>
+
+
+</LinearLayout>

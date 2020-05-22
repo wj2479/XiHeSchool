@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="years">
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+    </string-array>
+
+    <string-array name="courses">
+        <item>语文</item>
+        <item>数学</item>
+        <item>英语</item>
+        <item>化学</item>
+        <item>音乐</item>
+        <item>美术</item>
+    </string-array>
+</resources>

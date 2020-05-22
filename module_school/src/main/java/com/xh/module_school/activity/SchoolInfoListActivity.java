@@ -73,7 +73,7 @@ public class SchoolInfoListActivity extends BackActivity {
         ButterKnife.bind(this);
 
         refreshLayout.setEnableRefresh(true);//是否启用下拉刷新功能
-        refreshLayout.setEnableLoadMore(true);//是否启用上拉加载功能
+        refreshLayout.setEnableLoadMore(false);//是否启用上拉加载功能
 
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -157,6 +157,7 @@ public class SchoolInfoListActivity extends BackActivity {
                     informationList.addAll(response.getData());
                     infomationAdapter.notifyDataSetChanged();
                     page = 1;
+                    hasMore();
                 }
                 refreshLayout.finishRefresh(500);
             }
@@ -182,6 +183,7 @@ public class SchoolInfoListActivity extends BackActivity {
                     informationList.addAll(response.getData());
                     infomationAdapter.notifyDataSetChanged();
                     page += 1;
+                    hasMore();
                 }
                 refreshLayout.finishLoadMore(500);
             }
@@ -192,5 +194,17 @@ public class SchoolInfoListActivity extends BackActivity {
                 refreshLayout.finishLoadMore(500);
             }
         });
+    }
+
+    /**
+     * 判断是否开启加载更多功能
+     */
+    private void hasMore() {
+        // 如果当前的页数都显示完成 则开启加载更多功能
+        if (informationList.size() >= page * pageSize) {
+            refreshLayout.setEnableLoadMore(true);//是否启用上拉加载功能
+        } else {
+            refreshLayout.setEnableLoadMore(false);//是否启用上拉加载功能
+        }
     }
 }

@@ -223,11 +223,11 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
             case 1:
                 // 如果是校长身份   就直接进校长信箱列表
                 for (Role role : DataRepository.userInfo.getRoles()) {
-                if (role.getId() == Constant.ROLE_CODE_SCHOOL_MASTER) {
-                    startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
-                    return;
+                    if (role.getId() == Constant.ROLE_CODE_SCHOOL_MASTER) {
+                        startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
+                        return;
+                    }
                 }
-            }
                 // 其他人可以查看发送的信件
                 startActivity(new Intent(getContext(), MySchoolMailListActivity.class));
                 break;
@@ -401,7 +401,11 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onDestroy() {
         super.onDestroy();
-        lock1.unlock();
-        lock2.unlock();
+        if (lock1.isLocked()) {
+            lock1.unlock();
+        }
+        if (lock2.isLocked()) {
+            lock2.unlock();
+        }
     }
 }

@@ -104,11 +104,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@null"
             android:hint="我来说点什么"
             android:minHeight="@dimen/dp_40"
             android:text=""
-            android:textSize="@dimen/sp_12"
-            android:textColor="@color/text_color_main"></EditText>
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_14"></EditText>
 
         <Button
             android:id="@+id/sendBut"

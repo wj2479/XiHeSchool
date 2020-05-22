@@ -8,14 +8,18 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.bumptech.glide.Glide;
 import com.xh.module.base.BaseFragment;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
+import com.xh.module_me.activity.AboutActivity;
+import com.xh.module_me.activity.FeedbackActivity;
 import com.xh.module_me.activity.SettingMainActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -26,6 +30,8 @@ public class MeMainFragment extends BaseFragment {
 
     @BindView(R2.id.tv_name)
     TextView nameTv;
+    @BindView(R2.id.profile_image)
+    CircleImageView circleImageView;
 
     UserBase loginInfo;
 
@@ -47,10 +53,27 @@ public class MeMainFragment extends BaseFragment {
     @Override
     protected void initView(View rootView) {
         nameTv.setText(loginInfo.getNickName());
+
+        Glide.with(this).load(loginInfo.getFace()).error(R.drawable.graduated).into(circleImageView);
     }
 
     @OnClick(R2.id.ll_setting)
     void onSettingClick() {
         startActivity(new Intent(getContext(), SettingMainActivity.class));
+    }
+
+    @OnClick(R2.id.ll_about)
+    void onAboutClick() {
+        startActivity(new Intent(getContext(), AboutActivity.class));
+    }
+
+    @OnClick(R2.id.ll_feedback)
+    void onFeedbackClick() {
+        startActivity(new Intent(getContext(), FeedbackActivity.class));
+    }
+
+    @OnClick(R2.id.ll_version)
+    void onVersionClick() {
+        showInfoDialogAndDismiss("当前已是最新版本");
     }
 }

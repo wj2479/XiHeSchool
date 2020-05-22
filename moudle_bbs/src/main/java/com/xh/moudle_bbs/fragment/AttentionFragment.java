@@ -17,7 +17,6 @@ public class AttentionFragment extends BaseFragment {
         // Required empty public constructor
     }
 
-
     @Override
     protected int initLayout() {
         return R.layout.fragment_attention;

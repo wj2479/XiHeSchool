@@ -12,7 +12,7 @@ public class Constant {
      * 服务器Api接口
      */
 //    public static final String SERVER_URL = "http://192.168.1.105:7777/";//测试服务器
-    public static final String SERVER_URL = "http://49.235.232.232:7777/";//正式服务器
+    public static final String SERVER_URL = "http://www.rzszhxy.com:7777/";//正式服务器
 
     public static final String EVENT_FINISH_ALL_ACTIVITY = "EVENT_FINISH_ALL_ACTIVITY";
 

@@ -14,6 +14,8 @@ import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
 import com.xh.module_school.activity.CheckMainActivity;
+import com.xh.module_school.activity.ClassInfoActivity;
+import com.xh.module_school.activity.CourseTableActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -75,8 +77,26 @@ public class ClassTeacherMenuFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("TAG", "点击了->" + position);
 
-                if (position == 2) {
-                    startActivity(new Intent(getContext(), CheckMainActivity.class));
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(getContext(), CourseTableActivity.class));
+                        break;
+                    case 1:
+                        startActivity(new Intent(getContext(), ClassInfoActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(getContext(), CheckMainActivity.class));
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        break;
                 }
             }
         });

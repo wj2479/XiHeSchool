@@ -13,13 +13,13 @@ public class Committee{
 	private String leaderUids;//领导ID 多个逗号隔开
 	private String sponsorUids;//收费发起人ID 多个逗号隔开
 	private String reviewedUids;//审核人ID，多个逗号隔开
-	private Integer createTime;//创建时间
+	private Long createTime;//创建时间
 
 	public Committee() {
 		super();
 	}
 
-	public Committee(Long id,Long clasId,Long schoolId,String adminUids,String leaderUids,String sponsorUids,String reviewedUids,Integer createTime) {
+	public Committee(Long id,Long clasId,Long schoolId,String adminUids,String leaderUids,String sponsorUids,String reviewedUids,Long createTime) {
 		this.id=id;
 		this.clasId=clasId;
 		this.schoolId=schoolId;
@@ -86,11 +86,11 @@ public class Committee{
 		return reviewedUids;
 	}
 
-	public void setCreateTime(Integer createTime){
+	public void setCreateTime(Long createTime){
 		this.createTime=createTime;
 	}
 
-	public Integer getCreateTime(){
+	public Long getCreateTime(){
 		return createTime;
 	}
 
