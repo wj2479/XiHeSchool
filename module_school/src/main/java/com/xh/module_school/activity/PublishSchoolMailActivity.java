@@ -49,7 +49,6 @@ public class PublishSchoolMailActivity extends BackActivity {
         ButterKnife.bind(this);
 
         mEditor.setPlaceholder("请输入信件内容...");
-
     }
 
     @Override

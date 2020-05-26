@@ -81,7 +81,7 @@ public class ArticleAdapter extends BaseQuickAdapter<BbsArticle, BaseViewHolder>
         long timeStamp = item.getCreateTime() * 1000;
         holder.setText(R.id.timeTv, TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
 
-        if (item.getUid() == DataRepository.userInfo.getUid()) {
+        if (item.getUid().equals(DataRepository.userInfo.getUid())) {
             holder.setVisible(R.id.deleteTv, true);
             holder.setGone(R.id.headIv, true);
         } else {

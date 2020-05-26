@@ -18,7 +18,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.xh.module.base.BackActivity;
-import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.impl.SchoolRepository;
@@ -27,13 +26,15 @@ import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
-import com.xh.module_school.adapter.SchoolMastersMailAdapter;
+import com.xh.module_school.adapter.MySchoolMastersMailAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.xh.module_school.activity.SchoolMailDetailsActivity.MAILBOX;
 
 /**
  * 我发出的校长信息列表
@@ -49,7 +50,7 @@ public class MySchoolMailListActivity extends BackActivity {
      */
     List<SchoolmasterMailbox> dataList = new ArrayList<>();
 
-    SchoolMastersMailAdapter adpter;
+    MySchoolMastersMailAdapter adpter;
 
     /**
      * 当前那一页
@@ -58,7 +59,7 @@ public class MySchoolMailListActivity extends BackActivity {
     /**
      * 每页显示的数量
      */
-    int pageSize = 10;
+    int pageSize = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class MySchoolMailListActivity extends BackActivity {
         refreshLayout.setEnableLoadMore(false);//是否启用上拉加载功能
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adpter = new SchoolMastersMailAdapter(this, dataList);
+        adpter = new MySchoolMastersMailAdapter(this, dataList);
         recyclerView.setAdapter(adpter);
 
         adpter.setOnItemClickListener(new OnItemClickListener() {
@@ -79,6 +80,10 @@ public class MySchoolMailListActivity extends BackActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 if (dataList.size() == 0)
                     return;
+                SchoolmasterMailbox mailbox = dataList.get(position);
+                Intent intent = new Intent(MySchoolMailListActivity.this, SchoolMailDetailsActivity.class);
+                intent.putExtra(MAILBOX, mailbox);
+                startActivity(intent);
             }
         });
 
@@ -105,23 +110,32 @@ public class MySchoolMailListActivity extends BackActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadNewInfos();
+    }
+
     /**
-     * 获取最新的资讯
+     * 获取我发送的信件
      */
     private void loadNewInfos() {
-        SchoolRepository.getInstance().getSchoolInfomationById(DataRepository.school.getId(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolInformation>>>() {
+        SchoolRepository.getInstance().getSendSchoolMasterMails(DataRepository.school.getId(), DataRepository.userInfo.getUid(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
             @Override
-            public void onSuccess(SimpleResponse<List<SchoolInformation>> response) {
+            public void onSuccess(SimpleResponse<List<SchoolmasterMailbox>> response) {
+                dataList.clear();
                 if (response.getCode() == ResponseCode.RESULT_OK) {
-                    Log.e("TAG", "获取学校资讯:" + gson.toJson(response.getData()));
-                    page = 1;
+                    Log.e("TAG", "获取我发送的信件:" + gson.toJson(response.getData()));
+                    dataList.addAll(response.getData());
                 }
+                page = 1;
+                adpter.notifyDataSetChanged();
                 refreshLayout.finishRefresh(500);
             }
 
             @Override
             public void onError(Throwable throwable) {
-                Log.e("TAG", "获取学校资讯异常:" + throwable.toString());
+                Log.e("TAG", "获取我发送的信件:" + throwable.toString());
                 refreshLayout.finishRefresh(500);
             }
         });

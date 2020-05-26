@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -52,7 +51,7 @@ public class StartActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(countTime * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.e("TAG", "倒计时:" + countTime--);
+
             }
 
             /**

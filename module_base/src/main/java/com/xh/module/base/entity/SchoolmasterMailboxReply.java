@@ -14,6 +14,7 @@ public class SchoolmasterMailboxReply {
     private Integer state;//0:未读 1 已读
     private Long createTime;//认证时间
     private Long replyUid;//发布人
+    private UserBase userBase;
 
     public SchoolmasterMailboxReply() {
         super();
@@ -83,6 +84,14 @@ public class SchoolmasterMailboxReply {
 
     public Long getReplyUid() {
         return replyUid;
+    }
+
+    public UserBase getUserBase() {
+        return userBase;
+    }
+
+    public void setUserBase(UserBase userBase) {
+        this.userBase = userBase;
     }
 
     @Override

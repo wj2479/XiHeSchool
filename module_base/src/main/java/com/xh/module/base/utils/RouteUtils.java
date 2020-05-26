@@ -10,6 +10,11 @@ public class RouteUtils {
     public static final String APP_Activity_Login = "/app/activity/login";
     //修改密码模块
     public static final String Me_Activity_Update_Password = "/me/activity/update/password";
+    //消息提醒
+    public static final String Me_Activity_Msg_Setting = "/me/activity/message/setting";
+
+    //获得Base模块视频播放
+    public static final String Base_Activity_Video_Play = "/base/activity/video/play";
 
     //获得BBS模块fragment
     public static final String Bbs_Fragment_Main = "/bbs/main";

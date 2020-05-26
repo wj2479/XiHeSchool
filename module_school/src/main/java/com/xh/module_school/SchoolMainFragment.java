@@ -49,6 +49,8 @@ import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,7 +112,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initView(View rootView) {
-
         rootView.findViewById(R.id.scanIv).setOnClickListener(this);
 
         initBanner();
@@ -243,6 +244,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     private void initContentLayout() {
         List<Role> roles = loginInfo.getRoles();
         List<Fragment> fragmentList = new ArrayList();
+        // 记录用户角色名称列表
         List<String> titleList = new ArrayList<>();
 
         for (Role role : roles) {
@@ -257,7 +259,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                 getSchoolInfomationById(role.getSchool_id());
             }
             // 如果班级ID不为空
-
         }
         String[] titles = new String[titleList.size()];
         Collections.sort(titleList);
@@ -276,6 +277,10 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
             if (fragment != null) {
                 fragmentList.add(fragment);
             }
+        }
+        // 如果只有一个tab选项 就隐藏tab标签
+        if (titleList.size() == 1) {
+            contentLayout.setVisibility(View.GONE);
         }
 
         //viewpager加载adapter
@@ -314,6 +319,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                         Log.e("TAG", "获取学校信息:" + gson.toJson(response.getData()));
                         DataRepository.school = response.getData();
                         titleTv.setText(response.getData().getName());
+                        EventBus.getDefault().post(DataRepository.school);
                     }
                     lock1.unlock();
                 }
@@ -324,7 +330,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                     lock1.unlock();
                 }
             });
-
         }
     }
 
@@ -337,6 +342,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
             SchoolRepository.getInstance().getSchoolInfomationById(schoolId, 1, showInfoCount, new IRxJavaCallBack<SimpleResponse<List<SchoolInformation>>>() {
                 @Override
                 public void onSuccess(SimpleResponse<List<SchoolInformation>> response) {
+                    Log.e("TAG", "获取学校资讯:" + gson.toJson(response));
                     if (response.getCode() == ResponseCode.RESULT_OK) {
                         informationList.clear();
                         informationList.addAll(response.getData());

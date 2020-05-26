@@ -85,11 +85,21 @@ public class SchoolMailDetailsActivity extends BackActivity {
             titleTv.setText(mailbox.getTitle());
             contentTv.setText(mailbox.getContent());
 
-            if (mailbox.getAnonymous() == 0) {
-                personTv.setText("" + mailbox.getCreateUid());
+            if (mailbox.getCreateUid().equals(DataRepository.userInfo.getUid())) {
+                personTv.setText("我");
             } else {
-                personTv.setText("匿名用户");
+                if (mailbox.getAnonymous() == 0) {
+                    if (mailbox.getUserBase() != null) {
+                        personTv.setText("" + mailbox.getUserBase().getRealName());
+                    } else {
+                        personTv.setText("未知");
+                    }
+                } else {
+                    personTv.setText("匿名用户");
+                }
             }
+
+
             long timeStamp = mailbox.getCreateTime() * 1000;
             timeTv.setText(TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
 
@@ -151,7 +161,7 @@ public class SchoolMailDetailsActivity extends BackActivity {
             @Override
             public void onSuccess(SimpleResponse<List<SchoolmasterMailboxReply>> response) {
                 if (response.getCode() == ResponseCode.RESULT_OK) {
-                    Log.e("TAG", "获取校长信件:" + gson.toJson(response.getData()));
+                    Log.e("TAG", "获取信箱回复:" + gson.toJson(response.getData()));
                     dataList.clear();
                     for (SchoolmasterMailboxReply reply : response.getData()) {
                         dataList.add(new MailboxReply(reply));
@@ -164,7 +174,7 @@ public class SchoolMailDetailsActivity extends BackActivity {
 
             @Override
             public void onError(Throwable throwable) {
-                Log.e("TAG", "获取校长信件异常:" + throwable.toString());
+                Log.e("TAG", "获取信箱回复:" + throwable.toString());
             }
         });
 

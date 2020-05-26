@@ -112,7 +112,7 @@ public class SchoolInfoListActivity extends BackActivity {
         emptyView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         TextView tipsTv = emptyView.findViewById(R.id.tv_empty);
-        tipsTv.setText("暂无数据");
+        tipsTv.setText("暂时没有新的校园资讯");
         //添加空视图
         infomationAdapter.setEmptyView(emptyView);
     }
@@ -132,8 +132,8 @@ public class SchoolInfoListActivity extends BackActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.publishInfo) {
-            startActivity(new Intent(this, AddSchoolInfomationActivity.class));
+        if (item.getItemId() == R.id.publishDemeanor) {
+            startActivity(new Intent(this, PublishClassDemeanorActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
@@ -169,7 +169,6 @@ public class SchoolInfoListActivity extends BackActivity {
             }
         });
     }
-
 
     /**
      * 获取更多的资讯

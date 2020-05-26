@@ -24,6 +24,7 @@ public class BbsArticle {
     private BigDecimal longitude;
     private BigDecimal latitude;
     private String address;
+    private BbsUser bbsUser;
 
     private List<BbsArticleImage> bbsArticleImages;
 
@@ -160,15 +161,23 @@ public class BbsArticle {
         return address;
     }
 
-	public List<BbsArticleImage> getBbsArticleImages() {
-		return bbsArticleImages;
-	}
+    public List<BbsArticleImage> getBbsArticleImages() {
+        return bbsArticleImages;
+    }
 
-	public void setBbsArticleImages(List<BbsArticleImage> bbsArticleImages) {
-		this.bbsArticleImages = bbsArticleImages;
-	}
+    public void setBbsArticleImages(List<BbsArticleImage> bbsArticleImages) {
+        this.bbsArticleImages = bbsArticleImages;
+    }
 
-	@Override
+    public BbsUser getBbsUser() {
+        return bbsUser;
+    }
+
+    public void setBbsUser(BbsUser bbsUser) {
+        this.bbsUser = bbsUser;
+    }
+
+    @Override
     public String toString() {
         return "bbs_article[" +
                 "id=" + id +

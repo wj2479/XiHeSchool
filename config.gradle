@@ -53,10 +53,10 @@ ext {
             butterknifeCompiler      : 'com.jakewharton:butterknife-compiler:10.2.1',
 
             // ------------- 视频缓存框架-------------
-            videocache               : 'com.danikula:videocache:2.6.4',
+            videocache               : 'com.danikula:videocache:2.7.1',
 
             // ------------- 视频播放控件-------------
-            videoview                : 'com.linsea:universalvideoview:1.1.0@aar',
+            jiaozivideoplayer        : 'cn.jzvd:jiaozivideoplayer:7.3.0',
 
             // ------------- zxing二维码-------------
             zxing                    : 'com.google.zxing:core:3.3.0',
@@ -129,7 +129,7 @@ ext {
             qmui                     : 'com.qmuiteam:qmui:2.0.0-alpha08',
 
             //-------------智能下拉刷新框架-------------
-            smartRefreshLayout :'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+            smartRefreshLayout       : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
 
     ]
 }

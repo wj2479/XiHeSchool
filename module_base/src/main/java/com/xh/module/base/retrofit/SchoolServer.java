@@ -36,6 +36,33 @@ public interface SchoolServer {
     Observable<SimpleResponse<UserBase>> login(@Body RequestBody requestBody);
 
     /**
+     * 重置密码
+     *
+     * @param requestBody
+     * @return
+     */
+    @HTTP(method = "DELETE", path = "userAuth_", hasBody = true)
+    Observable<SimpleResponse> resetPassword(@Body RequestBody requestBody);
+
+    /**
+     * 用户登录
+     *
+     * @param requestBody
+     * @return
+     */
+    @PUT("userAuth_")
+    Observable<SimpleResponse> updatePassword(@Body RequestBody requestBody);
+
+    /**
+     * 发送验证码
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("smsVerify")
+    Observable<SimpleResponse> sendVerify(@Body RequestBody requestBody);
+
+    /**
      * 根据ID 获取学校基本信息
      *
      * @param requestBody
@@ -88,16 +115,17 @@ public interface SchoolServer {
      * @return
      */
     @GET("mailbox_")
-    Observable<SimpleResponse<List<SchoolmasterMailbox>>> getReceivedMails(@Query("schoolId") long schoolId, @Query("page") int page, @Query("pagesize") int pageSize);
+    Observable<SimpleResponse<List<SchoolmasterMailbox>>> getReceivedSchoolMasterMails(@Query("schoolId") long schoolId, @Query("page") int page, @Query("pagesize") int pageSize);
 
     /**
      * 根据ID  用户 获取发出的信件
      *
      * @param
+     * @param schoolId
      * @return
      */
-    @GET("mailbox2")
-    Observable<SimpleResponse<List<SchoolmasterMailbox>>> getSendMails(@Query("schoolId") long uid, @Query("page") int page, @Query("pagesize") int pageSize);
+    @GET("mailbox_")
+    Observable<SimpleResponse<List<SchoolmasterMailbox>>> getSendSchoolMasterMails(@Query("schoolId") long schoolId, @Query("uid") long uid, @Query("page") int page, @Query("pagesize") int pageSize);
 
     /**
      * 添加校长信件回复

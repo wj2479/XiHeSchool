@@ -18,6 +18,7 @@ public class SchoolmasterMailbox implements Parcelable {
     private Long createTime;//认证时间
     private Long createUid;//发布人
     private Integer anonymous;  // 0正常发送 1匿名发送
+    private UserBase userBase;
 
     public SchoolmasterMailbox() {
         super();
@@ -96,6 +97,14 @@ public class SchoolmasterMailbox implements Parcelable {
 
     public void setAnonymous(Integer anonymous) {
         this.anonymous = anonymous;
+    }
+
+    public UserBase getUserBase() {
+        return userBase;
+    }
+
+    public void setUserBase(UserBase userBase) {
+        this.userBase = userBase;
     }
 
     @Override

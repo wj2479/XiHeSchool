@@ -3,9 +3,9 @@
     <!--底部按钮-->
     <string-array name="tab_titles">
         <item>校园</item>
-<!--        <item>教学</item>-->
+        <item>教学</item>
         <item>社区</item>
         <item>个人</item>
     </string-array>
-    
+
 </resources>

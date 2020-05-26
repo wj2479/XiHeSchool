@@ -68,6 +68,7 @@
                 android:layout_height="@dimen/dp_55"
                 android:background="@drawable/bg_white_bottom"
                 android:drawableLeft="@drawable/ic_password"
+                android:drawableRight="@drawable/ic_password_invisable"
                 android:drawablePadding="@dimen/dp_10"
                 android:hint="请输入密码"
                 android:inputType="textPassword"

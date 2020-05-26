@@ -256,6 +256,8 @@ public class BbsUserInfoActivity extends BackActivity {
             }
             if (!TextUtils.isEmpty(bbsUser.getName())) {
                 nickNameTv.setText(bbsUser.getName());
+            } else {
+                showInfoDialogAndDismiss("请先设置您的社区昵称");
             }
         } else {
             showInfoDialogAndDismiss("请先设置您的社区昵称和头像");

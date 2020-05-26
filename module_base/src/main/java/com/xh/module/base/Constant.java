@@ -55,6 +55,11 @@ public class Constant {
      */
     public static final int ROLE_CODE_PARENT = 3;
 
+    /**
+     * 验证码类型  重置密码
+     */
+    public static final int SMS_CODE_RESET_PASSWORD = 1;
+
 
     /**
      * 用户角色类型对照表

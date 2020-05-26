@@ -13,9 +13,11 @@ import com.xh.module.base.entity.ImageText;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
+import com.xh.module_school.activity.ActionJudgeActivity;
 import com.xh.module_school.activity.CheckMainActivity;
+import com.xh.module_school.activity.ClassDemeanorActivity;
 import com.xh.module_school.activity.ClassInfoActivity;
-import com.xh.module_school.activity.CourseTableActivity;
+import com.xh.module_school.activity.WorkManagerActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -52,20 +54,17 @@ public class ClassTeacherMenuFragment extends BaseFragment {
     private void initGridView() {
         List<ImageText> imageTextList = new ArrayList<>();
 
-        ImageText it1 = new ImageText("课程表", R.drawable.ic_course_table);
         ImageText it2 = new ImageText("班级信息", R.drawable.ic_infomation);
         ImageText it3 = new ImageText("班级安全", R.drawable.ic_aq);
         ImageText it4 = new ImageText("班级风采", R.drawable.ic_style);
         ImageText it5 = new ImageText("行为评价", R.drawable.ic_action_manager);
-        ImageText it6 = new ImageText("成绩", R.drawable.ic_action_manager);
         ImageText it7 = new ImageText("作业管理", R.drawable.ic_action_manager);
         ImageText it8 = new ImageText("作业点评", R.drawable.ic_action_manager);
-        imageTextList.add(it1);
+
         imageTextList.add(it2);
         imageTextList.add(it3);
         imageTextList.add(it4);
         imageTextList.add(it5);
-        imageTextList.add(it6);
         imageTextList.add(it7);
         imageTextList.add(it8);
 
@@ -79,23 +78,21 @@ public class ClassTeacherMenuFragment extends BaseFragment {
 
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(getContext(), CourseTableActivity.class));
-                        break;
-                    case 1:
                         startActivity(new Intent(getContext(), ClassInfoActivity.class));
                         break;
-                    case 2:
+                    case 1:
                         startActivity(new Intent(getContext(), CheckMainActivity.class));
                         break;
+                    case 2:
+                        startActivity(new Intent(getContext(), ClassDemeanorActivity.class));
+                        break;
                     case 3:
+                        startActivity(new Intent(getContext(), ActionJudgeActivity.class));
                         break;
                     case 4:
+                        startActivity(new Intent(getContext(), WorkManagerActivity.class));
                         break;
                     case 5:
-                        break;
-                    case 6:
-                        break;
-                    case 7:
                         break;
                 }
             }

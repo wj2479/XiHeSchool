@@ -6,9 +6,25 @@
 
     <application>
         <activity
+            android:name=".activity.PublishClassDemeanorActivity"
+            android:label="发布班级风采"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.WorkManagerActivity"
+            android:label="作业管理"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ActionJudgeActivity"
+            android:label="行为评价"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ClassDemeanorActivity"
+            android:label="班级风采"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.ClassInfoActivity"
             android:label="班级信息"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.SchoolMailDetailsActivity"
             android:label="信件详情"

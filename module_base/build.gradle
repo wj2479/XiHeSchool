@@ -53,6 +53,8 @@ dependencies {
 
     api rootProject.ext.dependencies.appcompat
     api rootProject.ext.dependencies.legacysupport
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation rootProject.ext.dependencies.junit
     api rootProject.ext.dependencies.constraintlayout
 
@@ -73,7 +75,7 @@ dependencies {
     api rootProject.ext.dependencies.eventbus
     //加载网络图片
     api rootProject.ext.dependencies.glide
-    annotationProcessor  rootProject.ext.dependencies.glidecompiler
+    annotationProcessor rootProject.ext.dependencies.glidecompiler
 
     // 网络相关
     api rootProject.ext.dependencies.okhttp
@@ -109,6 +111,9 @@ dependencies {
 
     api rootProject.ext.dependencies.smartRefreshLayout
     api rootProject.ext.dependencies.greendao
+
+    api rootProject.ext.dependencies.videocache
+    api rootProject.ext.dependencies.jiaozivideoplayer
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'

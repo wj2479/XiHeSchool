@@ -28,6 +28,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.xh.module.base.BackActivity;
 import com.xh.module.base.adapter.GridImageAdapter;
 import com.xh.module.base.entity.bbs.BbsArticle;
+import com.xh.module.base.listener.OnItemLongClickListener;
 import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.impl.BbsRepository;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
@@ -156,6 +157,16 @@ public class SendArticleActivity extends BackActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
+                PictureSelector.create(SendArticleActivity.this)
+                        .themeStyle(R.style.picture_default_style)
+                        .isNotPreviewDownload(true)
+                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
+                        .openExternalPreview(position, adapter.getData());
+            }
+        });
+        adapter.setItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(RecyclerView.ViewHolder holder, int position, View v) {
                 showMessageNegativeDialog(position);
             }
         });

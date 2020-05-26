@@ -114,6 +114,22 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 显示成功提示对话框，并结束对话框
+     *
+     * @param info
+     */
+    protected void showSuccessDialogAndFinish(String info) {
+        showSuccessDialog(info);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                dismissDialog();
+                finish();
+            }
+        }, 1500);
+    }
+
+    /**
      * 显示失败提示对话框，不消失
      *
      * @param info

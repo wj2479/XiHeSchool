@@ -3,7 +3,17 @@
     package="com.xh.module">
 
     <application>
-        <service android:name=".base.service.UpdateApkService"></service>
-        <activity android:name=".base.BackActivity" android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".base.activity.VideoPlayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme"></activity>
+
+        <service android:name=".base.service.UpdateApkService" />
+
+        <activity
+            android:name=".base.BackActivity"
+            android:theme="@style/AppTheme" />
     </application>
+
 </manifest>

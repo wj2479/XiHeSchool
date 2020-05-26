@@ -1,8 +1,12 @@
 package com.xh.school.ui.login;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +35,9 @@ public class LoginActivity extends BaseActivity {
 
     private LoginViewModel loginViewModel;
 
+    private Drawable mShowDrawable;//显示密码的图片
+    private Drawable mHideDrawable;//隐藏密码的图片
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +45,11 @@ public class LoginActivity extends BaseActivity {
 
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+        mShowDrawable = getResources().getDrawable(R.drawable.ic_password_visable);
+        mHideDrawable = getResources().getDrawable(R.drawable.ic_password_invisable);
+        mShowDrawable.setBounds(0, 0, mShowDrawable.getIntrinsicWidth(), mShowDrawable.getIntrinsicHeight());
+        mHideDrawable.setBounds(0, 0, mHideDrawable.getIntrinsicWidth(), mHideDrawable.getIntrinsicHeight());
 
         final EditText usernameEditText = findViewById(R.id.et_username);
         final EditText passwordEditText = findViewById(R.id.et_password);
@@ -59,7 +71,7 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 if (loginResult.getError() != null) {
-                    showFailDialogAndDismiss("登录失败");
+                    showFailDialogAndDismiss("连接服务器失败，请稍后再试");
                     LogUtil.e("TAG", "登录失败:" + loginResult.getError());
                     return;
                 }
@@ -96,8 +108,39 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 showLoadingDialog("正在登录");
-
                 loginViewModel.login(username, password);
+            }
+        });
+
+        passwordEditText.setTag(false);
+
+        passwordEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // et.getCompoundDrawables()得到一个长度为4的数组，分别表示左右上下四张图片
+                Drawable drawable = passwordEditText.getCompoundDrawables()[2];
+                //如果右边没有图片，不再处理
+                if (drawable == null)
+                    return false;
+                //如果不是按下事件，不再处理
+                if (event.getAction() != MotionEvent.ACTION_UP)
+                    return false;
+                if (event.getX() > passwordEditText.getWidth()
+                        - passwordEditText.getPaddingRight()
+                        - drawable.getIntrinsicWidth()) {
+
+                    if (passwordEditText.getTag().equals(false)) {
+                        passwordEditText.setTag(true);
+                        passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        passwordEditText.setCompoundDrawables(passwordEditText.getCompoundDrawables()[0], passwordEditText.getCompoundDrawables()[1], mShowDrawable, passwordEditText.getCompoundDrawables()[3]);
+                    } else {
+                        passwordEditText.setTag(false);
+                        passwordEditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        passwordEditText.setCompoundDrawables(passwordEditText.getCompoundDrawables()[0], passwordEditText.getCompoundDrawables()[1], mHideDrawable, passwordEditText.getCompoundDrawables()[3]);
+                    }
+                }
+                return false;
+
             }
         });
     }

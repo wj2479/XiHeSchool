@@ -21,7 +21,7 @@ public class MailboxReply extends SchoolmasterMailboxReply implements MultiItemE
 
     @Override
     public int getItemType() {
-        if (getReplyUid() == DataRepository.userInfo.getUid()) {
+        if (getReplyUid().equals(DataRepository.userInfo.getUid())) {
             return TYPE_RIGHT;
         }
         return TYPE_LEFT;

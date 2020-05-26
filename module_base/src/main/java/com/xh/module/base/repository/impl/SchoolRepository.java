@@ -184,8 +184,8 @@ public class SchoolRepository implements ISchoolRepository {
     }
 
     @Override
-    public void getReceivedMails(long schoolId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback) {
-        ApiManager.getInstance().getSchoolServer().getReceivedMails(schoolId, page, pageSize)
+    public void getReceivedSchoolMasterMails(long schoolId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback) {
+        ApiManager.getInstance().getSchoolServer().getReceivedSchoolMasterMails(schoolId, page, pageSize)
                 .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SimpleResponse<List<SchoolmasterMailbox>>>() {
@@ -205,6 +205,29 @@ public class SchoolRepository implements ISchoolRepository {
                            }
                 );
 
+    }
+
+    @Override
+    public void getSendSchoolMasterMails(long schoolId, long uid, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback) {
+        ApiManager.getInstance().getSchoolServer().getSendSchoolMasterMails(schoolId, uid, page, pageSize)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<SchoolmasterMailbox>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<SchoolmasterMailbox>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
     }
 
     @Override

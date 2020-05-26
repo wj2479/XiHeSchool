@@ -63,7 +63,17 @@ public interface ISchoolRepository {
      * @param pageSize
      * @param callback
      */
-    void getReceivedMails(long schoolId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback);
+    void getReceivedSchoolMasterMails(long schoolId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback);
+
+    /**
+     * 获取发送出去的校长信件
+     *
+     * @param uid
+     * @param page
+     * @param pageSize
+     * @param callback
+     */
+    void getSendSchoolMasterMails(long schoolId, long uid, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>> callback);
 
     /**
      * 校长信箱添加回复

@@ -124,7 +124,7 @@ public class SchoolMasterMailActivity extends BackActivity {
      * 获取最新的信件
      */
     private void loadNewInfos() {
-        SchoolRepository.getInstance().getReceivedMails(DataRepository.school.getId(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
+        SchoolRepository.getInstance().getReceivedSchoolMasterMails(DataRepository.school.getId(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
             @Override
             public void onSuccess(SimpleResponse<List<SchoolmasterMailbox>> response) {
                 if (response.getCode() == ResponseCode.RESULT_OK) {
@@ -150,7 +150,7 @@ public class SchoolMasterMailActivity extends BackActivity {
      * 获取更多的信件
      */
     private void loadMoreInfos() {
-        SchoolRepository.getInstance().getReceivedMails(DataRepository.school.getId(), page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
+        SchoolRepository.getInstance().getReceivedSchoolMasterMails(DataRepository.school.getId(), page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
             @Override
             public void onSuccess(SimpleResponse<List<SchoolmasterMailbox>> response) {
                 if (response.getCode() == ResponseCode.RESULT_OK) {

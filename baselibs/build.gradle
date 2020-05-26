@@ -32,5 +32,6 @@ dependencies {
 
     // 沉浸式状态栏
     api 'com.jaeger.statusbarutil:library:1.5.1'
+
     api project(path: ':baselibs:zxing')
 }

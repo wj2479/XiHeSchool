@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.danikula.videocache.HttpProxyCacheServer;
 import com.tamsiree.rxkit.RxTool;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xh.module.BuildConfig;
@@ -19,6 +20,8 @@ public class BaseApplication extends Application {
      * 上下文
      */
     private static BaseApplication instance;
+
+    private HttpProxyCacheServer proxy = null;
 
     @Override
     public void onCreate() {
@@ -49,6 +52,14 @@ public class BaseApplication extends Application {
         }
         // 尽可能早，推荐在Application中初始化
         ARouter.init(mApplication);
+    }
 
+    public static HttpProxyCacheServer getProxy(Context context) {
+        BaseApplication app = (BaseApplication) context.getApplicationContext();
+        return app.proxy == null ? (app.proxy = app.newProxy()) : app.proxy;
+    }
+
+    private HttpProxyCacheServer newProxy() {
+        return new HttpProxyCacheServer(this);
     }
 }
