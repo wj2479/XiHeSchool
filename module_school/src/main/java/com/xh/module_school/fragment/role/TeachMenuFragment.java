@@ -1,5 +1,6 @@
 package com.xh.module_school.fragment.role;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,7 @@ import com.xh.module.base.entity.ImageText;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
+import com.xh.module_school.activity.DelayStudyActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -48,11 +50,21 @@ public class TeachMenuFragment extends BaseFragment {
         List<ImageText> imageTextList = new ArrayList<>();
 
         ImageText it1 = new ImageText("餐厅", R.drawable.ic_dinging_room);
-        ImageText it2 = new ImageText("作业", R.drawable.ic_school_work);
-        ImageText it3 = new ImageText("笔记", R.drawable.ic_course_table);
+        ImageText it2 = new ImageText("作业管理 ", R.drawable.ic_work_manager);
+        ImageText it3 = new ImageText("作业点评", R.drawable.ic_work_dianping);
+        ImageText it4 = new ImageText("行为评价", R.drawable.ic_action_judge);
+        ImageText it5 = new ImageText("成绩", R.drawable.ic_chengji_manager);
+        ImageText it6 = new ImageText("学生点评", R.drawable.ic_student_judge);
+        ImageText it7 = new ImageText("请假统计", R.drawable.ic_qingjia);
+        ImageText it8 = new ImageText("课后延时", R.drawable.ic_study_online);
         imageTextList.add(it1);
         imageTextList.add(it2);
         imageTextList.add(it3);
+        imageTextList.add(it4);
+        imageTextList.add(it5);
+        imageTextList.add(it6);
+        imageTextList.add(it7);
+        imageTextList.add(it8);
 
         ImageTextAdapter adapter = new ImageTextAdapter(getContext(), imageTextList);
         menuGv.setAdapter(adapter);
@@ -61,6 +73,11 @@ public class TeachMenuFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("TAG", "点击了->" + position);
+                switch (position) {
+                    case 7:
+                        startActivity(new Intent(getContext(), DelayStudyActivity.class));
+                        break;
+                }
             }
         });
     }

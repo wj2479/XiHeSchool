@@ -53,7 +53,7 @@
                 android:layout_width="@dimen/dp_24"
                 android:layout_height="@dimen/dp_24"
                 android:layout_marginLeft="@dimen/dp_12"
-                android:src="@mipmap/tuzi"></de.hdodenhof.circleimageview.CircleImageView>
+                android:src="@drawable/ic_default_user"></de.hdodenhof.circleimageview.CircleImageView>
 
             <TextView
                 android:id="@+id/personTv"
@@ -61,8 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_8"
                 android:layout_weight="1"
-                android:text=""
-                android:textColor="@color/hui"></TextView>
+                android:text="游客"
+                android:textColor="@color/themecolor"></TextView>
 
             <TextView
                 android:id="@+id/timeTv"

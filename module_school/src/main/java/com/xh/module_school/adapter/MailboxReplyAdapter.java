@@ -39,7 +39,7 @@ public class MailboxReplyAdapter extends BaseMultiItemQuickAdapter<MailboxReply,
         helper.setText(R.id.contentTv, reply.getContent());
 
         long timeStamp = reply.getCreateTime() * 1000;
-        helper.setText(R.id.timeTv, TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
+        helper.setText(R.id.timeTv, TimeUtils.showTime(new Date(timeStamp), "MM-dd HH:mm"));
     }
 
 }

@@ -1,5 +1,7 @@
 package com.xh.module.base.utils;
 
+import android.text.TextUtils;
+
 import com.xh.module.base.Constant;
 
 /**
@@ -13,13 +15,15 @@ public class PathUtils {
      * @param path
      */
     public static String composePath(String path) {
-        if (path == null)
+        if (TextUtils.isEmpty(path))
             return "";
-        String newpath = Constant.SERVER_URL;
-        if (path.startsWith("/")) {
-            newpath += path.substring(1);
+        String newpath = null;
+        if (path.startsWith("http://") || path.startsWith("https://")) {
+            newpath = path;
+        } else if (path.startsWith("/")) {
+            newpath = Constant.SERVER_URL + path.substring(1);
         } else {
-            newpath += path;
+            newpath = Constant.SERVER_URL + path;
         }
         return newpath;
     }

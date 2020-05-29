@@ -1,31 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.PublishClassDemeanorActivity">
+    android:padding="@dimen/dp_4"
+    tools:context=".activity.AddSchoolInfomationActivity">
 
-    <EditText
-        android:id="@+id/inputEt"
+    <LinearLayout
+        android:id="@+id/titleLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_24"
-        android:background="@null"
-        android:gravity="top"
-        android:hint="说点什么吧"
-        android:minHeight="@dimen/dp_100"
-        android:textColor="@color/text_color_main"
-        android:textColorHint="@color/c0"
-        android:textSize="@dimen/sp_14"></EditText>
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_4"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        <EditText
+            android:id="@+id/titleEt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="班级风采标题"
+            android:singleLine="true"
+            android:textColorHint="@color/c0"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"></EditText>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/homeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/dp_4"
+        android:background="@drawable/corners_cc_bg"
+        app:layout_constraintDimensionRatio="5:2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleLayout">
+
+        <ImageView
+            android:id="@+id/homeIv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"></ImageView>
+
+        <TextView
+            android:id="@+id/tipsTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableTop="@drawable/ic_add"
+            android:drawablePadding="@dimen/dp_8"
+            android:gravity="center"
+            android:text="添加展示图片"
+            android:textColor="@color/c0"></TextView>
+    </RelativeLayout>
+
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_4"
+        app:layout_constraintBottom_toTopOf="@id/controlbar"
+        app:layout_constraintTop_toBottomOf="@id/homeLayout" />
+
+    <include
+        android:id="@+id/controlbar"
+        layout="@layout/richediter_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_24"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginRight="@dimen/dp_24"></androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editor"></include>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

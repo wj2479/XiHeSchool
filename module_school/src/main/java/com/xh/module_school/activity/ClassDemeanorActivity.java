@@ -22,10 +22,9 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xh.module.base.BackActivity;
 import com.xh.module.base.Constant;
-import com.xh.module.base.entity.Role;
-import com.xh.module.base.entity.bbs.BbsArticle;
+import com.xh.module.base.entity.ClassDemeanor;
 import com.xh.module.base.repository.DataRepository;
-import com.xh.module.base.repository.impl.BbsRepository;
+import com.xh.module.base.repository.impl.SchoolRepository;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
@@ -39,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.xh.module_school.activity.ClassDemeanorDetailsActivity.DEMEANOR;
+
 /**
  * 班级风采
  */
@@ -50,9 +51,9 @@ public class ClassDemeanorActivity extends BackActivity {
     RecyclerView recyclerView;
 
     /**
-     * 记录文章列表
+     * 记录班级风采列表
      */
-    List<BbsArticle> dataList = new ArrayList<>();
+    List<ClassDemeanor> dataList = new ArrayList<>();
 
     ClassDemeanorAdapter adapter;
 
@@ -107,6 +108,10 @@ public class ClassDemeanorActivity extends BackActivity {
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 if (dataList.size() == 0)
                     return;
+                ClassDemeanor demeanor = dataList.get(position);
+                Intent intent = new Intent(ClassDemeanorActivity.this, ClassDemeanorDetailsActivity.class);
+                intent.putExtra(DEMEANOR, demeanor);
+                startActivity(intent);
             }
         });
 
@@ -119,16 +124,17 @@ public class ClassDemeanorActivity extends BackActivity {
         adapter.setEmptyView(emptyView);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadNewInfos();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //筛选出班主任的角色
-        for (Role role : DataRepository.userInfo.getRoles()) {
-            //班主任的角色 具有发布资讯的权限
-            if (role.getId() == Constant.ROLE_CODE_CLASS_MASTER) {
-                getMenuInflater().inflate(R.menu.menu_publish_demeanor, menu);
-                break;
-            }
+        //班主任的角色 才能发布班级风采
+        if (DataRepository.role.getId() == Constant.ROLE_CODE_CLASS_MASTER) {
+            getMenuInflater().inflate(R.menu.menu_publish_demeanor, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -141,14 +147,13 @@ public class ClassDemeanorActivity extends BackActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     /**
      * 获取最新的文章
      */
     private void loadNewInfos() {
-        BbsRepository.getInstance().getRecommendArticles(1, pageSize, new IRxJavaCallBack<SimpleResponse<List<BbsArticle>>>() {
+        SchoolRepository.getInstance().getClassDemeanors(DataRepository.role.getCla_id(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
             @Override
-            public void onSuccess(SimpleResponse<List<BbsArticle>> response) {
+            public void onSuccess(SimpleResponse<List<ClassDemeanor>> response) {
                 dataList.clear();
                 if (response.getCode() == ResponseCode.RESULT_OK) {
                     dataList.addAll(response.getData());
@@ -167,14 +172,13 @@ public class ClassDemeanorActivity extends BackActivity {
         });
     }
 
-
     /**
      * 获取更多的文章
      */
     private void loadMoreInfos() {
-        BbsRepository.getInstance().getRecommendArticles(page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<BbsArticle>>>() {
+        SchoolRepository.getInstance().getClassDemeanors(DataRepository.role.getCla_id(), page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
             @Override
-            public void onSuccess(SimpleResponse<List<BbsArticle>> response) {
+            public void onSuccess(SimpleResponse<List<ClassDemeanor>> response) {
                 if (response.getCode() == ResponseCode.RESULT_OK) {
                     Log.e("TAG", "获取论坛资讯:" + gson.toJson(response.getData()));
                     dataList.addAll(response.getData());

@@ -22,7 +22,6 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.xh.module.base.BackActivity;
 import com.xh.module.base.Constant;
-import com.xh.module.base.entity.Role;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.impl.SchoolRepository;
@@ -119,21 +118,17 @@ public class SchoolInfoListActivity extends BackActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //筛选出学校的角色
-        for (Role role : DataRepository.userInfo.getRoles()) {
-            //校长或者班主任的角色 具有发布资讯的权限
-            if (role.getId() == Constant.ROLE_CODE_SCHOOL_MASTER || role.getId() == Constant.ROLE_CODE_CLASS_MASTER) {
-                getMenuInflater().inflate(R.menu.menu_school_infolist, menu);
-                break;
-            }
+        //校长或者班主任的角色 具有发布资讯的权限
+        if (DataRepository.role.getId() == Constant.ROLE_CODE_SCHOOL_MASTER || DataRepository.role.getId() == Constant.ROLE_CODE_CLASS_MASTER) {
+            getMenuInflater().inflate(R.menu.menu_school_infolist, menu);
         }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.publishDemeanor) {
-            startActivity(new Intent(this, PublishClassDemeanorActivity.class));
+        if (item.getItemId() == R.id.publishInfo) {
+            startActivity(new Intent(this, AddSchoolInfomationActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

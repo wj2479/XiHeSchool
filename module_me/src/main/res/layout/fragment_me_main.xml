@@ -11,11 +11,12 @@
         <LinearLayout
             android:id="@+id/ll_user"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_140"
+            android:layout_height="@dimen/dp_120"
             android:background="@drawable/shape_gradient_theme"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/dp_12"
+            android:paddingTop="@dimen/dp_28"
             android:paddingRight="@dimen/dp_16"
             android:paddingBottom="@dimen/dp_8">
 
@@ -28,24 +29,39 @@
                 app:civ_border_width="2dp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/dp_8"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:ellipsize="end"
-                    android:maxEms="10"
-                    android:maxLines="1"
-                    android:text=""
-                    android:textColor="@color/text_color_main"
-                    android:textSize="@dimen/sp_18"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:ellipsize="end"
+                        android:maxEms="10"
+                        android:maxLines="1"
+                        android:text="123"
+                        android:textColor="@color/text_color_main"
+                        android:textSize="@dimen/sp_18"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_8"
+                        android:text=""
+                        android:textSize="@dimen/sp_14"></TextView>
+
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_job"
@@ -61,6 +77,24 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/roleLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp_8"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/dp_4"
+                    android:text="@string/switchrole"
+                    android:textColor="@color/text_color_main"
+                    android:textStyle="bold"></TextView>
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 
@@ -70,7 +104,8 @@
         android:layout_marginTop="@dimen/dp_12"
         android:background="@color/white"
         android:paddingLeft="@dimen/dp_16"
-        android:paddingRight="@dimen/dp_16">
+        android:paddingRight="@dimen/dp_16"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -211,7 +246,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_help"
+                        android:drawableLeft="@drawable/ic_feedback"
                         android:drawableRight="@drawable/ic_arrow_right"
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"
@@ -263,7 +298,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_account"
+                        android:drawableLeft="@drawable/ic_check_update"
                         android:drawableRight="@drawable/ic_arrow_right"
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"
@@ -287,7 +322,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_account"
+                        android:drawableLeft="@drawable/ic_help"
                         android:drawableRight="@drawable/ic_arrow_right"
                         android:drawablePadding="10dp"
                         android:gravity="center_vertical"

@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.xh.module.base.BackActivity;
 import com.xh.module.base.entity.ImageText;
+import com.xh.module.base.repository.DataRepository;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
 import com.xh.module_school.adapter.CircleImageTextAdapter;
@@ -69,6 +70,9 @@ public class ClassInfoActivity extends BackActivity {
     }
 
     private void initData() {
+        if (DataRepository.clas == null) {
+            getClassInfo();
+        }
 
         Image2Text it1 = new Image2Text("李易峰", "语文老师", R.drawable.touxiang);
         Image2Text it2 = new Image2Text("杨幂", "美术老师", R.drawable.touxiang2);
@@ -98,6 +102,7 @@ public class ClassInfoActivity extends BackActivity {
         jobAdapter = new Image2TextAdapter(this, jobList);
         jobGv.setAdapter(jobAdapter);
 
+        getClassStudent();
 
         ImageText i1 = new ImageText("六六六", R.drawable.touxiang2);
         ImageText i2 = new ImageText("塞班", R.drawable.touxiang);
@@ -122,4 +127,19 @@ public class ClassInfoActivity extends BackActivity {
         studentAdapter = new CircleImageTextAdapter(this, studentList);
         studentGv.setAdapter(studentAdapter);
     }
+
+    /**
+     * 获取班级基本信息
+     */
+    private void getClassInfo() {
+
+    }
+
+    /**
+     * 获取班级学生列表
+     */
+    private void getClassStudent() {
+
+    }
+
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.xh.module.base.entity.SchoolInformation;
+import com.xh.module.base.utils.PathUtils;
 import com.xh.module_school.R;
 import com.youth.banner.adapter.BannerAdapter;
 
@@ -46,7 +47,7 @@ public class MyBannerAdapter extends BannerAdapter<SchoolInformation, MyBannerAd
     @Override
     public void onBindView(BannerViewHolder holder, SchoolInformation data, int position, int size) {
         holder.tv.setText(data.getTitle());
-        Glide.with(mContext).load(data.getIndexImage()).into(holder.iv);
+        Glide.with(mContext).load(PathUtils.composePath(data.getIndexImage())).into(holder.iv);
     }
 
     class BannerViewHolder extends RecyclerView.ViewHolder {

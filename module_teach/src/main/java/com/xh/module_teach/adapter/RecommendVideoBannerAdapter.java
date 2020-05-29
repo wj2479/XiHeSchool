@@ -8,24 +8,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.xh.module.base.entity.ImageText;
+import com.xh.module.base.entity.VideoBase;
+import com.xh.module.base.utils.PathUtils;
 import com.youth.banner.adapter.BannerAdapter;
 
 import java.util.List;
 
 /**
- * 广告轮播图片的适配器
+ * 推荐点播视频的适配器
  */
-public class MyBannerAdapter extends BannerAdapter<ImageText, MyBannerAdapter.BannerViewHolder> {
+public class RecommendVideoBannerAdapter extends BannerAdapter<VideoBase, RecommendVideoBannerAdapter.BannerViewHolder> {
 
     Context mContext;
 
-    public MyBannerAdapter(List<ImageText> datas, Context mContext) {
+    public RecommendVideoBannerAdapter(List<VideoBase> datas, Context mContext) {
         super(datas);
         this.mContext = mContext;
     }
 
-    public MyBannerAdapter(List<ImageText> datas) {
+    public RecommendVideoBannerAdapter(List<VideoBase> datas) {
         super(datas);
     }
 
@@ -41,8 +42,8 @@ public class MyBannerAdapter extends BannerAdapter<ImageText, MyBannerAdapter.Ba
     }
 
     @Override
-    public void onBindView(BannerViewHolder holder, ImageText data, int position, int size) {
-        Glide.with(mContext).load(data.getPath()).into(holder.imageView);
+    public void onBindView(BannerViewHolder holder, VideoBase data, int position, int size) {
+        Glide.with(mContext).load(PathUtils.composePath(data.getIndexImage())).into(holder.imageView);
     }
 
     class BannerViewHolder extends RecyclerView.ViewHolder {

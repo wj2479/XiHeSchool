@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.luck.picture.lib.PictureSelector;
@@ -81,12 +82,20 @@ public class ArticleAdapter extends BaseQuickAdapter<BbsArticle, BaseViewHolder>
         long timeStamp = item.getCreateTime() * 1000;
         holder.setText(R.id.timeTv, TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
 
-        if (item.getUid().equals(DataRepository.userInfo.getUid())) {
-            holder.setVisible(R.id.deleteTv, true);
-            holder.setGone(R.id.headIv, true);
+        if (item.getBbsUser() != null) {
+            if (item.getBbsUser().getUid().equals(DataRepository.userInfo.getUid())) {
+                holder.setVisible(R.id.deleteTv, true);
+                holder.setGone(R.id.headIv, true);
+                holder.setText(R.id.personTv, "");
+            } else {
+                holder.setVisible(R.id.headIv, true);
+                ImageView headIv = holder.getView(R.id.headIv);
+                Glide.with(mContext).load(PathUtils.composePath(item.getBbsUser().getHeadImage())).into(headIv);
+                holder.setText(R.id.personTv, item.getBbsUser().getName());
+                holder.setGone(R.id.deleteTv, true);
+            }
         } else {
-            holder.setVisible(R.id.headIv, true);
-            holder.setGone(R.id.deleteTv, true);
+            holder.setText(R.id.personTv, "");
         }
 
     }

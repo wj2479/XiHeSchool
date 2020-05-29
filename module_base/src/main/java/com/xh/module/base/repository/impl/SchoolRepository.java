@@ -1,6 +1,7 @@
 package com.xh.module.base.repository.impl;
 
 import com.google.gson.Gson;
+import com.xh.module.base.entity.ClassDemeanor;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
@@ -51,7 +52,7 @@ public class SchoolRepository implements ISchoolRepository {
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.toString());
 
-        ApiManager.getInstance().getSchoolServer().getschoolInfoById(requestBody)
+        ApiManager.getInstance().getSchoolServer().getSchoolInfoById(requestBody)
                 .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SimpleResponse<School>>() {
@@ -74,7 +75,7 @@ public class SchoolRepository implements ISchoolRepository {
 
     @Override
     public void getSchoolInfomationById(long schoolId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolInformation>>> callback) {
-        ApiManager.getInstance().getSchoolServer().getschoolInfomationById(schoolId, page, pageSize)
+        ApiManager.getInstance().getSchoolServer().getSchoolInfomationById(schoolId, page, pageSize)
                 .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<SimpleResponse<List<SchoolInformation>>>() {
@@ -279,4 +280,89 @@ public class SchoolRepository implements ISchoolRepository {
                            }
                 );
     }
+
+    @Override
+    public void addClassDemeanor(ClassDemeanor demeanor, IRxJavaCallBack<SimpleResponse> callback) {
+        String json = gson.toJson(demeanor);
+        LogUtil.e("TAG", "添加的班级风采:" + json);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+        ApiManager.getInstance().getSchoolServer().addClassDemeanor(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse>() {
+                               @Override
+                               public void accept(SimpleResponse simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void uploadClassDemeanorImgs(List<File> files, IRxJavaCallBack<SimpleResponse<List<String>>> callback) {
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        //注意，file是后台约定的参数，如果是多图，file[]，如果是单张图片，file就行
+        for (File file : files) {
+            //这里上传的是多图
+            builder.addFormDataPart("file[]", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+        }
+
+        RequestBody requestBody = builder.build();
+
+        ApiManager.getInstance().getSchoolServer().uploadClassDemeanorImage(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<String>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<String>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void getClassDemeanors(long classId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>> callback) {
+        ApiManager.getInstance().getSchoolServer().getClassDemeanorById(classId, page, pageSize)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<ClassDemeanor>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<ClassDemeanor>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+
+    }
+
 }

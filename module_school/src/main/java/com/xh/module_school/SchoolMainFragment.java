@@ -4,14 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
@@ -22,7 +20,6 @@ import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.xh.module.base.BaseFragment;
 import com.xh.module.base.Constant;
-import com.xh.module.base.adapter.TabFragmentPagerAdapter;
 import com.xh.module.base.db.DBManager;
 import com.xh.module.base.entity.Role;
 import com.xh.module.base.entity.School;
@@ -34,6 +31,7 @@ import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.utils.FragmentUtils;
+import com.xh.module.base.utils.PathUtils;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.module.base.view.TabIconBean;
@@ -50,9 +48,10 @@ import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.util.BannerUtils;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -74,9 +73,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     @BindView(R2.id.navLayout)
     CommonTabLayout navLayout;
     @BindView(R2.id.contentLayout)
-    CommonTabLayout contentLayout;
-    @BindView(R2.id.vp)
-    ViewPager vp;
+    FrameLayout contentLayout;
     @BindView(R2.id.banner)
     Banner banner;
     @BindView(R2.id.titleTv)
@@ -116,7 +113,12 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
 
         initBanner();
         initNavLayout();
-        initContentLayout();
+
+        // 获取保存的角色
+        DataRepository.role = getSeceltRole();
+        Log.e("TAG", "保存的角色:" + gson.toJson(DataRepository.role));
+        getSchoolInfoById(DataRepository.role.getSchool_id());
+        initContentLayout(DataRepository.role);
 
 //        webView = rootView.findViewById(R.id.webview);
 //        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -136,6 +138,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
      */
     private void initBanner() {
         List<SchoolInformation> informations = DBManager.getInstance().getmDaoSession().getSchoolInformationDao().loadAll();
+        addDefaultSchoolInfo();
         informationList.addAll(informations);
 
         banner.setAdapter(new MyBannerAdapter(informationList, getContext()));
@@ -157,37 +160,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void initPager() {
-        contentLayout.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelect(int position) {
-                vp.setCurrentItem(position);
-            }
-
-            @Override
-            public void onTabReselect(int position) {
-
-            }
-        });
-
-        vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                contentLayout.setCurrentTab(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
-
     /**
      * 初始化导航栏
      */
@@ -197,7 +169,6 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         mNavTabEntities.add(new TabIconBean("新消息", R.drawable.ic_new_mes, R.drawable.ic_new_mes));
         navLayout.setTabData(mNavTabEntities);
 
-        navLayout.showDot(1);
         navLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -222,15 +193,13 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                 startActivity(new Intent(getContext(), SchoolInfoListActivity.class));
                 break;
             case 1:
-                // 如果是校长身份   就直接进校长信箱列表
-                for (Role role : DataRepository.userInfo.getRoles()) {
-                    if (role.getId() == Constant.ROLE_CODE_SCHOOL_MASTER) {
-                        startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
-                        return;
-                    }
+                if (DataRepository.role.getId().equals(Constant.ROLE_CODE_SCHOOL_MASTER)) {
+                    // 如果是校长身份   就直接进校长信箱列表
+                    startActivity(new Intent(getContext(), SchoolMasterMailActivity.class));
+                } else {
+                    // 其他人可以查看发送的信件
+                    startActivity(new Intent(getContext(), MySchoolMailListActivity.class));
                 }
-                // 其他人可以查看发送的信件
-                startActivity(new Intent(getContext(), MySchoolMailListActivity.class));
                 break;
             case 2:
                 startActivity(new Intent(getContext(), NewMessageActivity.class));
@@ -239,54 +208,83 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
     }
 
     /**
-     * 初始化内容标签
+     * 切换角色
+     *
+     * @param role
      */
-    private void initContentLayout() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSelectRole(Role role) {
+        Log.e("TAG", "切换角色" + gson.toJson(role));
+
+        DataRepository.role = role;
+        // 切换学校之后，如果跟当前学校是不同的ID 需要重新获取学校信息
+        if (DataRepository.school == null ||
+                (DataRepository.school != null && !DataRepository.school.getId().equals(role.getSchool_id()))) {
+            getSchoolInfoById(role.getSchool_id());
+        }
+        initContentLayout(role);
+    }
+
+    /**
+     * 获取选择的Role
+     *
+     * @return
+     */
+    private Role getSeceltRole() {
+        // 获取保存的角色信息
+        Role role = SharedPreferencesUtil.getRole(getContext());
         List<Role> roles = loginInfo.getRoles();
-        List<Fragment> fragmentList = new ArrayList();
-        // 记录用户角色名称列表
-        List<String> titleList = new ArrayList<>();
-
-        for (Role role : roles) {
-            String title = Constant.roleTypeMap.get(role.getType());
-            if (!TextUtils.isEmpty(title) && !titleList.contains(title)) {
-                titleList.add(title);
+        if (role == null) {
+            role = roles.get(0);
+            SharedPreferencesUtil.saveRole(getContext(), role);
+        } else {
+            boolean isHave = false;
+            // 判断当前用户是否还包含这角色
+            for (Role infoRole : loginInfo.getRoles()) {
+                if (role.getId().equals(infoRole.getId())) {
+                    isHave = true;
+                    break;
+                }
             }
 
-            // 如果学校ID不为空
-            if (role.getSchool_id() != null) {
-                getSchoolById(role.getSchool_id());
-                getSchoolInfomationById(role.getSchool_id());
-            }
-            // 如果班级ID不为空
-        }
-        String[] titles = new String[titleList.size()];
-        Collections.sort(titleList);
-        titleList.toArray(titles);
-
-        for (String title : titles) {
-            mContentTabEntities.add(new TabIconBean(title, 0, 0));
-
-            Fragment fragment = null;
-            if (title.equals(Constant.roleTypeMap.get(Constant.ROLE_TYPE_FAMILY))) {
-                fragment = FragmentUtils.getSchoolFamilyMenuFragment();
-            } else if (title.equals(Constant.roleTypeMap.get(Constant.ROLE_TYPE_SCHOOL))) {
-                fragment = FragmentUtils.getSchoolMenuFragment();
-            }
-
-            if (fragment != null) {
-                fragmentList.add(fragment);
+            if (!isHave) {
+                role = roles.get(0);
+                SharedPreferencesUtil.saveRole(getContext(), role);
             }
         }
-        // 如果只有一个tab选项 就隐藏tab标签
-        if (titleList.size() == 1) {
-            contentLayout.setVisibility(View.GONE);
-        }
+        return role;
+    }
 
-        //viewpager加载adapter
-        vp.setAdapter(new TabFragmentPagerAdapter(getChildFragmentManager(), fragmentList, titles));
-        initPager();
-        contentLayout.setTabData(mContentTabEntities);
+    /**
+     * 初始化内容布局
+     */
+    private void initContentLayout(Role role) {
+        switch (role.getId().intValue()) {
+            case Constant.ROLE_CODE_CLASS_MASTER:     // 班主任
+                getChildFragmentManager().beginTransaction().replace(R.id.contentLayout, FragmentUtils.getSchoolClassTeacherMenuFragment()).commitNowAllowingStateLoss();
+                break;
+            case Constant.ROLE_CODE_TEACHER:    // 授课老师
+                getChildFragmentManager().beginTransaction().replace(R.id.contentLayout, FragmentUtils.getSchoolTeacherMenuFragment()).commitNowAllowingStateLoss();
+                break;
+            case Constant.ROLE_CODE_PARENT:   // 学生家长
+                getChildFragmentManager().beginTransaction().replace(R.id.contentLayout, FragmentUtils.getSchoolFamilyMenuFragment()).commitNowAllowingStateLoss();
+                break;
+            case Constant.ROLE_CODE_SCHOOL_MASTER:   // 校长
+                getChildFragmentManager().beginTransaction().replace(R.id.contentLayout, FragmentUtils.getFragment(RouteUtils.School_Fragment_School_Master_Menu)).commitNowAllowingStateLoss();
+                break;
+        }
+    }
+
+    /**
+     * 获取学校的信息及资讯消息
+     *
+     * @param schoolId
+     */
+    private void getSchoolInfoById(Long schoolId) {
+        if (schoolId != null) {
+            getSchoolById(schoolId);
+            getSchoolInfomationById(schoolId);
+        }
     }
 
     @Override
@@ -320,6 +318,8 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                         DataRepository.school = response.getData();
                         titleTv.setText(response.getData().getName());
                         EventBus.getDefault().post(DataRepository.school);
+                    } else {
+                        Log.e("TAG", "获取学校信息出错:" + gson.toJson(response));
                     }
                     lock1.unlock();
                 }
@@ -343,8 +343,10 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                 @Override
                 public void onSuccess(SimpleResponse<List<SchoolInformation>> response) {
                     Log.e("TAG", "获取学校资讯:" + gson.toJson(response));
+                    informationList.clear();
+
+                    addDefaultSchoolInfo();
                     if (response.getCode() == ResponseCode.RESULT_OK) {
-                        informationList.clear();
                         informationList.addAll(response.getData());
 
                         // 保存数据到本地
@@ -352,9 +354,9 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                         for (SchoolInformation information : informationList) {
                             DBManager.getInstance().getmDaoSession().getSchoolInformationDao().insert(information);
                         }
-
-                        banner.getAdapter().notifyDataSetChanged();
                     }
+
+                    banner.getAdapter().notifyDataSetChanged();
                     lock2.unlock();
                 }
 
@@ -367,8 +369,15 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void getClasById(String clasId) {
-
+    /**
+     * 添加默认的
+     */
+    private void addDefaultSchoolInfo() {
+        SchoolInformation info = new SchoolInformation();
+        info.setTitle("欢迎体验西禾学堂新版本");
+        info.setIndexImage(PathUtils.composePath("/information/2634258d-c317-4b9f-85e8-95c2d821cd7b.jpeg"));
+        info.setContent("西禾学堂APP上线了，欢迎大家体验，如果您对本APP有好的意见或者建议，请在“个人”-“意见反馈”里留言，感谢您的使用。");
+        informationList.add(info);
     }
 
     @Override

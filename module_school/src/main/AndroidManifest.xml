@@ -6,9 +6,20 @@
 
     <application>
         <activity
+            android:name=".activity.CourseDetailsActivity"
+            android:label="延时课程详情"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme"></activity>
+        <activity
+            android:name=".activity.DelayStudyActivity"
+            android:label="课后延时服务课程"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ClassDemeanorDetailsActivity" />
+        <activity
             android:name=".activity.PublishClassDemeanorActivity"
             android:label="发布班级风采"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.WorkManagerActivity"
             android:label="作业管理"

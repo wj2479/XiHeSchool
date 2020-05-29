@@ -1,10 +1,12 @@
 package com.xh.module.base.retrofit;
 
+import com.xh.module.base.entity.ClassDemeanor;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
 import com.xh.module.base.entity.UserBase;
+import com.xh.module.base.entity.VideoBase;
 import com.xh.module.base.entity.bbs.BbsArticle;
 import com.xh.module.base.entity.bbs.BbsUser;
 import com.xh.module.base.retrofit.response.SimpleResponse;
@@ -22,7 +24,7 @@ import retrofit2.http.Query;
 
 /**
  * 服务器接口接口
- * Created by wj on 2017/12/29.
+ * Created by wj on 2020/04/29.
  */
 public interface SchoolServer {
 
@@ -69,7 +71,7 @@ public interface SchoolServer {
      * @return
      */
     @PUT("school_")
-    Observable<SimpleResponse<School>> getschoolInfoById(@Body RequestBody requestBody);
+    Observable<SimpleResponse<School>> getSchoolInfoById(@Body RequestBody requestBody);
 
     /**
      * 根据ID  获取学校资讯
@@ -78,7 +80,7 @@ public interface SchoolServer {
      * @return
      */
     @GET("schoolinfo_")
-    Observable<SimpleResponse<List<SchoolInformation>>> getschoolInfomationById(@Query("schoolId") long schoolId, @Query("page") int page, @Query("pagesize") int pageSize);
+    Observable<SimpleResponse<List<SchoolInformation>>> getSchoolInfomationById(@Query("schoolId") long schoolId, @Query("page") int page, @Query("pagesize") int pageSize);
 
     /**
      * 上传资讯图片
@@ -97,7 +99,6 @@ public interface SchoolServer {
      */
     @POST("schoolinfo")
     Observable<SimpleResponse> addSchoolInfomation(@Body RequestBody requestBody);
-
 
     /**
      * 发布校长信箱信件
@@ -219,4 +220,51 @@ public interface SchoolServer {
      */
     @POST("bbsUpload")
     Observable<SimpleResponse<List<String>>> uploadBbsImage(@Body RequestBody requestBody);
+
+    /**
+     * 添加班级风采
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("clasInformation")
+    Observable<SimpleResponse> addClassDemeanor(@Body RequestBody requestBody);
+
+    /**
+     * 上传班级风采图片
+     *
+     * @param requestBody 图片文件
+     * @return
+     */
+    @POST("clasInformationUpload")
+    Observable<SimpleResponse<List<String>>> uploadClassDemeanorImage(@Body RequestBody requestBody);
+
+    /**
+     * 获取班级风采列表
+     *
+     * @param
+     * @return
+     */
+    @GET("clasInformation_")
+    Observable<SimpleResponse<List<ClassDemeanor>>> getClassDemeanorById(@Query("clasId") long clasId, @Query("page") int page, @Query("pagesize") int pageSize);
+
+    /**
+     * 获取视频列表
+     *
+     * @param
+     * @return
+     */
+    @GET("videoBase_")
+    Observable<SimpleResponse<List<VideoBase>>> getRecordVideoList(@Query("page") int page, @Query("pagesize") int pageSize);
+
+    /**
+     * 获取视频列表
+     *
+     * @param
+     * @return
+     */
+    @POST("videoBase_")
+    Observable<SimpleResponse<List<VideoBase>>> getRecommendRecordVideoList(@Body RequestBody requestBody);
+
+
 }

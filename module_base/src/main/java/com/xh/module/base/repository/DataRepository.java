@@ -1,6 +1,7 @@
 package com.xh.module.base.repository;
 
 import com.xh.module.base.entity.Clas;
+import com.xh.module.base.entity.Role;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.entity.bbs.BbsUser;
@@ -19,11 +20,15 @@ public class DataRepository {
      */
     public static BbsUser bbsUser;
     /**
-     * 学校信息
+     * 当前学校信息
      */
     public static School school;
     /**
-     * 班级信息
+     * 当前登录的角色
+     */
+    public static Role role;
+    /**
+     * 当前班级信息
      */
     public static Clas clas;
 

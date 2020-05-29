@@ -14,7 +14,8 @@
     <com.youth.banner.Banner
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_160"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="16:7"
         app:layout_constraintTop_toBottomOf="@id/headview" />
 
     <com.flyco.tablayout.CommonTabLayout
@@ -43,30 +44,11 @@
         android:background="@color/color_f0"
         app:layout_constraintTop_toBottomOf="@id/navLayout"></View>
 
-    <com.flyco.tablayout.CommonTabLayout
+    <FrameLayout
         android:id="@+id/contentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_gravity="bottom"
-        app:layout_constraintTop_toBottomOf="@+id/spaceView"
-        app:tl_indicator_margin_left="@dimen/dp_4"
-        app:tl_indicator_margin_right="@dimen/dp_4"
-        tl:tl_iconVisible="false"
-        tl:tl_indicator_color="@color/themecolor"
-        tl:tl_textSelectColor="@color/themecolor"
-        tl:tl_textUnselectColor="@color/text_color_main"
-        tl:tl_textsize="@dimen/sp_16"
-        tl:tl_underline_color="@color/color_f0"
-        tl:tl_underline_height="@dimen/dp_1" />
-
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/contentLayout">
-
-    </androidx.viewpager.widget.ViewPager>
-
+        app:layout_constraintTop_toBottomOf="@id/spaceView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

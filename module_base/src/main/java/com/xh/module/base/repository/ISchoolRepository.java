@@ -1,5 +1,6 @@
 package com.xh.module.base.repository;
 
+import com.xh.module.base.entity.ClassDemeanor;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
@@ -91,5 +92,29 @@ public interface ISchoolRepository {
      * @param callback
      */
     void getSchoolMailBoxReplys(long mailboxId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailboxReply>>> callback);
+
+    /**
+     * 添加班级风采
+     *
+     * @param demeanor
+     * @param callback
+     */
+    void addClassDemeanor(ClassDemeanor demeanor, IRxJavaCallBack<SimpleResponse> callback);
+
+    /**
+     * 上传班级风采图片
+     *
+     * @param files
+     * @param callback
+     */
+    void uploadClassDemeanorImgs(List<File> files, IRxJavaCallBack<SimpleResponse<List<String>>> callback);
+
+    /**
+     * 获取班级风采列表
+     *
+     * @param classId  班级ID
+     * @param callback
+     */
+    void getClassDemeanors(long classId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>> callback);
 
 }

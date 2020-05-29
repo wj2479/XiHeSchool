@@ -203,7 +203,7 @@ public class RecommendFragment extends BaseFragment {
             public void onSuccess(SimpleResponse<List<BbsArticle>> response) {
                 dataList.clear();
                 if (response.getCode() == ResponseCode.RESULT_OK) {
-//                    Log.e("TAG", "获取论坛列表:" + gson.toJson(response.getData()));
+                    Log.e("TAG", "获取论坛列表:" + gson.toJson(response.getData()));
                     dataList.addAll(response.getData());
                 }
                 adapter.notifyDataSetChanged();

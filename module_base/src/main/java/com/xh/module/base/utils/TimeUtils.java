@@ -35,7 +35,6 @@ public class TimeUtils {
             long seconds = result / 86400000;
             r = seconds + "天前";
         } else {// 日期格式
-            format = "MM-dd HH:mm";
             SimpleDateFormat df = new SimpleDateFormat(format);
             r = df.format(ctime).toString();
         }

@@ -46,9 +46,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.xh.moudle_bbs.activity.BbsUserInfoActivity.USERINFO;
 
-
 /**
- *
+ * 论坛
  */
 @Route(path = RouteUtils.Bbs_Fragment_Main)
 public class BbsFragment extends BaseFragment {

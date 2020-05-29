@@ -18,13 +18,13 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.xh.module.base.BackActivity;
-import com.xh.module.base.Constant;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.impl.SchoolRepository;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.ResponseCode;
 import com.xh.module.base.retrofit.response.SimpleResponse;
+import com.xh.module.base.utils.PathUtils;
 import com.xh.module.base.view.GlideEngine;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
@@ -163,9 +163,9 @@ public class AddSchoolInfomationActivity extends BackActivity {
                                         List<String> pathList = response.getData();
                                         for (int i = 0; i < pathList.size(); i++) {
                                             String path = pathList.get(i);
-                                            Log.e("TAG", "上传图片结果:" + Constant.SERVER_URL + path);
+                                            Log.e("TAG", "上传图片结果:" + PathUtils.composePath(path));
 
-                                            mEditor.insertImage(Constant.SERVER_URL + path, "\" style=\" width:100%");
+                                            mEditor.insertImage(PathUtils.composePath(path), "\" style=\" width:100%");
                                         }
                                     }
                                 }
@@ -186,7 +186,6 @@ public class AddSchoolInfomationActivity extends BackActivity {
 
         }
     }
-
 
     /**
      * 添加校园资讯
@@ -251,7 +250,7 @@ public class AddSchoolInfomationActivity extends BackActivity {
     }
 
     /**
-     *
+     * 上传首页图片
      */
     @OnClick(R2.id.homeLayout)
     void onHomePageClick() {
@@ -261,7 +260,7 @@ public class AddSchoolInfomationActivity extends BackActivity {
                 .selectionMode(PictureConfig.SINGLE)
                 .loadImageEngine(GlideEngine.createGlideEngine())
                 .enableCrop(true)
-                .withAspectRatio(5, 2)
+                .withAspectRatio(16, 9)
                 .freeStyleCropEnabled(false)
                 .forResult(new OnResultCallbackListener<LocalMedia>() {
                     @Override
@@ -280,9 +279,8 @@ public class AddSchoolInfomationActivity extends BackActivity {
                                     showSuccessDialogAndDismiss("图片上传成功");
                                     List<String> pathList = response.getData();
                                     for (int i = 0; i < pathList.size(); i++) {
-                                        String path = pathList.get(i);
-                                        Log.e("TAG", "上传图片结果:" + Constant.SERVER_URL + path);
-                                        homeIvPath = Constant.SERVER_URL + path;
+                                        homeIvPath = pathList.get(i);
+                                        Log.e("TAG", "上传图片结果:" + homeIvPath);
                                         Glide.with(AddSchoolInfomationActivity.this).load(media.getCutPath()).into(homeIv);
                                     }
                                     tipsTv.setVisibility(View.INVISIBLE);

@@ -1,7 +1,6 @@
 package com.xh.module_school.fragment.role;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -54,19 +53,24 @@ public class ClassTeacherMenuFragment extends BaseFragment {
     private void initGridView() {
         List<ImageText> imageTextList = new ArrayList<>();
 
+        ImageText it1 = new ImageText("家委会", R.drawable.ic_family_org);
         ImageText it2 = new ImageText("班级信息", R.drawable.ic_infomation);
-        ImageText it3 = new ImageText("班级安全", R.drawable.ic_aq);
+        ImageText it3 = new ImageText("班级安全", R.drawable.ic_food_aq);
         ImageText it4 = new ImageText("班级风采", R.drawable.ic_style);
-        ImageText it5 = new ImageText("行为评价", R.drawable.ic_action_manager);
-        ImageText it7 = new ImageText("作业管理", R.drawable.ic_action_manager);
-        ImageText it8 = new ImageText("作业点评", R.drawable.ic_action_manager);
-
+        ImageText it5 = new ImageText("行为评价", R.drawable.ic_action_judge);
+        ImageText it7 = new ImageText("作业管理", R.drawable.ic_work_manager);
+        ImageText it8 = new ImageText("作业点评", R.drawable.ic_work_dianping);
+        ImageText it9 = new ImageText("考勤记录", R.drawable.ic_kaoqin_record);
+        ImageText it10 = new ImageText("餐厅", R.drawable.ic_dinging_room);
         imageTextList.add(it2);
         imageTextList.add(it3);
         imageTextList.add(it4);
         imageTextList.add(it5);
         imageTextList.add(it7);
         imageTextList.add(it8);
+        imageTextList.add(it9);
+        imageTextList.add(it1);
+        imageTextList.add(it10);
 
         ImageTextAdapter adapter = new ImageTextAdapter(getContext(), imageTextList);
         menuGv.setAdapter(adapter);
@@ -74,8 +78,6 @@ public class ClassTeacherMenuFragment extends BaseFragment {
         menuGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("TAG", "点击了->" + position);
-
                 switch (position) {
                     case 0:
                         startActivity(new Intent(getContext(), ClassInfoActivity.class));

@@ -1,13 +1,13 @@
 package com.xh.module_school.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.xh.module.base.entity.SchoolInformation;
+import com.xh.module.base.utils.PathUtils;
 import com.xh.module.base.utils.TimeUtils;
 import com.xh.module_school.R;
 
@@ -33,8 +33,8 @@ public class SchoolInfomationAdapter extends BaseQuickAdapter<SchoolInformation,
         helper.setText(R.id.tv_title, information.getTitle());
 
         ImageView imgIv = helper.getView(R.id.iv_img);
-        Glide.with(mContext).load(information.getIndexImage()).into(imgIv);
+        Glide.with(mContext).load(PathUtils.composePath(information.getIndexImage())).into(imgIv);
         long timeStamp = information.getCreateTime() * 1000;
-        helper.setText(R.id.tv_introduce, TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
+        helper.setText(R.id.tv_introduce, TimeUtils.showTime(new Date(timeStamp), "MM-dd HH:mm"));
     }
 }

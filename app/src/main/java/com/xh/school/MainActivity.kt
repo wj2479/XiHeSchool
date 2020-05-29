@@ -3,6 +3,7 @@ package com.xh.school
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -37,6 +38,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestPermissions()
+
         initTabLayout()
         initPager()
     }
@@ -61,7 +63,6 @@ class MainActivity : BaseActivity() {
     private fun initPager() {
         tabLayout.setOnTabSelectListener(object : OnTabSelectListener {
             override fun onTabSelect(position: Int) {
-
                 // 改变状态栏的颜色和字体颜色
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     when (position) {
@@ -74,7 +75,6 @@ class MainActivity : BaseActivity() {
                         }
                     }
                 }
-
                 vp.currentItem = position
             }
 
@@ -107,5 +107,16 @@ class MainActivity : BaseActivity() {
 
             }
         })
+    }
+
+    private var clickTime: Long = 0 // 第一次点击的时间
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - clickTime > 2000) {
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show()
+            clickTime = System.currentTimeMillis()
+        } else {
+            finish()
+        }
     }
 }

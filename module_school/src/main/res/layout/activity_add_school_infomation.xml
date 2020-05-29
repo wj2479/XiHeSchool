@@ -40,7 +40,8 @@
         <ImageView
             android:id="@+id/homeIv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></ImageView>
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"></ImageView>
 
         <TextView
             android:id="@+id/tipsTv"

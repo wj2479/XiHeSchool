@@ -120,6 +120,9 @@ public class MySchoolMailListActivity extends BackActivity {
      * 获取我发送的信件
      */
     private void loadNewInfos() {
+        if (DataRepository.school == null)
+            return;
+
         SchoolRepository.getInstance().getSendSchoolMasterMails(DataRepository.school.getId(), DataRepository.userInfo.getUid(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<SchoolmasterMailbox>>>() {
             @Override
             public void onSuccess(SimpleResponse<List<SchoolmasterMailbox>> response) {

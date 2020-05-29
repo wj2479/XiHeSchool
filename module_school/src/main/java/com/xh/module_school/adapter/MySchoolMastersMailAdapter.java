@@ -37,6 +37,6 @@ public class MySchoolMastersMailAdapter extends BaseQuickAdapter<SchoolmasterMai
         }
 
         long timeStamp = information.getCreateTime() * 1000;
-        helper.setText(R.id.tv_time, TimeUtils.showTime(new Date(timeStamp), "MM:dd HH:mm"));
+        helper.setText(R.id.tv_time, TimeUtils.showTime(new Date(timeStamp), "MM-dd HH:mm"));
     }
 }

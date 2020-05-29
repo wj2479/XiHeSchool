@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/thumbnailIv"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_54"
+            android:scaleType="fitXY"></ImageView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/dp_4"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="@color/text_color_main"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/infoTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="简介:"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textColor="@color/hui"
+            android:textSize="@dimen/sp_12" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp_4"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_8"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="主讲人:"
+                android:textColor="@color/hui"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/personTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_8"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text=""
+                android:textColor="@color/themecolor"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_8"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="已报名:"
+                android:textColor="@color/hui"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/countTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/dp_8"
+                android:gravity="right"
+                android:maxLines="1"
+                android:text="1"
+                android:textColor="@color/themecolor"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="@dimen/dp_64"
+            android:layout_height="@dimen/dp_32"
+            android:background="@drawable/corners_theme_bg"
+            android:padding="@dimen/dp_2"
+            android:text="详情"
+            android:textColor="@color/white"></Button>
+    </LinearLayout>
+
+</LinearLayout>

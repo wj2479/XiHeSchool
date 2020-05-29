@@ -1,5 +1,6 @@
 package com.xh.module_teach;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,11 +18,17 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.tamsiree.rxkit.RxKeyboardTool;
 import com.xh.module.base.BaseFragment;
 import com.xh.module.base.adapter.TabFragmentPagerAdapter;
-import com.xh.module.base.entity.ImageText;
+import com.xh.module.base.db.DBManager;
+import com.xh.module.base.entity.VideoBase;
+import com.xh.module.base.repository.impl.TeachRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.utils.FragmentUtils;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.view.TabIconBean;
-import com.xh.module_teach.adapter.MyBannerAdapter;
+import com.xh.module_teach.activity.RecordVideoDetailsActivity;
+import com.xh.module_teach.adapter.RecommendVideoBannerAdapter;
 import com.youth.banner.Banner;
 import com.youth.banner.config.IndicatorConfig;
 import com.youth.banner.indicator.CircleIndicator;
@@ -51,6 +58,11 @@ public class TeachMainFragment extends BaseFragment {
 
     private ArrayList<CustomTabEntity> mContentTabEntities = new ArrayList();
 
+    /**
+     * 记录推荐点播视频列表
+     */
+    List<VideoBase> dataList = new ArrayList<>();
+
     public TeachMainFragment() {
         // Required empty public constructor
     }
@@ -79,6 +91,8 @@ public class TeachMainFragment extends BaseFragment {
         initSearch();
         initBanner();
         initContentLayout();
+
+        getRecommendRecordVideoList();
     }
 
     private void initSearch() {
@@ -98,24 +112,43 @@ public class TeachMainFragment extends BaseFragment {
         });
     }
 
+    /**
+     * 获取推荐点播视频列表
+     */
+    private void getRecommendRecordVideoList() {
+
+        TeachRepository.getInstance().getRecommendRecordVideoList(new IRxJavaCallBack<SimpleResponse<List<VideoBase>>>() {
+            @Override
+            public void onSuccess(SimpleResponse<List<VideoBase>> response) {
+                Log.e("TAG", "获取推荐点播视频列表:" + gson.toJson(response));
+                if (response.getCode() == ResponseCode.RESULT_OK) {
+                    dataList.clear();
+                    dataList.addAll(response.getData());
+                    banner.getAdapter().notifyDataSetChanged();
+
+                    DBManager.getInstance().getmDaoSession().getVideoBaseDao().deleteAll();
+                    for (VideoBase videoBase : dataList) {
+                        DBManager.getInstance().getmDaoSession().getVideoBaseDao().insertOrReplace(videoBase);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("TAG", "获取点播视频列表:" + throwable.toString());
+            }
+        });
+    }
+
 
     /**
      * 初始化导航
      */
     private void initBanner() {
-        List<ImageText> imageTextList = new ArrayList<>();
-        ImageText it1 = new ImageText("课程表", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588572722737&di=e237b7eeacc68961ea3aa57a6cec9a81&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F64%2F76%2F20300001349415131407760417677.jpg");
-        ImageText it2 = new ImageText("班级信息", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588572722737&di=4b86a60f254a6f816e16fa0eec67e6d7&imgtype=0&src=http%3A%2F%2Fb2-q.mafengwo.net%2Fs5%2FM00%2F91%2F06%2FwKgB3FH_RVuATULaAAH7UzpKp6043.jpeg");
-        ImageText it3 = new ImageText("考勤", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588572722736&di=ce7a36dc30fdc03d55c3ac332532ec07&imgtype=0&src=http%3A%2F%2Fimg1.gtimg.com%2Frushidao%2Fpics%2Fhv1%2F20%2F108%2F1744%2F113431160.jpg");
-        ImageText it4 = new ImageText("班级风采", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588572722735&di=a9083588be329da7b3d5f0cce849d6b5&imgtype=0&src=http%3A%2F%2Ffile02.16sucai.com%2Fd%2Ffile%2F2014%2F1021%2F3a6943761bf142b41742813f386c98ce.jpg");
-        ImageText it5 = new ImageText("行为评价", "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1588572722735&di=b93965c0f1bf3e8383b842276e98480c&imgtype=0&src=http%3A%2F%2Ffile02.16sucai.com%2Fd%2Ffile%2F2014%2F0829%2Fb871e1addf5f8e96f3b390ece2b2da0d.jpg");
-        imageTextList.add(it1);
-        imageTextList.add(it2);
-        imageTextList.add(it3);
-        imageTextList.add(it4);
-        imageTextList.add(it5);
+        List<VideoBase> saveList = DBManager.getInstance().getmDaoSession().getVideoBaseDao().loadAll();
+        dataList.addAll(saveList);
 
-        banner.setAdapter(new MyBannerAdapter(imageTextList, getContext()));
+        banner.setAdapter(new RecommendVideoBannerAdapter(dataList, getContext()));
         banner.setIndicator(new CircleIndicator(getContext()));
         banner.setIndicatorSelectedColorRes(R.color.themecolor);
         banner.setIndicatorNormalColorRes(R.color.white);
@@ -126,7 +159,10 @@ public class TeachMainFragment extends BaseFragment {
         banner.setOnBannerListener(new OnBannerListener() {
             @Override
             public void OnBannerClick(Object data, int position) {
-                Log.e("TAG", "点击事件");
+
+                Intent intent = new Intent(getContext(), RecordVideoDetailsActivity.class);
+                intent.putExtra(RecordVideoDetailsActivity.VIDEO, dataList.get(position));
+                startActivity(intent);
             }
         });
     }
