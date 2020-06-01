@@ -15,6 +15,7 @@ public class RouteUtils {
 
     //获得Base模块视频播放
     public static final String Base_Activity_Video_Play = "/base/activity/video/play";
+    public static final String Base_Activity_Audio_Record = "/base/activity/audio/record";
 
     //获得BBS模块fragment
     public static final String Bbs_Fragment_Main = "/bbs/main";

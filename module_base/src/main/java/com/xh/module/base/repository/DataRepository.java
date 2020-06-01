@@ -1,10 +1,14 @@
 package com.xh.module.base.repository;
 
 import com.xh.module.base.entity.Clas;
+import com.xh.module.base.entity.Course;
 import com.xh.module.base.entity.Role;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.entity.bbs.BbsUser;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 记录APP的一些数据
@@ -31,5 +35,9 @@ public class DataRepository {
      * 当前班级信息
      */
     public static Clas clas;
+    /**
+     * 当前授课老师任课与班级信息对照表
+     */
+    public static Map<Course, List<Clas>> courseListMap;
 
 }

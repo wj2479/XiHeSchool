@@ -5,6 +5,7 @@ import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.entity.VideoBase;
 import com.xh.module.base.entity.bbs.BbsArticle;
@@ -266,5 +267,14 @@ public interface SchoolServer {
     @POST("videoBase_")
     Observable<SimpleResponse<List<VideoBase>>> getRecommendRecordVideoList(@Body RequestBody requestBody);
 
+
+    /**
+     * 获取授课老师 授课及班级信息
+     *
+     * @param
+     * @return
+     */
+    @GET("teacher_")
+    Observable<SimpleResponse<List<List<TeacherClass>>>> getTeacherClassInfoById(@Query("id") long uid);
 
 }

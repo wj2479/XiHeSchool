@@ -6,10 +6,30 @@
 
     <application>
         <activity
+            android:name=".activity.LeaveCountActivity"
+            android:label="请假统计"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.StudentResultActivity"
+            android:label="成绩"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StudentAssessActivity"
+            android:label="学生点评"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HomeWorkAssessActivity"
+            android:label="作业点评"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PublishHomeWorkActivity"
+            android:label="发布作业"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.CourseDetailsActivity"
             android:label="延时课程详情"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBarTheme"></activity>
+            android:theme="@style/NoActionBarTheme" />
         <activity
             android:name=".activity.DelayStudyActivity"
             android:label="课后延时服务课程"
@@ -21,7 +41,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.WorkManagerActivity"
+            android:name=".activity.HomeWorkManagerActivity"
             android:label="作业管理"
             android:screenOrientation="portrait" />
         <activity

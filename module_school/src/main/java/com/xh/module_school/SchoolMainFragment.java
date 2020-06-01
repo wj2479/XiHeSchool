@@ -21,9 +21,11 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.xh.module.base.BaseFragment;
 import com.xh.module.base.Constant;
 import com.xh.module.base.db.DBManager;
+import com.xh.module.base.entity.Clas;
 import com.xh.module.base.entity.Role;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
+import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.impl.SchoolRepository;
@@ -52,6 +54,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -117,8 +121,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         // 获取保存的角色
         DataRepository.role = getSeceltRole();
         Log.e("TAG", "保存的角色:" + gson.toJson(DataRepository.role));
-        getSchoolInfoById(DataRepository.role.getSchool_id());
-        initContentLayout(DataRepository.role);
+        onSelectRole(DataRepository.role);
 
 //        webView = rootView.findViewById(R.id.webview);
 //        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -222,7 +225,66 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
                 (DataRepository.school != null && !DataRepository.school.getId().equals(role.getSchool_id()))) {
             getSchoolInfoById(role.getSchool_id());
         }
+
+        // 如果是老师角色
+        if (role.getId() == Constant.ROLE_CODE_TEACHER) {
+            // 如果班级信息还没有初始化
+            if (DataRepository.courseListMap == null) {
+                getTeacherClassInfoById(715679245308788736L);
+            }
+        }
+
+        // 如果是班主任
+        if (role.getId() == Constant.ROLE_CODE_CLASS_MASTER) {
+            if (DataRepository.clas == null) {
+                getClassInfoById();
+            }
+        }
+
         initContentLayout(role);
+    }
+
+    /**
+     * 获取班级的基本信息
+     */
+    private void getClassInfoById() {
+    }
+
+    /**
+     * 获取教师班级及授课信息
+     *
+     * @param id
+     */
+    private void getTeacherClassInfoById(Long id) {
+        SchoolRepository.getInstance().getTeacherClassInfoById(id, new IRxJavaCallBack<SimpleResponse<List<List<TeacherClass>>>>() {
+            @Override
+            public void onSuccess(SimpleResponse<List<List<TeacherClass>>> response) {
+                if (response.getCode() == ResponseCode.RESULT_OK) {
+                    DataRepository.courseListMap = new HashMap<>();
+
+                    for (List<TeacherClass> datum : response.getData()) {
+                        for (TeacherClass teacherClass : datum) {
+                            if (DataRepository.courseListMap.containsKey(teacherClass.getCourse())) {
+                                List<Clas> clasList = DataRepository.courseListMap.get(teacherClass.getCourse());
+                                clasList.add(teacherClass.getClas());
+                            } else {
+                                List<Clas> clasList = new LinkedList<>();
+                                clasList.add(teacherClass.getClas());
+                                DataRepository.courseListMap.put(teacherClass.getCourse(), clasList);
+                            }
+                        }
+                    }
+                    Log.e("TAG", "获取老师信息:" + DataRepository.courseListMap.toString());
+                } else {
+                    Log.e("TAG", "获取老师信息出错:" + gson.toJson(response));
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("TAG", "获取老师信息异常:" + throwable.toString());
+            }
+        });
     }
 
     /**

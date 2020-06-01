@@ -6,6 +6,7 @@ import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.repository.ISchoolRepository;
 import com.xh.module.base.retrofit.ApiManager;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
@@ -349,6 +350,30 @@ public class SchoolRepository implements ISchoolRepository {
                 .subscribe(new Consumer<SimpleResponse<List<ClassDemeanor>>>() {
                                @Override
                                public void accept(SimpleResponse<List<ClassDemeanor>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+
+    }
+
+    @Override
+    public void getTeacherClassInfoById(long uid, IRxJavaCallBack<SimpleResponse<List<List<TeacherClass>>>> callback) {
+        ApiManager.getInstance().getSchoolServer().getTeacherClassInfoById(uid)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<List<TeacherClass>>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<List<TeacherClass>>> simpleResponse) throws Exception {
                                    if (callback != null) {
                                        callback.onSuccess(simpleResponse);
                                    }

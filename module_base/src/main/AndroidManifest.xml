@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xh.module">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application>
+        <activity android:name=".base.activity.AudioRecordActivity"></activity>
         <activity
             android:name=".base.activity.VideoPlayActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/NoActionBarTheme"></activity>
+            android:theme="@style/NoActionBarTheme" />
 
         <service android:name=".base.service.UpdateApkService" />
 

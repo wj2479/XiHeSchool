@@ -44,7 +44,7 @@ public class FamilyMenuFragment extends BaseFragment {
     }
 
     private void initGridView() {
-        List<ImageText> imageTextList = new ArrayList<>();
+        final List<ImageText> imageTextList = new ArrayList<>();
 
         ImageText it1 = new ImageText("家委会", R.drawable.ic_family_org);
         ImageText it2 = new ImageText("学校餐厅", R.drawable.ic_dinging_room);
@@ -70,12 +70,24 @@ public class FamilyMenuFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.e("TAG", "点击了->" + position);
-
-                switch (position) {
-                    case 2:
+                ImageText imageText = imageTextList.get(position);
+                switch (imageText.getText()) {
+                    case "家委会":
+                        break;
+                    case "学校餐厅":
+                        break;
+                    case "学生课程表":
                         startActivity(new Intent(getContext(), CourseTableActivity.class));
                         break;
-                    case 7:
+                    case "行为评价":
+                        break;
+                    case "出入记录":
+                        break;
+                    case "请假管理":
+                        break;
+                    case "考勤记录":
+                        break;
+                    case "课后延时":
                         startActivity(new Intent(getContext(), DelayStudyActivity.class));
                         break;
                 }

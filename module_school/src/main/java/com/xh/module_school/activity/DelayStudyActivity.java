@@ -1,10 +1,15 @@
 package com.xh.module_school.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.xh.module.base.BackActivity;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
@@ -55,6 +60,12 @@ public class DelayStudyActivity extends BackActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new DelayStudyAdapter(this, list);
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
+                startActivity(new Intent(DelayStudyActivity.this, CourseDetailsActivity.class));
+            }
+        });
         recyclerView.setAdapter(adapter);
 
 

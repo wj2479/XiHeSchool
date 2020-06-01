@@ -16,6 +16,7 @@
         android:background="@null"
         android:gravity="top"
         android:hint="说点什么吧"
+        android:maxLength="200"
         android:minHeight="@dimen/dp_100"
         android:textColor="@color/text_color_main"
         android:textColorHint="@color/c0"

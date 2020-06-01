@@ -20,11 +20,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
-import com.xh.module.R2;
 import com.xh.module.base.BaseApplication;
 import com.xh.module.base.entity.VideoBase;
 import com.xh.module.base.utils.PathUtils;
 import com.xh.module_teach.R;
+import com.xh.module_teach.R2;
 import com.xh.module_teach.adapter.RecordVideoAdapter;
 
 import java.util.ArrayList;
@@ -41,13 +41,14 @@ public class RecordVideoDetailsActivity extends AppCompatActivity {
 
     public static final String VIDEO = "VIDEO";
 
-    @BindView(com.xh.module_teach.R2.id.refreshLayout)
+    @BindView(R2.id.refreshLayout)
     SmartRefreshLayout refreshLayout;
-    @BindView(com.xh.module_teach.R2.id.recyclerView)
+    @BindView(R2.id.recyclerView)
     RecyclerView recyclerView;
-
     @BindView(R2.id.jz_video)
     JzvdStd Jzvd;
+    @BindView(R2.id.introTv)
+    TextView contentTv;
 
     VideoBase videoBase;
 
@@ -79,6 +80,7 @@ public class RecordVideoDetailsActivity extends AppCompatActivity {
             String proxyUrl = BaseApplication.getProxy(this).getProxyUrl(path);
             //设置视频上显示的文字
             Jzvd.setUp(proxyUrl, videoBase.getTitle());
+            contentTv.setText(videoBase.getContent());
         } else {
             finish();
         }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".base.activity.AudioRecordActivity">
+
+    <com.xh.module.base.record.manager.AudioRecordButton
+        android:id="@+id/em_tv_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#cdcdcd"
+        android:gravity="center"
+        android:text="@string/long_click_record"
+        android:textColor="#fff"
+        android:textSize="16dp" />
+</LinearLayout>

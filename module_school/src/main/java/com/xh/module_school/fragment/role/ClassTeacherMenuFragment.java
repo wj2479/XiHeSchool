@@ -16,7 +16,8 @@ import com.xh.module_school.activity.ActionJudgeActivity;
 import com.xh.module_school.activity.CheckMainActivity;
 import com.xh.module_school.activity.ClassDemeanorActivity;
 import com.xh.module_school.activity.ClassInfoActivity;
-import com.xh.module_school.activity.WorkManagerActivity;
+import com.xh.module_school.activity.HomeWorkAssessActivity;
+import com.xh.module_school.activity.HomeWorkManagerActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class ClassTeacherMenuFragment extends BaseFragment {
     }
 
     private void initGridView() {
-        List<ImageText> imageTextList = new ArrayList<>();
+        final List<ImageText> imageTextList = new ArrayList<>();
 
         ImageText it1 = new ImageText("家委会", R.drawable.ic_family_org);
         ImageText it2 = new ImageText("班级信息", R.drawable.ic_infomation);
@@ -78,23 +79,33 @@ public class ClassTeacherMenuFragment extends BaseFragment {
         menuGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
+                ImageText imageText = imageTextList.get(position);
+                switch (imageText.getText()) {
+                    case "家委会":
+                        break;
+                    case "班级信息":
                         startActivity(new Intent(getContext(), ClassInfoActivity.class));
                         break;
-                    case 1:
+                    case "班级安全":
                         startActivity(new Intent(getContext(), CheckMainActivity.class));
                         break;
-                    case 2:
+                    case "班级风采":
                         startActivity(new Intent(getContext(), ClassDemeanorActivity.class));
                         break;
-                    case 3:
+                    case "行为评价":
                         startActivity(new Intent(getContext(), ActionJudgeActivity.class));
                         break;
-                    case 4:
-                        startActivity(new Intent(getContext(), WorkManagerActivity.class));
+                    case "作业管理":
+                        startActivity(new Intent(getContext(), HomeWorkManagerActivity.class));
                         break;
-                    case 5:
+                    case "作业点评":
+                        startActivity(new Intent(getContext(), HomeWorkAssessActivity.class));
+                        break;
+                    case "考勤记录":
+                        startActivity(new Intent(getContext(), CheckMainActivity.class));
+                        break;
+                    case "餐厅":
+                        showInfoDialogAndDismiss("该功能暂未开放,敬请期待");
                         break;
                 }
             }

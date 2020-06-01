@@ -5,6 +5,7 @@ import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 
@@ -116,5 +117,13 @@ public interface ISchoolRepository {
      * @param callback
      */
     void getClassDemeanors(long classId, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>> callback);
+
+    /**
+     * 获取授课老师 授课及班级信息
+     *
+     * @param uid
+     * @param callback
+     */
+    void getTeacherClassInfoById(long uid, IRxJavaCallBack<SimpleResponse<List<List<TeacherClass>>>> callback);
 
 }

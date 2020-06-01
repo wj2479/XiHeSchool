@@ -13,7 +13,13 @@ import com.xh.module.base.entity.ImageText;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
+import com.xh.module_school.activity.ActionJudgeActivity;
 import com.xh.module_school.activity.DelayStudyActivity;
+import com.xh.module_school.activity.HomeWorkAssessActivity;
+import com.xh.module_school.activity.HomeWorkManagerActivity;
+import com.xh.module_school.activity.LeaveCountActivity;
+import com.xh.module_school.activity.StudentAssessActivity;
+import com.xh.module_school.activity.StudentResultActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -47,10 +53,10 @@ public class TeachMenuFragment extends BaseFragment {
     }
 
     private void initGridView() {
-        List<ImageText> imageTextList = new ArrayList<>();
+        final List<ImageText> imageTextList = new ArrayList<>();
 
         ImageText it1 = new ImageText("餐厅", R.drawable.ic_dinging_room);
-        ImageText it2 = new ImageText("作业管理 ", R.drawable.ic_work_manager);
+        ImageText it2 = new ImageText("作业管理", R.drawable.ic_work_manager);
         ImageText it3 = new ImageText("作业点评", R.drawable.ic_work_dianping);
         ImageText it4 = new ImageText("行为评价", R.drawable.ic_action_judge);
         ImageText it5 = new ImageText("成绩", R.drawable.ic_chengji_manager);
@@ -72,9 +78,30 @@ public class TeachMenuFragment extends BaseFragment {
         menuGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("TAG", "点击了->" + position);
-                switch (position) {
-                    case 7:
+                ImageText imageText = imageTextList.get(position);
+                Log.e("TAG", "点击了->" + imageText.getText());
+                switch (imageText.getText()) {
+                    case "餐厅":
+                        break;
+                    case "作业管理":
+                        startActivity(new Intent(getContext(), HomeWorkManagerActivity.class));
+                        break;
+                    case "作业点评":
+                        startActivity(new Intent(getContext(), HomeWorkAssessActivity.class));
+                        break;
+                    case "行为评价":
+                        startActivity(new Intent(getContext(), ActionJudgeActivity.class));
+                        break;
+                    case "成绩":
+                        startActivity(new Intent(getContext(), StudentResultActivity.class));
+                        break;
+                    case "学生点评":
+                        startActivity(new Intent(getContext(), StudentAssessActivity.class));
+                        break;
+                    case "请假统计":
+                        startActivity(new Intent(getContext(), LeaveCountActivity.class));
+                        break;
+                    case "课后延时":
                         startActivity(new Intent(getContext(), DelayStudyActivity.class));
                         break;
                 }

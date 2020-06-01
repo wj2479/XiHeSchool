@@ -66,6 +66,7 @@ dependencies {
 
     //基础工具库
     api rootProject.ext.dependencies.Rxtools
+    api rootProject.ext.dependencies.RxUI
 
     // jsbridge
     api rootProject.ext.dependencies.jsbridge
@@ -90,9 +91,6 @@ dependencies {
 
     //沉浸式状态栏
     api rootProject.ext.dependencies.statusbarutil
-
-    // banner
-    api rootProject.ext.dependencies.banner
 
     api rootProject.ext.dependencies.rxpermissions
 
