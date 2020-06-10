@@ -33,7 +33,6 @@ public class HomeWorkAssessActivity extends BackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_work_assess);
 
-
         ButterKnife.bind(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -16,7 +16,7 @@ public class Role implements Serializable {
     private Integer createTime;//创建时间
     private Integer type;
     private Long school_id;
-    private Long cla_id;
+    private String cla_id; // 如果是老师。并且有多个班级  用,分割
 
     public Role() {
         super();
@@ -68,11 +68,11 @@ public class Role implements Serializable {
         this.school_id = school_id;
     }
 
-    public Long getCla_id() {
+    public String getCla_id() {
         return cla_id;
     }
 
-    public void setCla_id(Long cla_id) {
+    public void setCla_id(String cla_id) {
         this.cla_id = cla_id;
     }
 

@@ -1,10 +1,13 @@
 package com.xh.module.base.repository;
 
 import com.xh.module.base.entity.ClassDemeanor;
+import com.xh.module.base.entity.ClassId;
+import com.xh.module.base.entity.HomeWorkAnnex;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.Schoolwork;
 import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
 import com.xh.module.base.retrofit.response.SimpleResponse;
@@ -125,5 +128,33 @@ public interface ISchoolRepository {
      * @param callback
      */
     void getTeacherClassInfoById(long uid, IRxJavaCallBack<SimpleResponse<List<List<TeacherClass>>>> callback);
+
+    /**
+     * 添加家庭作业
+     *
+     * @param clasIds   班级id，若多个班级作业一样 使用逗号隔开
+     * @param courseId  课程ID
+     * @param title     标题
+     * @param content   作业内容
+     * @param createUid 发布人
+     * @param callback
+     */
+    void addHomeWork(String clasIds, long courseId, String title, String content, long createUid, IRxJavaCallBack<SimpleResponse<List<ClassId>>> callback);
+
+    /**
+     * 添加作业附件
+     *
+     * @param annexList
+     * @param callback
+     */
+    void addHomeWorkAnnex(List<HomeWorkAnnex> annexList, IRxJavaCallBack<SimpleResponse> callback);
+
+    /**
+     * 获取班级和日期查询作业
+     *
+     * @param clasId
+     * @param callback
+     */
+    void getHomeWorkByClasId(long clasId, String date, IRxJavaCallBack<SimpleResponse<List<Schoolwork>>> callback);
 
 }

@@ -1,19 +1,24 @@
 package com.xh.module.base.retrofit;
 
 import com.xh.module.base.entity.ClassDemeanor;
+import com.xh.module.base.entity.ClassId;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.Schoolwork;
 import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.entity.UserBase;
 import com.xh.module.base.entity.VideoBase;
 import com.xh.module.base.entity.bbs.BbsArticle;
 import com.xh.module.base.entity.bbs.BbsUser;
+import com.xh.module.base.entity.pay.BankResult;
+import com.xh.module.base.entity.pay.OrderInfo;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -267,7 +272,6 @@ public interface SchoolServer {
     @POST("videoBase_")
     Observable<SimpleResponse<List<VideoBase>>> getRecommendRecordVideoList(@Body RequestBody requestBody);
 
-
     /**
      * 获取授课老师 授课及班级信息
      *
@@ -277,4 +281,62 @@ public interface SchoolServer {
     @GET("teacher_")
     Observable<SimpleResponse<List<List<TeacherClass>>>> getTeacherClassInfoById(@Query("id") long uid);
 
+    /**
+     * 添加学校作业
+     *
+     * @param
+     **/
+    @POST("schoolwork")
+    Observable<SimpleResponse<List<ClassId>>> addHomeWork(@Body RequestBody requestBody);
+
+    /**
+     * 添加学校作业附件
+     *
+     * @param
+     **/
+    @PUT("schoolworkEnclosure_")
+    Observable<SimpleResponse> addHomeWorkAnnex(@Body RequestBody requestBody);
+
+    /**
+     * 添加学校作业附件
+     *
+     * @param
+     **/
+    @GET("schoolwork_")
+    Observable<SimpleResponse<List<Schoolwork>>> getHomeWorkByClasId(@Query("clasId") long clasId, @Query("date") String date);
+
+    /**
+     * 获取银行的请求
+     *
+     * @param
+     **/
+    @POST("bank")
+    Observable<BankResult> requestBank(@Body RequestBody requestBody);
+
+    /**
+     * 根据用户查询未支付的订单列表
+     *
+     * @param uid
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @GET("orderInfo_")
+    Observable<SimpleResponse<List<OrderInfo>>> getUnpaidOrder(@Query("uid") long uid, @Query("page") int page, @Query("pagesize") int pageSize);
+
+    /**
+     * 根据用户查询已支付的订单列表
+     *
+     * @return
+     */
+    @POST("orderInfo_")
+    Observable<SimpleResponse<List<OrderInfo>>> getPaidOrder(@Body RequestBody requestBody);
+
+    /**
+     * 根据用户查询未支付的订单列表
+     *
+     * @return
+     */
+    @POST("orderInfo_")
+    Completable requestWallet(@Body RequestBody requestBody);
 }

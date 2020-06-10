@@ -57,8 +57,10 @@ public class LoginActivity extends BaseActivity {
 
         //获取保存的用户名
         String savedUserName = SharedPreferencesUtil.get(LoginActivity.this, Constant.SAVE_LOGIN_USERNAME);
-        usernameEditText.setText(savedUserName);
-        usernameEditText.setSelection(savedUserName.length());
+        if (!TextUtils.isEmpty(savedUserName)) {
+            usernameEditText.setText(savedUserName);
+            usernameEditText.setSelection(savedUserName.length());
+        }
 
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override

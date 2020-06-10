@@ -16,6 +16,17 @@ public class Constant {
 
     public static final String EVENT_FINISH_ALL_ACTIVITY = "EVENT_FINISH_ALL_ACTIVITY";
 
+    public static final String INTENT_ACTION_WEB = "com.xh.school.web";
+
+    /**
+     * 七牛云相关密钥
+     */
+    public static final String QINIU_AccessKey = "DRUZLUbK5M9FkPfQipSfKGhY341jC0MW2yHAKZLl";
+    public static final String QINIU_SecretKey = "cYHst1bfUgEtgfntW6m08R3Zd6G36LNnggcIBKxk";
+    public static final String QINIU_Bucket = "app-xihe";
+    // 七牛云绑定的空间域名
+    public static final String QINIU_Server_Host = "http://qb88ih4rg.bkt.clouddn.com/";
+
     /**
      * 保存的用户名
      */

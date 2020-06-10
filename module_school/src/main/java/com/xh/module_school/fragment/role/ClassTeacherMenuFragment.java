@@ -17,7 +17,7 @@ import com.xh.module_school.activity.CheckMainActivity;
 import com.xh.module_school.activity.ClassDemeanorActivity;
 import com.xh.module_school.activity.ClassInfoActivity;
 import com.xh.module_school.activity.HomeWorkAssessActivity;
-import com.xh.module_school.activity.HomeWorkManagerActivity;
+import com.xh.module_school.activity.TeacherHomeWorkActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -82,6 +82,7 @@ public class ClassTeacherMenuFragment extends BaseFragment {
                 ImageText imageText = imageTextList.get(position);
                 switch (imageText.getText()) {
                     case "家委会":
+                        showInfoDialogAndDismiss("该功能暂未开放,敬请期待");
                         break;
                     case "班级信息":
                         startActivity(new Intent(getContext(), ClassInfoActivity.class));
@@ -96,7 +97,7 @@ public class ClassTeacherMenuFragment extends BaseFragment {
                         startActivity(new Intent(getContext(), ActionJudgeActivity.class));
                         break;
                     case "作业管理":
-                        startActivity(new Intent(getContext(), HomeWorkManagerActivity.class));
+                        startActivity(new Intent(getContext(), TeacherHomeWorkActivity.class));
                         break;
                     case "作业点评":
                         startActivity(new Intent(getContext(), HomeWorkAssessActivity.class));

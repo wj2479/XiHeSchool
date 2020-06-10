@@ -5,10 +5,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application>
+        <activity android:name=".activity.HomeworkDetailsActivity"></activity>
         <activity
             android:name=".activity.LeaveCountActivity"
             android:label="请假统计"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StudentResultActivity"
             android:label="成绩"
@@ -41,8 +42,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activity.HomeWorkManagerActivity"
-            android:label="作业管理"
+            android:name=".activity.TeacherHomeWorkActivity"
+            android:label="作业列表"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ActionJudgeActivity"

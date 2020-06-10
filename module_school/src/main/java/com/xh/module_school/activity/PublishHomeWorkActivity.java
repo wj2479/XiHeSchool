@@ -3,7 +3,10 @@ package com.xh.module_school.activity;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.Animatable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,30 +16,45 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnResultCallbackListener;
 import com.luck.picture.lib.tools.SdkVersionUtils;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
 import com.qmuiteam.qmui.skin.QMUISkinManager;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.tamsiree.rxkit.RxKeyboardTool;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.xh.module.base.BackActivity;
+import com.xh.module.base.Constant;
 import com.xh.module.base.activity.VideoPlayActivity;
 import com.xh.module.base.adapter.NoAddGridImageAdapter;
 import com.xh.module.base.entity.Clas;
+import com.xh.module.base.entity.ClassId;
 import com.xh.module.base.entity.Course;
+import com.xh.module.base.entity.HomeWorkAnnex;
+import com.xh.module.base.qiniu.QiniuTools;
 import com.xh.module.base.record.manager.AudioRecordButton;
+import com.xh.module.base.record.manager.MediaManager;
 import com.xh.module.base.repository.DataRepository;
+import com.xh.module.base.repository.impl.SchoolRepository;
+import com.xh.module.base.retrofit.IRxJavaCallBack;
+import com.xh.module.base.retrofit.ResponseCode;
+import com.xh.module.base.retrofit.response.SimpleResponse;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.view.GlideEngine;
 import com.xh.module.base.view.MarginDecoration;
@@ -45,8 +63,13 @@ import com.xh.module_school.R2;
 import com.xh.module_school.adapter.HomeWorkMediaAdapter;
 import com.xh.module_school.entity.VideoVoice;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +102,7 @@ public class PublishHomeWorkActivity extends BackActivity {
     AudioRecordButton voiceTv;
 
     /**
-     * 当前选择的班级
+     * 当前选择的课程
      */
     Course selectCourse;
     /**
@@ -101,6 +124,11 @@ public class PublishHomeWorkActivity extends BackActivity {
      * 音视频的适配器
      */
     HomeWorkMediaAdapter mediaAdapter;
+
+    /**
+     * 最大的音视频数量
+     */
+    private final int maxMediaSize = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,11 +155,35 @@ public class PublishHomeWorkActivity extends BackActivity {
         mediaAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                VideoVoice videoVoice = mediaList.get(0);
-                ARouter.getInstance().build(RouteUtils.Base_Activity_Video_Play)
-                        .withString(VideoPlayActivity.PATH, videoVoice.getPath())
-                        .withBoolean(VideoPlayActivity.AUTO_PLAY, true)
-                        .navigation();
+                VideoVoice videoVoice = mediaList.get(position);
+                if (videoVoice.getItemType() == VideoVoice.TYPE_VIDEO) {
+                    ARouter.getInstance().build(RouteUtils.Base_Activity_Video_Play)
+                            .withString(VideoPlayActivity.PATH, videoVoice.getPath())
+                            .withBoolean(VideoPlayActivity.AUTO_PLAY, true)
+                            .navigation();
+                } else if (videoVoice.getItemType() == VideoVoice.TYPE_VOICE) {
+                    final ImageView iv = (ImageView) view.findViewById(R.id.voiceIv);
+//                    onVoicePlayClick(iv, videoVoice.getPath());
+                }
+            }
+        });
+
+        mediaAdapter.setOnItemLongClickListener(new OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                showMessageNegativeDialog(position);
+                return true;
+            }
+        });
+
+//        mediaAdapter.addChildClickViewIds(R.id.voiceIv);
+        mediaAdapter.setOnItemChildClickListener(new OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                VideoVoice videoVoice = mediaList.get(position);
+                if (videoVoice.getItemType() == VideoVoice.TYPE_VOICE) {
+                    onVoicePlayClick((ImageView) view, videoVoice.getPath());
+                }
             }
         });
         mediaRecycleView.setNestedScrollingEnabled(false);
@@ -140,18 +192,83 @@ public class PublishHomeWorkActivity extends BackActivity {
         voiceTv.setHasRecordPromission(false);
     }
 
+    /**
+     * 音频播放Imageview点击事件
+     *
+     * @param iv
+     * @param path
+     */
+    private void onVoicePlayClick(final ImageView iv, String path) {
+        iv.setImageResource(R.drawable.anim_voice_play);
+        final Animatable animatable = (Animatable) iv.getDrawable();
+        animatable.start();
+        MediaManager.playSound(path, new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                animatable.stop();
+                iv.setImageResource(R.drawable.ic_voice_play);
+            }
+        });
+    }
+
+    /**
+     * 删除提示对话框
+     *
+     * @param position
+     */
+    private void showMessageNegativeDialog(final int position) {
+        VideoVoice videoVoice = mediaList.get(position);
+        String type = "视频";
+        if (videoVoice.getItemType() == VideoVoice.TYPE_VOICE) {
+            type = "音频";
+        }
+
+        new QMUIDialog.MessageDialogBuilder(this)
+                .setTitle("提示")
+                .setMessage("确定要删除该" + type + "吗？")
+                .setSkinManager(QMUISkinManager.defaultInstance(this))
+                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        dialog.dismiss();
+                    }
+                })
+                .addAction(0, "删除", QMUIDialogAction.ACTION_PROP_NEGATIVE, new QMUIDialogAction.ActionListener() {
+                    @Override
+                    public void onClick(QMUIDialog dialog, int index) {
+                        try {
+                            if (position != RecyclerView.NO_POSITION && mediaList.size() > position) {
+                                mediaList.remove(position);
+                                mediaAdapter.notifyItemRemoved(position);
+                                mediaAdapter.notifyItemRangeChanged(position, mediaList.size());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        dialog.dismiss();
+                    }
+                })
+                .create(R.style.QMUI_Dialog).show();
+    }
+
     private void initData() {
         if (DataRepository.courseListMap == null) {
             showInfoDialogAndDismiss("没有获取到任课信息");
             return;
         }
 
-        selectCourse = DataRepository.courseListMap.entrySet().iterator().next().getKey();
-        courseTv.setText(selectCourse.getCourseName());
-        selectCls = new int[]{0};
-        setClass();
+        Iterator<Map.Entry<Course, List<Clas>>> iterator = DataRepository.courseListMap.entrySet().iterator();
+        if (iterator.hasNext()) {
+            selectCourse = iterator.next().getKey();
+            courseTv.setText(selectCourse.getCourseName());
+            selectCls = new int[]{0};
+            setClass();
+        }
     }
 
+    /**
+     * 设置班级信息
+     */
     private void setClass() {
         List<Clas> clasList = DataRepository.courseListMap.get(selectCourse);
         StringBuilder sb = new StringBuilder();
@@ -163,8 +280,23 @@ public class PublishHomeWorkActivity extends BackActivity {
                 sb.append("\n");
             }
         }
-
         classTv.setText(sb.toString());
+    }
+
+    /**
+     * 获取指定类型的音视频数量
+     *
+     * @param type
+     * @return
+     */
+    private int getMediaSize(int type) {
+        int size = 0;
+        for (VideoVoice videoVoice : mediaList) {
+            if (videoVoice.getItemType() == type) {
+                size++;
+            }
+        }
+        return size;
     }
 
     @Override
@@ -176,8 +308,230 @@ public class PublishHomeWorkActivity extends BackActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.publish) {
+
+            addHomeWork();
+
+//            if (picAdapter.getData().size() > 0) {
+//                LocalMedia media = picAdapter.getData().get(0);
+//                Map<String, String> xParams = new HashMap<String, String>();
+//
+//                UploadOptions uploadOptions = new UploadOptions(xParams, null, false,
+//                        new UpProgressHandler() {
+//                            @Override
+//                            public void progress(String key, double percent) {
+//                            }
+//                        }, null);
+//
+//
+//                QiniuTools.getUploadManager().put(media.getPath(), media.getFileName(), token, new UpCompletionHandler() {
+//                    @Override
+//                    public void complete(String key, ResponseInfo info, JSONObject response) {
+//                        if (info.isOK()) {
+//                            try {
+//                                String fileKey = response.getString("key");
+//                                String fileHash = response.getString("hash");
+//                                Log.e("TAG", response.toString());
+//
+//                            } catch (JSONException e) {
+//                                AsyncRun.runInMain(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                    }
+//                                });
+//                            }
+//                        } else {
+//                        }
+//                    }
+//                }, uploadOptions);
+//            }
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 添加作业
+     */
+    private void addHomeWork() {
+        if (selectCourse == null) {
+            showInfoDialogAndDismiss("选择课程不能为空");
+            return;
+        }
+
+        if (selectCls.length == 0) {
+            showInfoDialogAndDismiss("选择班级不能为空");
+            return;
+        }
+
+        String content = contentEt.getText().toString().trim();
+        if (TextUtils.isEmpty(content)) {
+            showInfoDialogAndDismiss("作业内容不能为空");
+            contentEt.requestFocus();
+            return;
+        }
+
+        List<Clas> clasList = DataRepository.courseListMap.get(selectCourse);
+
+        // 组合选择班级字符串
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < selectCls.length; i++) {
+            int n = selectCls[i];
+            sb.append(clasList.get(n).getId());
+            if (i <= selectCls.length) {
+                sb.append(",");
+            }
+        }
+
+        showLoadingDialog("正在发布作业");
+        SchoolRepository.getInstance().addHomeWork(sb.toString(), selectCourse.getId(), "", content, DataRepository.userInfo.getUid(), new IRxJavaCallBack<SimpleResponse<List<ClassId>>>() {
+            @Override
+            public void onSuccess(SimpleResponse<List<ClassId>> listSimpleResponse) {
+                Log.e("TAG", "上传成功:" + gson.toJson(listSimpleResponse));
+                if (listSimpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                    uploadHomeWorkImg(listSimpleResponse.getData());
+                } else {
+                    publishFailed();
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                publishFailed();
+            }
+        });
+    }
+
+    /**
+     * 上传附件到七牛云服务器
+     *
+     * @param classIdList
+     */
+    private void uploadHomeWorkImg(List<ClassId> classIdList) {
+        List<LocalMedia> data = picAdapter.getData();
+
+        List<VideoVoice> list = new ArrayList<>();
+        for (LocalMedia media : data) {
+            VideoVoice videoVoice = new VideoVoice();
+            videoVoice.setMimeType(VideoVoice.MIMETYPE_IMAGE);
+            videoVoice.setPath(media.getPath());
+            list.add(videoVoice);
+        }
+
+        list.addAll(mediaList);
+
+        uploadHomeWorkImg(list, classIdList, new IRxJavaCallBack<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Log.e("TAG", "上传成功");
+                addHomeWorkEnclosure(pluses);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("TAG", "上传出错");
+                publishFailed();
+            }
+        });
+    }
+
+    /**
+     * 作业发布失败提示
+     */
+    private void publishFailed() {
+        dismissDialog();
+        showFailDialogAndDismiss("发布过程中出错，请稍后再试");
+    }
+
+
+    List<HomeWorkAnnex> pluses = new ArrayList<>();
+
+    /**
+     * 上传作业附件
+     *
+     * @param mediaList
+     * @param classIdList
+     */
+    private void uploadHomeWorkImg(final List<VideoVoice> mediaList, final List<ClassId> classIdList, @Nullable final IRxJavaCallBack<String> callBack) {
+        if (mediaList == null) {
+            if (callBack != null) {
+                callBack.onError(new Throwable("传入上传列表为空"));
+            }
+            return;
+        }
+
+        if (mediaList.size() > 0) {
+            final VideoVoice videoVoice = mediaList.remove(0);
+            if (videoVoice != null) {
+                final File file = new File(videoVoice.getPath());
+                QiniuTools.getUploadManager().put(videoVoice.getPath(), file.getName(), DataRepository.qiniuToken, new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+                        if (info.isOK()) {
+                            try {
+                                String fileKey = response.getString("key");
+                                String fileHash = response.getString("hash");
+                                Log.e("TAG", response.toString());
+                                Log.e("TAG", gson.toJson(info));
+                                for (ClassId classId : classIdList) {
+                                    HomeWorkAnnex plus = new HomeWorkAnnex();
+                                    plus.setSchoolworkId(classId.getClasId().toString());
+                                    switch (videoVoice.getMimeType()) {
+                                        case VideoVoice.MIMETYPE_IMAGE:
+                                            plus.setType(0);
+                                            break;
+                                        case VideoVoice.MIMETYPE_VOICE:
+                                            plus.setType(1);
+                                            break;
+                                        case VideoVoice.MIMETYPE_VIDEO:
+                                            plus.setType(2);
+                                            break;
+                                    }
+                                    plus.setUrl(Constant.QINIU_Server_Host + fileKey);
+                                    pluses.add(plus);
+                                }
+                                uploadHomeWorkImg(mediaList, classIdList, callBack);
+                            } catch (JSONException e) {
+
+                            }
+                        } else {
+                            if (callBack != null) {
+                                callBack.onError(new Throwable("上传失败"));
+                            }
+                        }
+                    }
+                }, null);
+            } else {
+                uploadHomeWorkImg(mediaList, classIdList, callBack);
+            }
+        } else {
+            if (callBack != null) {
+                callBack.onSuccess("success");
+            }
+        }
+    }
+
+    /**
+     * 添加作业附件
+     *
+     * @param pluses
+     */
+    private void addHomeWorkEnclosure(List<HomeWorkAnnex> pluses) {
+        SchoolRepository.getInstance().addHomeWorkAnnex(pluses, new IRxJavaCallBack<SimpleResponse>() {
+            @Override
+            public void onSuccess(SimpleResponse simpleResponse) {
+                dismissDialog();
+                if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                    showSuccessDialogAndFinish("发布成功");
+                } else {
+                    showFailDialogAndDismiss("发布过程中出错，请稍后再试");
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                publishFailed();
+            }
+        });
     }
 
     @OnClick(R2.id.courseTv)
@@ -368,41 +722,53 @@ public class PublishHomeWorkActivity extends BackActivity {
 
     @OnClick(R2.id.voiceTv)
     void onVoiceTvClick() {
-        if (!voiceTv.isHasRecordPromission()) {
-            showInfoDialogAndDismiss("长按可录音");
+        if (getMediaSize(VideoVoice.TYPE_VOICE) >= maxMediaSize) {
+            showInfoDialogAndDismiss("您最多可以上传" + maxMediaSize + "条音频数据");
+            return;
         }
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        Log.e("TAG", "授权" + aBoolean);
-                        if (aBoolean) {
-                            voiceTv.setHasRecordPromission(true);
-                            voiceTv.setAudioFinishRecorderListener(new AudioRecordButton.AudioFinishRecorderListener() {
-                                @Override
-                                public void onFinished(float seconds, String filePath) {
-                                    Log.e("ATA", "录音文件:" + filePath);
 
-                                    VideoVoice videoVoice = new VideoVoice();
-                                    videoVoice.setPath(filePath);
-                                    videoVoice.setDuration((long) (seconds * 1000));
-                                    videoVoice.setSize(0);
-                                    videoVoice.setMimeType(VideoVoice.MIMETYPE_VOICE);
-                                    mediaList.add(videoVoice);
-                                    mediaAdapter.notifyDataSetChanged();
-                                }
+        if (!voiceTv.isHasRecordPromission()) {
+            RxPermissions rxPermissions = new RxPermissions(this);
+            rxPermissions.request(Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            Log.e("TAG", "授权" + aBoolean);
+                            if (aBoolean) {
+                                voiceTv.setHasRecordPromission(true);
+                                voiceTv.setAudioFinishRecorderListener(new AudioRecordButton.AudioFinishRecorderListener() {
+                                    @Override
+                                    public void onFinished(float seconds, String filePath) {
+                                        Log.e("ATA", "录音文件:" + filePath);
 
-                            });
-                        } else {
-                            voiceTv.setHasRecordPromission(false);
+                                        VideoVoice videoVoice = new VideoVoice();
+                                        videoVoice.setPath(filePath);
+                                        videoVoice.setDuration((long) (seconds * 1000));
+                                        videoVoice.setSize(0);
+                                        videoVoice.setMimeType(VideoVoice.MIMETYPE_VOICE);
+                                        mediaList.add(videoVoice);
+                                        mediaAdapter.notifyDataSetChanged();
+                                    }
+
+                                });
+                                voiceTv.setText(getString(R.string.long_click_record));
+                                // 隐藏软键盘
+                                RxKeyboardTool.hideSoftInput(PublishHomeWorkActivity.this);
+                            } else {
+                                voiceTv.setHasRecordPromission(false);
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     @OnClick(R2.id.videoTv)
     void onVideoTvClick() {
+        if (getMediaSize(VideoVoice.TYPE_VIDEO) >= maxMediaSize) {
+            showInfoDialogAndDismiss("您最多可以上传" + maxMediaSize + "条视频数据");
+            return;
+        }
+
         PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofVideo())
                 .loadImageEngine(GlideEngine.createGlideEngine())
@@ -413,7 +779,6 @@ public class PublishHomeWorkActivity extends BackActivity {
                         // 结果回调
                         for (LocalMedia media : result) {
                             Log.e("TAG", "视频:" + gson.toJson(media));
-
                             VideoVoice videoVoice = new VideoVoice();
                             videoVoice.setPath(media.getPath());
                             videoVoice.setDuration(media.getDuration());
@@ -421,7 +786,6 @@ public class PublishHomeWorkActivity extends BackActivity {
                             videoVoice.setMimeType(VideoVoice.MIMETYPE_VIDEO);
                             mediaList.add(videoVoice);
                         }
-
                         mediaAdapter.notifyDataSetChanged();
                     }
 

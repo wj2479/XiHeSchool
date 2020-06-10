@@ -17,7 +17,6 @@ import java.io.IOException;
 
 public class MediaManager {
 
-
     private static final String TAG = "MediaManager";
     private static MediaPlayer mPlayer;
     private static boolean isPause;

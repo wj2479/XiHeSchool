@@ -2,10 +2,13 @@ package com.xh.module.base.repository.impl;
 
 import com.google.gson.Gson;
 import com.xh.module.base.entity.ClassDemeanor;
+import com.xh.module.base.entity.ClassId;
+import com.xh.module.base.entity.HomeWorkAnnex;
 import com.xh.module.base.entity.School;
 import com.xh.module.base.entity.SchoolInformation;
 import com.xh.module.base.entity.SchoolmasterMailbox;
 import com.xh.module.base.entity.SchoolmasterMailboxReply;
+import com.xh.module.base.entity.Schoolwork;
 import com.xh.module.base.entity.TeacherClass;
 import com.xh.module.base.repository.ISchoolRepository;
 import com.xh.module.base.retrofit.ApiManager;
@@ -388,6 +391,92 @@ public class SchoolRepository implements ISchoolRepository {
                            }
                 );
 
+    }
+
+    @Override
+    public void addHomeWork(String clasIds, long courseId, String title, String content, long createUid, IRxJavaCallBack<SimpleResponse<List<ClassId>>> callback) {
+        JSONObject params = new JSONObject();
+        try {
+            params.put("clasIds", clasIds);
+            params.put("courseId", courseId);
+            params.put("title", title);
+            params.put("content", content);
+            params.put("createUid", createUid);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), params.toString());
+        ApiManager.getInstance().getSchoolServer().addHomeWork(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<ClassId>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<ClassId>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void addHomeWorkAnnex(List<HomeWorkAnnex> annexList, IRxJavaCallBack<SimpleResponse> callback) {
+        String json = gson.toJson(annexList);
+        LogUtil.e("TAG", "添加的作业附件:" + json);
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+        ApiManager.getInstance().getSchoolServer().addHomeWorkAnnex(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse>() {
+                               @Override
+                               public void accept(SimpleResponse simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void getHomeWorkByClasId(long clasId, String date, IRxJavaCallBack<SimpleResponse<List<Schoolwork>>> callback) {
+        ApiManager.getInstance().getSchoolServer().getHomeWorkByClasId(clasId, date)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<Schoolwork>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<Schoolwork>> simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
     }
 
 }

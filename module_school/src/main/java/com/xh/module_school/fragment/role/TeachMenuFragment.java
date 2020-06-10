@@ -16,10 +16,10 @@ import com.xh.module_school.R2;
 import com.xh.module_school.activity.ActionJudgeActivity;
 import com.xh.module_school.activity.DelayStudyActivity;
 import com.xh.module_school.activity.HomeWorkAssessActivity;
-import com.xh.module_school.activity.HomeWorkManagerActivity;
 import com.xh.module_school.activity.LeaveCountActivity;
 import com.xh.module_school.activity.StudentAssessActivity;
 import com.xh.module_school.activity.StudentResultActivity;
+import com.xh.module_school.activity.TeacherHomeWorkActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -82,9 +82,10 @@ public class TeachMenuFragment extends BaseFragment {
                 Log.e("TAG", "点击了->" + imageText.getText());
                 switch (imageText.getText()) {
                     case "餐厅":
+                        showInfoDialogAndDismiss("该功能暂未开放,敬请期待");
                         break;
                     case "作业管理":
-                        startActivity(new Intent(getContext(), HomeWorkManagerActivity.class));
+                        startActivity(new Intent(getContext(), TeacherHomeWorkActivity.class));
                         break;
                     case "作业点评":
                         startActivity(new Intent(getContext(), HomeWorkAssessActivity.class));

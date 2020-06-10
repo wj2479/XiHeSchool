@@ -32,12 +32,21 @@ public class DataRepository {
      */
     public static Role role;
     /**
-     * 当前班级信息
+     * 班主任 的班级信息
      */
     public static Clas clas;
     /**
      * 当前授课老师任课与班级信息对照表
      */
     public static Map<Course, List<Clas>> courseListMap;
+    /**
+     * 七牛云请求token
+     */
+    public static String qiniuToken;
+
+    /**
+     * 设备唯一的标识
+     */
+    public static String imei = "";
 
 }

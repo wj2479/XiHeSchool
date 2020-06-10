@@ -11,8 +11,8 @@ android {
         applicationId "com.xh.school"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 3
-        versionName "1.0.3"
+        versionCode 4
+        versionName "1.0.4_1020"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

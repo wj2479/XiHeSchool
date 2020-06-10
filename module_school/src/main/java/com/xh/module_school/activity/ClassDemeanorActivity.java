@@ -151,7 +151,9 @@ public class ClassDemeanorActivity extends BackActivity {
      * 获取最新的文章
      */
     private void loadNewInfos() {
-        SchoolRepository.getInstance().getClassDemeanors(DataRepository.role.getCla_id(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
+        if (DataRepository.clas == null)
+            return;
+        SchoolRepository.getInstance().getClassDemeanors(DataRepository.clas.getId(), 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
             @Override
             public void onSuccess(SimpleResponse<List<ClassDemeanor>> response) {
                 dataList.clear();
@@ -176,7 +178,7 @@ public class ClassDemeanorActivity extends BackActivity {
      * 获取更多的文章
      */
     private void loadMoreInfos() {
-        SchoolRepository.getInstance().getClassDemeanors(DataRepository.role.getCla_id(), page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
+        SchoolRepository.getInstance().getClassDemeanors(DataRepository.clas.getId(), page + 1, pageSize, new IRxJavaCallBack<SimpleResponse<List<ClassDemeanor>>>() {
             @Override
             public void onSuccess(SimpleResponse<List<ClassDemeanor>> response) {
                 if (response.getCode() == ResponseCode.RESULT_OK) {

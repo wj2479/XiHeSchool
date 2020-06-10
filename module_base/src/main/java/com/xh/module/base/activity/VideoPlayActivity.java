@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xh.module.R;
 import com.xh.module.R2;
-import com.xh.module.base.BaseApplication;
 import com.xh.module.base.utils.RouteUtils;
 
 import butterknife.BindView;
@@ -39,9 +38,8 @@ public class VideoPlayActivity extends AppCompatActivity {
     private void initData() {
         if (getIntent().hasExtra(PATH)) {
             String path = getIntent().getStringExtra(PATH);
-            String proxyUrl = BaseApplication.getProxy(this).getProxyUrl(path);
             //设置视频上显示的文字
-            Jzvd.setUp(proxyUrl, "");
+            Jzvd.setUp(path, "");
             if (getIntent().getBooleanExtra(AUTO_PLAY, false)) {
                 Jzvd.startVideo();
             }

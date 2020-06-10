@@ -210,7 +210,7 @@ public class PublishClassDemeanorActivity extends BackActivity {
         demeanor.setCreateUid(DataRepository.userInfo.getUid());
         demeanor.setTitle(title);
         demeanor.setIndexImage(homeIvPath);
-        demeanor.setClasId(DataRepository.role.getCla_id());
+        demeanor.setClasId(DataRepository.clas.getId());
 
         SchoolRepository.getInstance().addClassDemeanor(demeanor, new IRxJavaCallBack<SimpleResponse>() {
             @Override

@@ -1,0 +1,69 @@
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
+    <title>
+        js调用android
+    </title>
+    <script src="school_1.0.0.js"></script>
+    <script src="https://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+</head>
+
+<body>
+
+<p>
+</p>
+
+<p>
+    <input type="button" id="dede" value="测试关闭  " onclick="testClose();"/>
+</p>
+
+<p>
+    <input type="button" id="a" value="测试支付成功  " onclick="testPaySuccess();"/>
+</p>
+
+<p>
+    <input type="button" id="b" value="测试支付失败  " onclick="testPayFail();"/>
+</p>
+
+<p>
+    <img class="img" width="100" height="100" id="previewimg">
+</p>
+<input class="select" type="file" id="picfile">
+
+</body>
+
+<script>
+    $('.select').change(function(e) {
+        var _URL = window.URL || window.webkitURL;
+        $("#previewimg").attr("src", _URL.createObjectURL(this.files[0]))
+    })
+</script>
+
+<script>
+
+    function testClose() {
+        EduJsBridge.page.close('',function (result) {
+            console.log(result);
+        });
+    }
+
+    function testPaySuccess() {
+        EduJsBridge.pay.success('00160000071100000000',function (result) {
+            console.log(result);
+        });
+    }
+
+    function testPayFail() {
+        EduJsBridge.pay.fail({
+            unitName:'抬一下左手',
+            code:10202,
+            params:'',
+            type: 4
+        },function (result) {
+            console.log(result);
+        });
+    }
+
+</script>
+
+</html>

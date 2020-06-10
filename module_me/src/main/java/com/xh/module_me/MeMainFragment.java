@@ -22,6 +22,7 @@ import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.utils.SharedPreferencesUtil;
 import com.xh.module_me.activity.AboutActivity;
 import com.xh.module_me.activity.FeedbackActivity;
+import com.xh.module_me.activity.PayMainActivity;
 import com.xh.module_me.activity.SettingMainActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -103,6 +104,12 @@ public class MeMainFragment extends BaseFragment {
     @OnClick(R2.id.roleLayout)
     void onSwitchRoleClick() {
         showRoleChoiceDialog();
+    }
+
+    @OnClick(R2.id.ll_pay_layout)
+    void onPayClick() {
+        Intent intent = new Intent(getContext(), PayMainActivity.class);
+        startActivity(intent);
     }
 
     /**

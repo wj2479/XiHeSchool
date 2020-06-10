@@ -129,7 +129,9 @@ ext {
             qmui                     : 'com.qmuiteam:qmui:2.0.0-alpha08',
 
             //-------------智能下拉刷新框架-------------
-            smartRefreshLayout       : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+            smartRefreshLayout       : 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2',
 
+            //-------------七牛云框架-------------
+            qiniu       : 'com.qiniu:qiniu-android-sdk:7.6.1',
     ]
 }

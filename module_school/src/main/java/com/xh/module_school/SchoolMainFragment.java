@@ -230,7 +230,7 @@ public class SchoolMainFragment extends BaseFragment implements View.OnClickList
         if (role.getId() == Constant.ROLE_CODE_TEACHER) {
             // 如果班级信息还没有初始化
             if (DataRepository.courseListMap == null) {
-                getTeacherClassInfoById(715679245308788736L);
+                getTeacherClassInfoById(DataRepository.userInfo.getUid());
             }
         }
 

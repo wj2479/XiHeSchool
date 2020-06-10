@@ -94,7 +94,7 @@
     var page = {
         /**
          * 跳转到Android新的页面
-         * @param data
+         * @param data  网址
          */
         navigate: function (data,callBack) {
             JSBridge.callHandler('navigate',data,function (result) {
@@ -111,14 +111,36 @@
                 callBack(result)
             })
         },
+    }
 
+    var pay = {
+
+       /**
+        * 支付成功
+        * @param data
+        */
+        success:function (data,callBack){
+           JSBridge.callHandler('paysuccess',data,function (result) {
+               callBack(result)
+           })
+        },
+        /**
+         * 支付失败
+         * @param data
+         */
+        fail: function(data,callBack){
+           JSBridge.callHandler('payfail',data,function (result) {
+               callBack(result)
+           })
+        }
     }
 
     window.EduJsBridge = {
         init: init,
         app: app,
         dialog: dialog,
-        page: page
+        page: page,
+        pay: pay
     }
 
     document.addEventListener("WebViewJavascriptBridgeReady", function onReady(ev) {

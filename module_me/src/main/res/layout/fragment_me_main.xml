@@ -187,6 +187,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
                 <LinearLayout
+                    android:id="@+id/ll_pay_layout"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginTop="@dimen/dp_8"

@@ -6,6 +6,7 @@ public class VideoVoice implements MultiItemEntity {
 
     public static final String MIMETYPE_VIDEO = "video";
     public static final String MIMETYPE_VOICE = "voice";
+    public static final String MIMETYPE_IMAGE = "image";
 
     public static final int TYPE_VIDEO = 0;
     public static final int TYPE_VOICE = 1;
