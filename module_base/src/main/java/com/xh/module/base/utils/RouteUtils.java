@@ -12,10 +12,13 @@ public class RouteUtils {
     public static final String Me_Activity_Update_Password = "/me/activity/update/password";
     //消息提醒
     public static final String Me_Activity_Msg_Setting = "/me/activity/message/setting";
+    //支付页面
+    public static final String Me_Activity_Pay_Webview = "/me/activity/pay/webview";
 
     //获得Base模块视频播放
     public static final String Base_Activity_Video_Play = "/base/activity/video/play";
     public static final String Base_Activity_Audio_Record = "/base/activity/audio/record";
+    public static final String Base_Activity_WebView = "/base/activity/webview";
 
     //获得BBS模块fragment
     public static final String Bbs_Fragment_Main = "/bbs/main";

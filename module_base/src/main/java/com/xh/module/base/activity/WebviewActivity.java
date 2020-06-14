@@ -1,20 +1,29 @@
-package com.xh.school.activity;
+package com.xh.module.base.activity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.webkit.ConsoleMessage;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
@@ -23,13 +32,14 @@ import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.SdkVersionUtils;
-import com.luck.picture.lib.tools.ToastUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.xh.module.R;
+import com.xh.module.R2;
 import com.xh.module.base.BackActivity;
 import com.xh.module.base.utils.LogUtil;
+import com.xh.module.base.utils.RouteUtils;
 import com.xh.module.base.view.GlideEngine;
-import com.xh.school.R;
-import com.xh.school.R2;
+import com.xh.module.base.view.MyWebViewClient;
 
 import java.io.File;
 import java.util.List;
@@ -41,12 +51,15 @@ import io.reactivex.functions.Consumer;
 /**
  * 网页显示的Activity
  */
+@Route(path = RouteUtils.Base_Activity_WebView)
 public class WebviewActivity extends BackActivity {
 
     public static final String URL = "url";
 
     @BindView(R2.id.webView)
-    BridgeWebView webView;
+    public BridgeWebView webView;
+
+    View hintView;
 
     private ValueCallback<Uri[]> filePathCallbackLollipop;
 
@@ -56,6 +69,9 @@ public class WebviewActivity extends BackActivity {
         setContentView(R.layout.activity_webview);
 
         ButterKnife.bind(this);
+        hintView = LayoutInflater.from(this).inflate(R.layout.common_empty, null);
+        TextView emptyTv = hintView.findViewById(R.id.tv_empty);
+        emptyTv.setText("页面打开失败");
 
         initWebview();
 
@@ -93,11 +109,28 @@ public class WebviewActivity extends BackActivity {
         webView.getSettings().setGeolocationEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.getSettings().setTextZoom(100);
+        webView.getSettings().setAllowFileAccess(true);// 设置允许访问文件数据
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);//支持js调用window.open方法
+        webView.getSettings().setSupportMultipleWindows(true);// 设置允许开启多窗口
 
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new MyWebViewClient(webView) {
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
+            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                view.loadUrl("about:blank");// 避免出现默认的错误界面
+                view.removeAllViews();
+                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
+                super.onReceivedError(view, request, error);
+                Log.e("TAG", "出错:onReceivedError");
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                view.loadUrl("about:blank");// 避免出现默认的错误界面
+                view.removeAllViews();
+                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
+                super.onReceivedHttpError(view, request, errorResponse);
+                Log.e("TAG", "出错:onReceivedHttpError");
             }
         });
 
@@ -105,7 +138,29 @@ public class WebviewActivity extends BackActivity {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                setTitle(title);
+                if (title.equals("about:blank")) {
+                    setTitle("空白页面");
+                } else {
+                    setTitle(title);
+                }
+            }
+
+            @Override
+            public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+                WebView web2 = new WebView(WebviewActivity.this);//新创建一个webview
+                web2.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        ARouter.getInstance().build(RouteUtils.Base_Activity_WebView)
+                                .withString("url", url).navigation();
+                        return true;
+                    }
+                });
+                WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+                //以下的操作应该就是让新的webview去加载对应的url等操作。
+                transport.setWebView(web2);
+                resultMsg.sendToTarget();
+                return true;
             }
 
             @Override
@@ -125,12 +180,6 @@ public class WebviewActivity extends BackActivity {
                         }
                     }
                 });
-                return true;
-            }
-
-            @Override
-            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-                Log.e("JS", consoleMessage.message());
                 return true;
             }
         });
@@ -182,15 +231,15 @@ public class WebviewActivity extends BackActivity {
                 //.compressSavePath(getPath())//压缩图片保存地址
                 //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效 注：已废弃
                 //.glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度 注：已废弃
-                .withAspectRatio(158, 100)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
+                .withAspectRatio(16, 9)// 裁剪比例 如16:9 3:2 3:4 1:1 可自定义
                 .hideBottomControls(true)// 是否显示uCrop工具栏，默认不显示
                 .isGif(false)// 是否显示gif图片
-//                        .freeStyleCropEnabled(cb_styleCrop.isChecked())// 裁剪框是否可拖拽
+                .freeStyleCropEnabled(true)// 裁剪框是否可拖拽
 //                        .circleDimmedLayer(cb_crop_circular.isChecked())// 是否圆形裁剪
                 //.setCropDimmedColor(ContextCompat.getColor(getContext(), R.color.app_color_white))// 设置裁剪背景色值
                 //.setCircleDimmedBorderColor(ContextCompat.getColor(getApplicationContext(), R.color.app_color_white))// 设置圆形裁剪边框色值
                 //.setCircleStrokeWidth(3)// 设置圆形裁剪边框粗细
-                .showCropFrame(true)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
+                .showCropFrame(false)// 是否显示裁剪矩形边框 圆形裁剪时建议设为false
                 .showCropGrid(false)// 是否显示裁剪矩形网格 圆形裁剪时建议设为false
                 .isOpenClickSound(false)// 是否开启点击声音
                 //.isDragFrame(false)// 是否可拖动裁剪框(固定)
@@ -212,7 +261,6 @@ public class WebviewActivity extends BackActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         Log.e("WEB", "onActivityResult:" + resultCode);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
@@ -332,7 +380,6 @@ public class WebviewActivity extends BackActivity {
             }
         });
 
-
         /**
          * 打印错误
          */
@@ -378,36 +425,6 @@ public class WebviewActivity extends BackActivity {
                 }
             }
         });
-
-
-        /**
-         * 支付成功
-         */
-        webView.registerHandler("paysuccess", new BridgeHandler() {
-            @Override
-            public void handler(String data, CallBackFunction function) {
-
-                ToastUtils.s(WebviewActivity.this, "支付成功:" + data);
-
-                if (function != null) {
-                    function.onCallBack("success");
-                }
-            }
-        });
-
-        /**
-         * 支付失败
-         */
-        webView.registerHandler("payfail", new BridgeHandler() {
-            @Override
-            public void handler(String data, CallBackFunction function) {
-                ToastUtils.s(WebviewActivity.this, "支付失败:" + data);
-                if (function != null) {
-                    function.onCallBack("success");
-                }
-            }
-        });
-
     }
 
 }

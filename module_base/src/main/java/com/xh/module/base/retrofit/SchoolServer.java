@@ -14,11 +14,11 @@ import com.xh.module.base.entity.bbs.BbsArticle;
 import com.xh.module.base.entity.bbs.BbsUser;
 import com.xh.module.base.entity.pay.BankResult;
 import com.xh.module.base.entity.pay.OrderInfo;
+import com.xh.module.base.entity.pay.UserRealauth;
 import com.xh.module.base.retrofit.response.SimpleResponse;
 
 import java.util.List;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
@@ -306,7 +306,7 @@ public interface SchoolServer {
     Observable<SimpleResponse<List<Schoolwork>>> getHomeWorkByClasId(@Query("clasId") long clasId, @Query("date") String date);
 
     /**
-     * 获取银行的请求
+     * 获取付款的请求
      *
      * @param
      **/
@@ -337,6 +337,32 @@ public interface SchoolServer {
      *
      * @return
      */
-    @POST("orderInfo_")
-    Completable requestWallet(@Body RequestBody requestBody);
+    @PUT("bank")
+    Observable<BankResult> requestWallet(@Body RequestBody requestBody);
+
+    /**
+     * 根据用户实名认证状态
+     *
+     * @return
+     */
+    @GET("userRealauth")
+    Observable<SimpleResponse<UserRealauth>> getRealAuthStatus(@Query("uid") long uid);
+
+    /**
+     * 发起实名认证请求
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("userRealauth")
+    Observable<SimpleResponse> requestUserRealAuth(@Body RequestBody requestBody);
+
+    /**
+     * 更新订单状态
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST("notify")
+    Observable<SimpleResponse> updateOrderStatus(@Body RequestBody requestBody);
 }

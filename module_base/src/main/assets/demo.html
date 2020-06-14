@@ -26,6 +26,10 @@
 </p>
 
 <p>
+    <input id="b" onclick="open_win();" type="button" value="打开新窗口  "/>
+</p>
+
+<p>
     <img class="img" width="100" height="100" id="previewimg">
 </p>
 <input class="select" type="file" id="picfile">
@@ -40,6 +44,10 @@
 </script>
 
 <script>
+
+    function open_win() {
+        window.open("http://www.baidu.com");
+    }
 
     function testClose() {
         EduJsBridge.page.close('',function (result) {

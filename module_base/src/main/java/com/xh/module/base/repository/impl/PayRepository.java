@@ -1,8 +1,12 @@
 package com.xh.module.base.repository.impl;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.xh.module.base.entity.pay.BankResult;
 import com.xh.module.base.entity.pay.OrderInfo;
+import com.xh.module.base.entity.pay.OrderPayResult;
+import com.xh.module.base.entity.pay.UserRealauth;
 import com.xh.module.base.repository.IPayRepository;
 import com.xh.module.base.retrofit.ApiManager;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
@@ -99,6 +103,39 @@ public class PayRepository implements IPayRepository {
     }
 
     @Override
+    public void getPaidOrder(long uid, int page, int pageSize, IRxJavaCallBack<SimpleResponse<List<OrderInfo>>> callback) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("uid", uid);
+            json.put("page", page);
+            json.put("pagesize", pageSize);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
+
+        ApiManager.getInstance().getSchoolServer().getPaidOrder(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<List<OrderInfo>>>() {
+                               @Override
+                               public void accept(SimpleResponse<List<OrderInfo>> response) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(response);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
     public void requestPay(String osType, String phoneType, String mac, String address, String imei, String ip, long uid, String orderIds, IRxJavaCallBack<BankResult> callback) {
         JSONObject json = new JSONObject();
         try {
@@ -152,7 +189,7 @@ public class PayRepository implements IPayRepository {
         }
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
-        ApiManager.getInstance().getSchoolServer().requestBank(requestBody)
+        ApiManager.getInstance().getSchoolServer().requestWallet(requestBody)
                 .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<BankResult>() {
@@ -160,6 +197,83 @@ public class PayRepository implements IPayRepository {
                                public void accept(BankResult bankResult) throws Exception {
                                    if (callback != null) {
                                        callback.onSuccess(bankResult);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void getRealAuthStatus(long uid, IRxJavaCallBack<SimpleResponse<UserRealauth>> callback) {
+        ApiManager.getInstance().getSchoolServer().getRealAuthStatus(uid)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse<UserRealauth>>() {
+                               @Override
+                               public void accept(SimpleResponse<UserRealauth> response) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(response);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+
+    }
+
+    @Override
+    public void requestUserRealAuth(UserRealauth realauth, IRxJavaCallBack<SimpleResponse> callback) {
+        String json = gson.toJson(realauth);
+        Log.e("TAG", "提交实名认证:" + json);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+        ApiManager.getInstance().getSchoolServer().requestUserRealAuth(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse>() {
+                               @Override
+                               public void accept(SimpleResponse simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
+                                   }
+                               }
+                           }, new Consumer<Throwable>() {
+                               @Override
+                               public void accept(Throwable throwable) throws Exception {
+                                   if (callback != null) {
+                                       callback.onError(throwable);
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    public void updateOrderStatus(OrderPayResult orderPayResult, IRxJavaCallBack<SimpleResponse> callback) {
+        String json = gson.toJson(orderPayResult);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
+
+        ApiManager.getInstance().getSchoolServer().updateOrderStatus(requestBody)
+                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<SimpleResponse>() {
+                               @Override
+                               public void accept(SimpleResponse simpleResponse) throws Exception {
+                                   if (callback != null) {
+                                       callback.onSuccess(simpleResponse);
                                    }
                                }
                            }, new Consumer<Throwable>() {

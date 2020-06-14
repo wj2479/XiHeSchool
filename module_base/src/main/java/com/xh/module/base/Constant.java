@@ -16,8 +16,6 @@ public class Constant {
 
     public static final String EVENT_FINISH_ALL_ACTIVITY = "EVENT_FINISH_ALL_ACTIVITY";
 
-    public static final String INTENT_ACTION_WEB = "com.xh.school.web";
-
     /**
      * 七牛云相关密钥
      */

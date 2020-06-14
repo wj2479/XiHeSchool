@@ -2,11 +2,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xh.module_me">
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application android:theme="@style/AppTheme">
+        <activity
+            android:name=".activity.UserRealAuthStatusActivity"
+            android:label="实名认证结果"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.UploadUserRealAuthActivity"
+            android:label="实名认证"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PaidOrderActivity"
             android:label="已支付订单"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.UnpaidOrderInfoActivity"
             android:label="待支付订单"
@@ -16,7 +26,10 @@
             android:label="支付"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme" />
-        <activity android:name=".activity.WebPageActivity" />
+        <activity
+            android:name=".activity.PayWebPageActivity"
+            android:label="支付"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.HelpActivity"
             android:label="帮助"
@@ -47,5 +60,4 @@
             android:screenOrientation="portrait" />
     </application>
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 </manifest>

@@ -1,7 +1,6 @@
 package com.xh.module_me.adapter;
 
 import android.content.Context;
-import android.widget.CheckBox;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -14,14 +13,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * 未支付订单适配器
+ * 已支付订单适配器
  */
-public class UnpaidOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
+public class PaidOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHolder> {
 
     Context mContext;
 
-    public UnpaidOrderAdapter(Context mContext, @Nullable List<OrderInfo> data) {
-        super(R.layout.adapter_unpaid_order, data);
+    public PaidOrderAdapter(Context mContext, @Nullable List<OrderInfo> data) {
+        super(R.layout.adapter_paid_order, data);
         this.mContext = mContext;
     }
 
@@ -31,8 +30,5 @@ public class UnpaidOrderAdapter extends BaseQuickAdapter<OrderInfo, BaseViewHold
         holder.setText(R.id.titleTv, orderInfo.getPayItem().getTitle());
         holder.setText(R.id.contentTv, orderInfo.getPayItem().getContent());
         holder.setText(R.id.amountTv, orderInfo.getAmount().toString());
-        CheckBox checkBox = holder.getView(R.id.checkbox);
-        checkBox.setChecked(orderInfo.isSelected());
     }
-
 }

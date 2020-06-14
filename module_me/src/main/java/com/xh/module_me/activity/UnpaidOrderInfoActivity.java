@@ -23,7 +23,6 @@ import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.tamsiree.rxkit.RxDeviceTool;
 import com.xh.module.base.BackActivity;
-import com.xh.module.base.Constant;
 import com.xh.module.base.entity.pay.BankResult;
 import com.xh.module.base.entity.pay.OrderInfo;
 import com.xh.module.base.repository.DataRepository;
@@ -198,7 +197,7 @@ public class UnpaidOrderInfoActivity extends BackActivity {
 
             @Override
             public void onError(Throwable throwable) {
-                Log.e("TAG", "获取论坛列表:" + throwable.toString());
+                Log.e("PAY", "订单异常:" + throwable.toString());
                 refreshLayout.finishRefresh(500);
             }
         });
@@ -213,13 +212,13 @@ public class UnpaidOrderInfoActivity extends BackActivity {
             public void onSuccess(SimpleResponse<List<OrderInfo>> response) {
                 Log.e("PAY", gson.toJson(response));
                 if (response.getCode() == ResponseCode.RESULT_OK) {
-                    Log.e("TAG", "获取论坛资讯:" + gson.toJson(response.getData()));
+                    Log.e("PAY", "获取订单:" + gson.toJson(response.getData()));
                     dataList.addAll(response.getData());
                     adapter.notifyDataSetChanged();
                     page += 1;
                     hasMore();
                 } else {
-                    Log.e("TAG", "获取论坛失败:" + response.toString());
+                    Log.e("PAY", "订单失败:");
                 }
                 refreshLayout.finishLoadMore(500);
             }
@@ -276,10 +275,10 @@ public class UnpaidOrderInfoActivity extends BackActivity {
                 new IRxJavaCallBack<BankResult>() {
                     @Override
                     public void onSuccess(BankResult bankResult) {
-                        Log.e("TAG", "支付接口:" + gson.toJson(bankResult));
+                        Log.e("TAG", "请求支付接口:" + gson.toJson(bankResult));
                         if (bankResult.getEncryptedData().getCode().equals("000000")) {
                             String url = bankResult.getEncryptedData().getData().getTokenUrl();
-                            Intent intent = new Intent(Constant.INTENT_ACTION_WEB);
+                            Intent intent = new Intent(UnpaidOrderInfoActivity.this, PayWebPageActivity.class);
                             intent.putExtra("url", url);
                             startActivity(intent);
                         }
@@ -287,7 +286,8 @@ public class UnpaidOrderInfoActivity extends BackActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-
+                        Log.e("TAG", "支付异常:" + throwable.toString());
+                        showFailDialogAndDismiss("支付异常");
                     }
                 });
     }

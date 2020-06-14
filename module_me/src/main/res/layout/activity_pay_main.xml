@@ -58,9 +58,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_4"
                 android:gravity="center"
-                android:visibility="gone"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_16">
+                android:textSize="@dimen/sp_16"
+                android:visibility="gone">
 
             </TextView>
         </LinearLayout>
@@ -79,11 +79,11 @@
                 android:textColor="@color/text_color_main"></TextView>
 
             <TextView
+                android:id="@+id/authTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
-                android:hint="未认证"></TextView>
+                android:gravity="right"></TextView>
         </LinearLayout>
 
         <View

@@ -41,10 +41,8 @@ class MainActivity : BaseActivity() {
 
         initTabLayout()
         initPager()
-//
-//        var intent = Intent(Constant.INTENT_ACTION_WEB)
-//        intent.putExtra("url", "http://www.baidu.com")
-//        startActivity(intent)
+
+//        ARouter.getInstance().build(RouteUtils.Me_Activity_Pay_Webview).navigation()
     }
 
     fun initTabLayout() {
