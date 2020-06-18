@@ -12,6 +12,8 @@ class LoginResult {
     private UserBase success;
     @Nullable
     private String error;
+    @Nullable
+    private int code;
 
     LoginResult(@Nullable String error) {
         this.error = error;
@@ -30,4 +32,6 @@ class LoginResult {
     String getError() {
         return error;
     }
+
+
 }

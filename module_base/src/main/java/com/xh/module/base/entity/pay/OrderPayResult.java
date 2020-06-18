@@ -2,7 +2,7 @@ package com.xh.module.base.entity.pay;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * 订单支付结果
@@ -12,12 +12,12 @@ public class OrderPayResult {
     /**
      * 订单编号
      */
-    @Unique
-    String channek_serno;
+    @Id
+    String channel_serno;
     /**
      * 订单状态
      */
-    int orderStatus;
+    String orderStatus;
     /**
      * 服务ID
      */
@@ -27,10 +27,10 @@ public class OrderPayResult {
      */
     long timeStamp;
 
-    @Generated(hash = 801318563)
-    public OrderPayResult(String channek_serno, int orderStatus, String serviceId,
-                          long timeStamp) {
-        this.channek_serno = channek_serno;
+    @Generated(hash = 1030320841)
+    public OrderPayResult(String channel_serno, String orderStatus,
+                          String serviceId, long timeStamp) {
+        this.channel_serno = channel_serno;
         this.orderStatus = orderStatus;
         this.serviceId = serviceId;
         this.timeStamp = timeStamp;
@@ -40,24 +40,24 @@ public class OrderPayResult {
     public OrderPayResult() {
     }
 
-    public String getChannek_serno() {
-        return channek_serno;
+    public String getChannel_serno() {
+        return this.channel_serno;
     }
 
-    public void setChannek_serno(String channek_serno) {
-        this.channek_serno = channek_serno;
+    public void setChannel_serno(String channel_serno) {
+        this.channel_serno = channel_serno;
     }
 
-    public int getOrderStatus() {
-        return orderStatus;
+    public String getOrderStatus() {
+        return this.orderStatus;
     }
 
-    public void setOrderStatus(int orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 
     public String getServiceId() {
-        return serviceId;
+        return this.serviceId;
     }
 
     public void setServiceId(String serviceId) {
@@ -65,10 +65,12 @@ public class OrderPayResult {
     }
 
     public long getTimeStamp() {
-        return timeStamp;
+        return this.timeStamp;
     }
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
+
+
 }

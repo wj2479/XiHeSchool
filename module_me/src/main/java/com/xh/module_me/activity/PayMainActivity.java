@@ -1,5 +1,6 @@
 package com.xh.module_me.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,12 +56,16 @@ public class PayMainActivity extends BaseActivity {
     View remainLayout;
     UserRealauth realauth;
 
+    String[] items = {"v1", "v15"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_main);
 
         ButterKnife.bind(this);
+
+        openIdTv.setText(items[DataRepository.index]);
 
         QMUIStatusBarHelper.setStatusBarLightMode(PayMainActivity.this);
         requestUserRealAuthStatus();
@@ -107,7 +112,8 @@ public class PayMainActivity extends BaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 100:
-                    authTv.setHint(WAIT_AUTHED);
+                    requestUserRealAuthStatus();
+//                    authTv.setHint(WAIT_AUTHED);
                     break;
             }
         }
@@ -120,10 +126,11 @@ public class PayMainActivity extends BaseActivity {
             startActivityForResult(new Intent(this, UploadUserRealAuthActivity.class), 100);
             return;
         }
-//        if (realauth.getState() == 0) {
-//            showInfoDialogAndDismiss("您已提交审核，请耐心等待");
-//            return;
-//        }
+
+        if (realauth.getState() == 0) {
+            showInfoDialogAndDismiss("您已提交审核，请耐心等待");
+            return;
+        }
 
         remainLayout.setEnabled(false);
         String macAddress = RxDeviceTool.getMacAddress(this);
@@ -167,25 +174,18 @@ public class PayMainActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R2.id.serviceIdTv)
+    @OnClick(R2.id.openIdTv)
     void onClick2() {
-        final QMUIDialog.EditTextDialogBuilder builder = new QMUIDialog.EditTextDialogBuilder(this);
-        builder.setTitle("输入")
+        new QMUIDialog.CheckableDialogBuilder(this)
+                .setTitle("请选择接口版本")
+                .setCheckedIndex(DataRepository.index)
                 .setSkinManager(QMUISkinManager.defaultInstance(this))
-                .setDefaultText(serviceIdTv.getText())
-                .setInputType(InputType.TYPE_CLASS_TEXT)
-                .addAction("取消", new QMUIDialogAction.ActionListener() {
+                .addItems(items, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(QMUIDialog dialog, int index) {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                    }
-                })
-                .addAction("确定", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        CharSequence text = builder.getEditText().getText();
-                        serviceIdTv.setText(text);
-                        dialog.dismiss();
+                        DataRepository.index = which;
+                        openIdTv.setText(items[which]);
                     }
                 })
                 .create(R.style.QMUI_Dialog).show();
@@ -273,10 +273,10 @@ public class PayMainActivity extends BaseActivity {
             startActivityForResult(new Intent(this, UploadUserRealAuthActivity.class), 100);
             return;
         }
-//        if (realauth.getState() == 0) {
-//            showInfoDialogAndDismiss("请等待实名认证完成");
-//            return;
-//        }
+        if (realauth.getState() == 0) {
+            showInfoDialogAndDismiss("请等待实名认证完成");
+            return;
+        }
 
         startActivity(new Intent(this, UnpaidOrderInfoActivity.class));
     }
@@ -288,10 +288,10 @@ public class PayMainActivity extends BaseActivity {
             startActivityForResult(new Intent(this, UploadUserRealAuthActivity.class), 100);
             return;
         }
-//        if (realauth.getState() == 0) {
-//            showInfoDialogAndDismiss("您已提交审核，请耐心等待");
-//            return;
-//        }
+        if (realauth.getState() == 0) {
+            showInfoDialogAndDismiss("您已提交审核，请耐心等待");
+            return;
+        }
         startActivity(new Intent(this, PaidOrderActivity.class));
     }
 }

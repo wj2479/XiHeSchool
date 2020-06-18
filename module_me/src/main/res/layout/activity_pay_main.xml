@@ -230,8 +230,7 @@
             android:layout_width="match_parent"
 
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -251,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_8"
-                    android:text="openId"
+                    android:text="接口版本"
                     android:textColor="@color/text_color_main"></TextView>
 
                 <TextView
@@ -261,14 +260,15 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:hint=""
-                    android:text="202006080001"></TextView>
+                    android:text=""></TextView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center_vertical"
-                android:padding="@dimen/dp_8">
+                android:padding="@dimen/dp_8"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -291,7 +291,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center_vertical"
-                android:padding="@dimen/dp_8">
+                android:padding="@dimen/dp_8"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -314,7 +315,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center_vertical"
-                android:padding="@dimen/dp_8">
+                android:padding="@dimen/dp_8"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -338,7 +340,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:gravity="center_vertical"
-                android:padding="@dimen/dp_8">
+                android:padding="@dimen/dp_8"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

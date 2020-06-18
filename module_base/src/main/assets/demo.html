@@ -26,7 +26,7 @@
 </p>
 
 <p>
-    <input id="b" onclick="open_win();" type="button" value="打开新窗口  "/>
+    <input height="30" onclick="open_win();" type="button" value="打开新窗口  " width="100"/>
 </p>
 
 <p>
@@ -44,10 +44,11 @@
 </script>
 
 <script>
-
     function open_win() {
-        window.open("http://www.baidu.com");
-    }
+ 		let win = window.open();
+		win.document.body.innerHTML = "<form action='http://www.baidu.com' method=\"post\"><button type='submit'></button></form>";
+		win.document.forms[0].submit();
+ 	}
 
     function testClose() {
         EduJsBridge.page.close('',function (result) {
@@ -56,17 +57,20 @@
     }
 
     function testPaySuccess() {
-        EduJsBridge.pay.success('00160000071100000000',function (result) {
+        EduJsBridge.pay.success({
+            channel_serno:'722869114606977024',
+            orderStatus:'1',
+            serviceId:'04'
+        },function (result) {
             console.log(result);
         });
     }
 
     function testPayFail() {
         EduJsBridge.pay.fail({
-            unitName:'抬一下左手',
-            code:10202,
-            params:'',
-            type: 4
+            channel_serno:'722869114606977024',
+            orderStatus:'',
+            serviceId:'04'
         },function (result) {
             console.log(result);
         });

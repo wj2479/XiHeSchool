@@ -7,6 +7,7 @@ import com.xh.module.base.entity.pay.BankResult;
 import com.xh.module.base.entity.pay.OrderInfo;
 import com.xh.module.base.entity.pay.OrderPayResult;
 import com.xh.module.base.entity.pay.UserRealauth;
+import com.xh.module.base.repository.DataRepository;
 import com.xh.module.base.repository.IPayRepository;
 import com.xh.module.base.retrofit.ApiManager;
 import com.xh.module.base.retrofit.IRxJavaCallBack;
@@ -17,6 +18,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -152,8 +154,14 @@ public class PayRepository implements IPayRepository {
         }
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
-        ApiManager.getInstance().getSchoolServer().requestBank(requestBody)
-                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+
+        Observable<BankResult> bankResultObservable = null;
+        if (DataRepository.index == 1) {
+            bankResultObservable = ApiManager.getInstance().getSchoolServer().requestBankV15(requestBody);
+        } else {
+            bankResultObservable = ApiManager.getInstance().getSchoolServer().requestBank(requestBody);
+        }
+        bankResultObservable.subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<BankResult>() {
                                @Override
@@ -189,8 +197,13 @@ public class PayRepository implements IPayRepository {
         }
 
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
-        ApiManager.getInstance().getSchoolServer().requestWallet(requestBody)
-                .subscribeOn(Schedulers.io())               //在IO线程进行网络请求
+        Observable<BankResult> bankResultObservable = null;
+        if (DataRepository.index == 1) {
+            bankResultObservable = ApiManager.getInstance().getSchoolServer().requestWalletV15(requestBody);
+        } else {
+            bankResultObservable = ApiManager.getInstance().getSchoolServer().requestWallet(requestBody);
+        }
+        bankResultObservable.subscribeOn(Schedulers.io())               //在IO线程进行网络请求
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<BankResult>() {
                                @Override
@@ -264,6 +277,7 @@ public class PayRepository implements IPayRepository {
     @Override
     public void updateOrderStatus(OrderPayResult orderPayResult, IRxJavaCallBack<SimpleResponse> callback) {
         String json = gson.toJson(orderPayResult);
+        Log.e("TAG", "更新订单状态参数:" + json);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json);
 
         ApiManager.getInstance().getSchoolServer().updateOrderStatus(requestBody)

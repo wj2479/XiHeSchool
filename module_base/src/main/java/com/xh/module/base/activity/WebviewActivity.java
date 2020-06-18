@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -11,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
@@ -22,8 +22,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.github.lzyzsd.jsbridge.BridgeHandler;
 import com.github.lzyzsd.jsbridge.BridgeWebView;
 import com.github.lzyzsd.jsbridge.CallBackFunction;
@@ -115,22 +116,24 @@ public class WebviewActivity extends BackActivity {
         webView.getSettings().setSupportMultipleWindows(true);// 设置允许开启多窗口
 
         webView.setWebViewClient(new MyWebViewClient(webView) {
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                view.loadUrl("about:blank");// 避免出现默认的错误界面
-                view.removeAllViews();
-                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
+//                view.loadUrl("about:blank");// 避免出现默认的错误界面
+//                view.removeAllViews();
+//                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
                 super.onReceivedError(view, request, error);
-                Log.e("TAG", "出错:onReceivedError");
+                Log.e("TAG", "出错:onReceivedError：" + error.getErrorCode());
             }
 
             @Override
             public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
-                view.loadUrl("about:blank");// 避免出现默认的错误界面
-                view.removeAllViews();
-                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
+//                view.loadUrl("about:blank");// 避免出现默认的错误界面
+//                view.removeAllViews();
+//                view.addView(hintView, new ViewGroup.LayoutParams(-1, -1));
                 super.onReceivedHttpError(view, request, errorResponse);
-                Log.e("TAG", "出错:onReceivedHttpError");
+                Log.e("TAG", "出错:onReceivedHttpError:" + errorResponse.getReasonPhrase());
             }
         });
 
@@ -147,12 +150,18 @@ public class WebviewActivity extends BackActivity {
 
             @Override
             public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
-                WebView web2 = new WebView(WebviewActivity.this);//新创建一个webview
+                WebView web2 = new BridgeWebView(WebviewActivity.this);//新创建一个webview
                 web2.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        ARouter.getInstance().build(RouteUtils.Base_Activity_WebView)
-                                .withString("url", url).navigation();
+//                        ARouter.getInstance().build(RouteUtils.Base_Activity_WebView)
+//                                .withString("url", url).navigation();
+                        //从其他浏览器打开
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        Uri content_url = Uri.parse(url);
+                        intent.setData(content_url);
+                        startActivity(Intent.createChooser(intent, "请选择浏览器"));
                         return true;
                     }
                 });

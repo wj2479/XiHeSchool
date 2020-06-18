@@ -49,7 +49,7 @@ public class PayWebPageActivity extends WebviewActivity {
                             if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
                             } else {
                                 payResult.setTimeStamp(System.currentTimeMillis());
-                                DBManager.getInstance().getmDaoSession().getOrderPayResultDao().insert(payResult);
+                                insertOrderStatus2DB(payResult);
                             }
                         }
 
@@ -57,15 +57,14 @@ public class PayWebPageActivity extends WebviewActivity {
                         public void onError(Throwable throwable) {
                             // 如果上传失败，记录失败的消息，适时上传
                             payResult.setTimeStamp(System.currentTimeMillis());
-                            DBManager.getInstance().getmDaoSession().getOrderPayResultDao().insert(payResult);
+                            insertOrderStatus2DB(payResult);
                         }
                     });
 
                     if (function != null) {
                         function.onCallBack("success");
                     }
-                } catch (
-                        Exception e) {
+                } catch (Exception e) {
                     if (function != null) {
                         function.onCallBack("fail");
                     }
@@ -76,17 +75,56 @@ public class PayWebPageActivity extends WebviewActivity {
         /**
          * 支付失败
          */
-        webView.registerHandler("payfail", new
-
-                BridgeHandler() {
-                    @Override
-                    public void handler(String data, CallBackFunction function) {
-                        ToastUtils.s(PayWebPageActivity.this, "支付失败:" + data);
-                        if (function != null) {
-                            function.onCallBack("success");
+        webView.registerHandler("payfail", new BridgeHandler() {
+            @Override
+            public void handler(String data, CallBackFunction function) {
+                ToastUtils.s(PayWebPageActivity.this, "支付失败:" + data);
+                try {
+                    OrderPayResult payResult = gson.fromJson(data, OrderPayResult.class);
+                    PayRepository.getInstance().updateOrderStatus(payResult, new IRxJavaCallBack<SimpleResponse>() {
+                        @Override
+                        public void onSuccess(SimpleResponse simpleResponse) {
+                            Log.e("PAY", "更新订单状态结果：" + gson.toJson(simpleResponse));
+                            if (simpleResponse.getCode() == ResponseCode.RESULT_OK) {
+                            } else {
+                                payResult.setTimeStamp(System.currentTimeMillis());
+                                insertOrderStatus2DB(payResult);
+                            }
                         }
-                    }
-                });
 
+                        @Override
+                        public void onError(Throwable throwable) {
+                            // 如果上传失败，记录失败的消息，适时上传
+                            payResult.setTimeStamp(System.currentTimeMillis());
+                            insertOrderStatus2DB(payResult);
+                        }
+                    });
+
+                    if (function != null) {
+                        function.onCallBack("success");
+                    }
+                } catch (Exception e) {
+                    if (function != null) {
+                        function.onCallBack("fail");
+                    }
+                }
+
+
+                if (function != null) {
+                    function.onCallBack("success");
+                }
+            }
+        });
+    }
+
+    /**
+     * 插入订单支付失败结果到服务器
+     *
+     * @param payResult
+     */
+    private void insertOrderStatus2DB(OrderPayResult payResult) {
+        if (!DBManager.getInstance().getmDaoSession().getOrderPayResultDao().hasKey(payResult)) {
+            DBManager.getInstance().getmDaoSession().getOrderPayResultDao().insert(payResult);
+        }
     }
 }

@@ -314,6 +314,14 @@ public interface SchoolServer {
     Observable<BankResult> requestBank(@Body RequestBody requestBody);
 
     /**
+     * 获取付款的请求
+     *
+     * @param
+     **/
+    @POST("bank_")
+    Observable<BankResult> requestBankV15(@Body RequestBody requestBody);
+
+    /**
      * 根据用户查询未支付的订单列表
      *
      * @param uid
@@ -339,6 +347,15 @@ public interface SchoolServer {
      */
     @PUT("bank")
     Observable<BankResult> requestWallet(@Body RequestBody requestBody);
+
+    /**
+     * 测试环境
+     *
+     * @param requestBody
+     * @return
+     */
+    @PUT("bank_")
+    Observable<BankResult> requestWalletV15(@Body RequestBody requestBody);
 
     /**
      * 根据用户实名认证状态

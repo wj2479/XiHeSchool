@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
                 }
 
                 if (loginResult.getError() != null) {
-                    showFailDialogAndDismiss("连接服务器失败，请稍后再试");
+                    showFailDialogAndDismiss(loginResult.getError());
                     LogUtil.e("TAG", "登录失败:" + loginResult.getError());
                     return;
                 }

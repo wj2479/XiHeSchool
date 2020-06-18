@@ -49,4 +49,6 @@ public class DataRepository {
      */
     public static String imei = "";
 
+    public static int index = 0;
+
 }

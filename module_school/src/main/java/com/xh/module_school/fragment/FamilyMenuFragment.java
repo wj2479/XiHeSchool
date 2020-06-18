@@ -12,8 +12,11 @@ import com.xh.module.base.entity.ImageText;
 import com.xh.module.base.utils.RouteUtils;
 import com.xh.module_school.R;
 import com.xh.module_school.R2;
+import com.xh.module_school.activity.ActionJudgeActivity;
+import com.xh.module_school.activity.CheckMainActivity;
 import com.xh.module_school.activity.CourseTableActivity;
 import com.xh.module_school.activity.DelayStudyActivity;
+import com.xh.module_school.activity.LeaveCountActivity;
 import com.xh.module_school.adapter.ImageTextAdapter;
 
 import java.util.ArrayList;
@@ -75,17 +78,22 @@ public class FamilyMenuFragment extends BaseFragment {
                     case "家委会":
                         break;
                     case "学校餐厅":
+                        showInfoDialogAndDismiss("该功能暂未开放,敬请期待");
                         break;
                     case "学生课程表":
                         startActivity(new Intent(getContext(), CourseTableActivity.class));
                         break;
                     case "行为评价":
+                        startActivity(new Intent(getContext(), ActionJudgeActivity.class));
                         break;
                     case "出入记录":
+                        startActivity(new Intent(getContext(), CheckMainActivity.class));
                         break;
                     case "请假管理":
+                        startActivity(new Intent(getContext(), LeaveCountActivity.class));
                         break;
                     case "考勤记录":
+                        startActivity(new Intent(getContext(), CheckMainActivity.class));
                         break;
                     case "课后延时":
                         startActivity(new Intent(getContext(), DelayStudyActivity.class));
